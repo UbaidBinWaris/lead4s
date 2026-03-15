@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead4s — Who We Serve</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+/* ══════════════════════════════════════════════
+   RESET & ROOT
+══════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --void:   #05080f;
+  --blue:   #00aeef;
+  --cyan:   #38d9f5;
+  --white:  #eef3f8;
+  --muted:  rgba(238,243,248,0.40);
+  --border: rgba(255,255,255,0.07);
+
+  /* per-card accents */
+  --c1: #ff6b35;
+  --c2: #e8c97a;
+  --c3: #00aeef;
+  --c4: #a78bfa;
+  --c5: #00c896;
+
+  /* card height — used in JS-free translateY calc */
+  --card-h: 460px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  font-family: 'Manrope', sans-serif;
+  color: var(--white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 28px 80px;
+  overflow-x: hidden;
+}
+
+/* ambient depth orbs */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 55% at 10% 90%, rgba(0,80,160,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 10%, rgba(0,50,110,0.06) 0%, transparent 55%);
+}
+
+/* ══════════════════════════════════════════════
+   SECTION HEADER
+══════════════════════════════════════════════ */
+.section-header {
+  width: 100%; max-width: 1280px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: fadeUp .7s .1s ease forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.sh-left {}
+
+.sh-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.sh-kicker-line {
+  width: 30px; height: 1.5px;
+  background: var(--blue);
+  border-radius: 2px;
+}
+.sh-kicker-text {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .32em; text-transform: uppercase;
+  color: var(--blue);
+}
+
+.sh-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: clamp(36px, 4.5vw, 60px);
+  line-height: 1.04;
+  color: var(--white);
+  letter-spacing: -.015em;
+}
+.sh-title em { font-style: italic; color: var(--blue); }
+
+.sh-right { max-width: 300px; }
+
+.sh-desc {
+  font-size: 13.5px; font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  border-left: 2px solid var(--border);
+  padding-left: 16px;
+}
+
+/* ══════════════════════════════════════════════
+   CARDS GRID
+══════════════════════════════════════════════ */
+.cards-grid {
+  width: 100%; max-width: 1280px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+}
+
+/* ══════════════════════════════════════════════
+   SINGLE CARD  —  architecture:
+   
+   .card  (position:relative, overflow:hidden)
+     ├─ .card-bg          absolute, full bleed image
+     ├─ .card-overlay     absolute, gradient darkener
+     ├─ .card-glow        absolute, bottom color orb
+     ├─ .card-strip       absolute, left accent bar
+     │
+     ├─ .card-top         absolute, top: 0  → holds icon + title + 1-liner
+     │    ├─ .ct-inner    transforms DOWN on hover
+     │    │    ├─ .ct-num
+     │    │    ├─ .ct-icon
+     │    │    └─ .ct-title
+     │    └─ .ct-oneliner  fades OUT on hover (separate from inner)
+     │
+     └─ .card-reveal      absolute, bottom: 0  → slides UP on hover
+══════════════════════════════════════════════ */
+
+.card {
+  position: relative;
+  height: var(--card-h);
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  opacity: 0;
+  animation: cardIn .75s cubic-bezier(.22,1,.36,1) forwards;
+}
+.card:nth-child(1) { animation-delay: .08s; }
+.card:nth-child(2) { animation-delay: .18s; }
+.card:nth-child(3) { animation-delay: .28s; }
+.card:nth-child(4) { animation-delay: .38s; }
+.card:nth-child(5) { animation-delay: .48s; }
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(32px) scale(.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── BG IMAGE ── */
+.card-bg {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.08);
+  filter: brightness(.22) saturate(.6);
+  transition:
+    transform  1.0s cubic-bezier(.22,1,.36,1),
+    filter     .7s ease;
+  will-change: transform, filter;
+  z-index: 0;
+}
+.card:hover .card-bg {
+  transform: scale(1.16);
+  filter: brightness(.40) saturate(.85);
+}
+
+/* ── OVERLAY ── */
+.card-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(5,8,15,.78) 0%,
+    rgba(5,8,15,.25) 42%,
+    rgba(5,8,15,.65) 72%,
+    rgba(5,8,15,.97) 100%
+  );
+  transition: opacity .6s ease;
+}
+.card:hover .card-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(5,8,15,.50) 0%,
+    rgba(5,8,15,.10) 38%,
+    rgba(5,8,15,.52) 68%,
+    rgba(5,8,15,.98) 100%
+  );
+}
+
+/* ── BOTTOM COLOR GLOW ── */
+.card-glow {
+  position: absolute;
+  left: 50%; bottom: -80px;
+  transform: translateX(-50%);
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: var(--acc);
+  filter: blur(65px);
+  opacity: 0;
+  z-index: 2;
+  transition: opacity .65s ease, bottom .65s ease;
+}
+.card:hover .card-glow { opacity: .22; bottom: -30px; }
+
+/* ── LEFT ACCENT STRIP ── */
+.card-strip {
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 0;
+  background: var(--acc);
+  z-index: 5;
+  border-radius: 0 2px 2px 0;
+  box-shadow: 0 0 10px var(--acc);
+  transition: height .65s cubic-bezier(.22,1,.36,1);
+}
+.card:hover .card-strip { height: 100%; }
+
+/* ── CARD-TOP  (icon + title + 1-liner) ── */
+/*  KEY FIX: card-top is pinned to top:0.
+    .ct-inner slides DOWN on hover.
+    .ct-oneliner is BELOW .ct-inner and fades out separately.
+    This means they never collide with .card-reveal at bottom.        */
+
+.card-top {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 4;
+  padding: 24px 22px 0;
+  pointer-events: none; /* clicks pass through to <a> */
+}
+
+/* the part that moves: icon + number + title */
+.ct-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transform: translateY(0);
+  /* move DOWN exactly enough to sit above the reveal zone */
+  transition: transform .6s cubic-bezier(.22,1,.36,1);
+}
+/* On hover: push down 175px — lands in mid-card, well above reveal */
+.card:hover .ct-inner {
+  transform: translateY(165px);
+}
+
+/* small ordinal number */
+.ct-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: .3em; text-transform: uppercase;
+  color: var(--acc);
+  opacity: .7;
+  line-height: 1;
+}
+
+/* icon box */
+.ct-icon {
+  width: 46px; height: 46px;
+  border-radius: 11px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background .4s, border-color .4s, box-shadow .4s, transform .4s cubic-bezier(.34,1.4,.64,1);
+}
+.card:hover .ct-icon {
+  background: rgba(255,255,255,.10);
+  border-color: var(--acc);
+  box-shadow: 0 0 18px var(--acc);
+  transform: rotate(-6deg) scale(1.08);
+}
+.ct-icon svg {
+  width: 21px; height: 21px;
+  transition: filter .4s;
+}
+.card:hover .ct-icon svg {
+  filter: drop-shadow(0 0 4px var(--acc));
+}
+
+/* title */
+.ct-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.08;
+  letter-spacing: -.01em;
+  color: #fff;
+}
+
+/* ── 1-LINE TEASER  (sits right below ct-inner, fades out on hover) ── */
+.ct-oneliner {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity  .35s ease,
+    transform .35s ease;
+}
+.card:hover .ct-oneliner {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.ol-bar {
+  width: 16px; height: 1.5px;
+  background: var(--acc);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.ol-text {
+  font-size: 11.5px; font-weight: 500;
+  color: rgba(255,255,255,.45);
+  letter-spacing: .04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── HOVER BADGE (top-right) ── */
+.card-badge {
+  position: absolute;
+  top: 20px; right: 18px;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 8.5px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
+  color: var(--acc);
+  background: rgba(5,8,15,.65);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 100px;
+  padding: 4px 10px 4px 8px;
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(-8px) scale(.92);
+  transition: opacity .4s .12s, transform .4s .12s;
+  pointer-events: none;
+}
+.card:hover .card-badge { opacity: 1; transform: none; }
+
+.bdot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 5px var(--acc);
+  animation: bdotPulse 1.8s ease-in-out infinite;
+}
+@keyframes bdotPulse { 50% { opacity: .3; transform: scale(.7); } }
+
+/* ── REVEAL PANEL (slides up from bottom on hover) ── */
+.card-reveal {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 4;
+  padding: 0 22px 26px;
+
+  /* default: hidden below card bottom */
+  transform: translateY(100%);
+  opacity: 0;
+  transition:
+    transform .6s .06s cubic-bezier(.22,1,.36,1),
+    opacity   .45s .06s ease;
+  pointer-events: none;
+}
+.card:hover .card-reveal {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.rv-divider {
+  width: 100%; height: 1px;
+  background: rgba(255,255,255,.08);
+  margin-bottom: 16px;
+}
+
+.rv-desc {
+  font-size: 13px; font-weight: 300;
+  color: rgba(255,255,255,.72);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.rv-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: .15em; text-transform: uppercase;
+  color: var(--acc);
+  position: relative;
+}
+.rv-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 1px;
+  background: var(--acc);
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform .25s ease;
+}
+.rv-link:hover::after { transform: scaleX(0); }
+.rv-link svg {
+  width: 11px; height: 11px;
+  fill: none; stroke: var(--acc);
+  stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform .25s ease;
+}
+.rv-link:hover svg { transform: translate(3px,-3px); }
+
+/* ── CARD ACCENT TOKENS ── */
+.card-1 { --acc: var(--c1); }
+.card-2 { --acc: var(--c2); }
+.card-3 { --acc: var(--c3); }
+.card-4 { --acc: var(--c4); }
+.card-5 { --acc: var(--c5); }
+
+/* ══════════════════════════════════════════════
+   BOTTOM STATS & CTA
+══════════════════════════════════════════════ */
+.bottom-row {
+  width: 100%; max-width: 1280px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  animation: fadeUp .7s .6s ease forwards;
+}
+
+.br-stats {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.stat { display: flex; flex-direction: column; gap: 2px; }
+.stat-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700; font-size: 30px;
+  color: var(--blue); line-height: 1;
+  letter-spacing: -.015em;
+}
+.stat-l {
+  font-size: 9.5px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: var(--muted);
+}
+
+.br-cta { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700; font-size: 11.5px;
+  letter-spacing: .09em; text-transform: uppercase;
+  border-radius: 8px; padding: 11px 20px;
+  text-decoration: none; cursor: pointer; border: none;
+  transition: all .25s ease;
+}
+.btn svg {
+  width: 12px; height: 12px;
+  fill: none; stroke: currentColor;
+  stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+}
+.btn-fill {
+  background: var(--blue); color: #05080f;
+  box-shadow: 0 4px 18px rgba(0,174,239,.28);
+}
+.btn-fill:hover {
+  background: var(--cyan);
+  box-shadow: 0 6px 26px rgba(0,174,239,.42);
+  transform: translateY(-2px);
+}
+.btn-ghost {
+  background: transparent; color: rgba(255,255,255,.5);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+  color: #fff; border-color: rgba(255,255,255,.22);
+  background: rgba(255,255,255,.04);
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  :root { --card-h: 420px; }
+  .ct-title { font-size: 26px; }
+  .card:hover .ct-inner { transform: translateY(150px); }
+}
+
+@media (max-width: 900px) {
+  .cards-grid { grid-template-columns: repeat(3, 1fr); }
+  :root { --card-h: 380px; }
+  .sh-right { display: none; }
+  .card:hover .ct-inner { transform: translateY(135px); }
+}
+
+@media (max-width: 640px) {
+  body { padding: 48px 16px 56px; }
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+  :root { --card-h: 340px; }
+  .ct-title { font-size: 22px; }
+  .ct-icon { width: 38px; height: 38px; }
+  .ct-icon svg { width: 17px; height: 17px; }
+  .rv-desc { font-size: 12px; }
+  .card:hover .ct-inner { transform: translateY(118px); }
+  .br-stats { gap: 20px; }
+  .stat-n { font-size: 24px; }
+  .section-header { margin-bottom: 24px; }
+}
+
+@media (max-width: 420px) {
+  .cards-grid { grid-template-columns: 1fr 1fr; }
+  :root { --card-h: 300px; }
+  .ct-title { font-size: 19px; }
+  .card:hover .ct-inner { transform: translateY(100px); }
+  .rv-desc { font-size: 11.5px; }
+  .br-cta { flex-direction: column; width: 100%; }
+  .btn { justify-content: center; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     SECTION HEADER
+════════════════════════════════════════ -->
+<header class="section-header">
+  <div class="sh-left">
+    <div class="sh-kicker">
+      <div class="sh-kicker-line"></div>
+      <span class="sh-kicker-text">Who We Partner With</span>
+    </div>
+    <h2 class="sh-title">Built for <em>Serious</em><br>Buyers</h2>
+  </div>
+  <div class="sh-right">
+    <p class="sh-desc">We serve companies that require consistent, compliant, and scalable lead supply to fuel sustained revenue growth.</p>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════
+     CARDS
+════════════════════════════════════════ -->
+<div class="cards-grid">
+
+  <!-- 01 · HOME CONTRACTORS -->
+  <a class="card card-1" href="/home-improvement-leads">
+    <div class="card-bg" style="background-image:url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80&auto=format&fit=crop')"></div>
+    <div class="card-overlay"></div>
+    <div class="card-glow"></div>
+    <div class="card-strip"></div>
+
+    <div class="card-badge"><div class="bdot"></div>Home Services</div>
+
+    <div class="card-top">
+      <div class="ct-inner">
+        <span class="ct-num">01</span>
+        <div class="ct-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.82)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V21H15v-5h-6v5H3V9.5z"/>
+          </svg>
+        </div>
+        <div class="ct-title">Home<br>Contractors</div>
+      </div>
+      <div class="ct-oneliner">
+        <div class="ol-bar"></div>
+        <span class="ol-text">Roofing · Solar · HVAC · Remodeling</span>
+      </div>
+    </div>
+
+    <div class="card-reveal">
+      <div class="rv-divider"></div>
+      <p class="rv-desc">Exclusive homeowner leads & pre-qualified appointments delivered directly to your sales team across all major home improvement verticals.</p>
+      <span class="rv-link">View Details <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>
+  </a>
+
+  <!-- 02 · SOLAR PROVIDERS -->
+  <a class="card card-2" href="/solar-leads">
+    <div class="card-bg" style="background-image:url('https://images.unsplash.com/photo-1509391366360-2e959784a276?w=900&q=80&auto=format&fit=crop')"></div>
+    <div class="card-overlay"></div>
+    <div class="card-glow"></div>
+    <div class="card-strip"></div>
+
+    <div class="card-badge"><div class="bdot"></div>Energy</div>
+
+    <div class="card-top">
+      <div class="ct-inner">
+        <span class="ct-num">02</span>
+        <div class="ct-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.82)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </div>
+        <div class="ct-title">Solar<br>Providers</div>
+      </div>
+      <div class="ct-oneliner">
+        <div class="ol-bar"></div>
+        <span class="ol-text">Live Transfers · Homeowner Leads</span>
+      </div>
+    </div>
+
+    <div class="card-reveal">
+      <div class="rv-divider"></div>
+      <p class="rv-desc">High-intent homeowner leads and live transfers for solar sales teams demanding verified quality and scalable volume.</p>
+      <span class="rv-link">View Details <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>
+  </a>
+
+  <!-- 03 · INSURANCE BUYERS -->
+  <a class="card card-3" href="/auto-insurance-leads">
+    <div class="card-bg" style="background-image:url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=900&q=80&auto=format&fit=crop')"></div>
+    <div class="card-overlay"></div>
+    <div class="card-glow"></div>
+    <div class="card-strip"></div>
+
+    <div class="card-badge"><div class="bdot"></div>Financial</div>
+
+    <div class="card-top">
+      <div class="ct-inner">
+        <span class="ct-num">03</span>
+        <div class="ct-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.82)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z"/>
+          </svg>
+        </div>
+        <div class="ct-title">Insurance<br>Buyers</div>
+      </div>
+      <div class="ct-oneliner">
+        <div class="ol-bar"></div>
+        <span class="ol-text">Medicare · Final Expense · Auto</span>
+      </div>
+    </div>
+
+    <div class="card-reveal">
+      <div class="rv-divider"></div>
+      <p class="rv-desc">Reliable volume across Medicare O65, Final Expense, Auto & Home Warranty — structured for long-term buyer partnerships.</p>
+      <span class="rv-link">View Details <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>
+  </a>
+
+  <!-- 04 · LEGAL FIRMS -->
+  <a class="card card-4" href="/mva-personal-injury-leads">
+    <div class="card-bg" style="background-image:url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=900&q=80&auto=format&fit=crop')"></div>
+    <div class="card-overlay"></div>
+    <div class="card-glow"></div>
+    <div class="card-strip"></div>
+
+    <div class="card-badge"><div class="bdot"></div>Legal</div>
+
+    <div class="card-top">
+      <div class="ct-inner">
+        <span class="ct-num">04</span>
+        <div class="ct-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.82)" stroke-width="1.6" stroke-linecap: "round" stroke-linejoin="round">
+            <path d="M12 1l2.09 6.26L20 9l-5.45 4.27L16.18 20 12 16.77 7.82 20l1.63-6.73L4 9l5.91-1.74z"/>
+          </svg>
+        </div>
+        <div class="ct-title">Legal<br>Firms</div>
+      </div>
+      <div class="ct-oneliner">
+        <div class="ol-bar"></div>
+        <span class="ol-text">MVA · Personal Injury · Intake</span>
+      </div>
+    </div>
+
+    <div class="card-reveal">
+      <div class="rv-divider"></div>
+      <p class="rv-desc">High-intent MVA and personal injury prospects delivered through compliant acquisition systems and optimized intake processes.</p>
+      <span class="rv-link">View Details <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>
+  </a>
+
+  <!-- 05 · MARKETING AGENCIES -->
+  <a class="card card-5" href="/contact-us">
+    <div class="card-bg" style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80&auto=format&fit=crop')"></div>
+    <div class="card-overlay"></div>
+    <div class="card-glow"></div>
+    <div class="card-strip"></div>
+
+    <div class="card-badge"><div class="bdot"></div>Growth</div>
+
+    <div class="card-top">
+      <div class="ct-inner">
+        <span class="ct-num">05</span>
+        <div class="ct-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.82)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+            <polyline points="16 7 22 7 22 13"/>
+          </svg>
+        </div>
+        <div class="ct-title">Marketing<br>Agencies</div>
+      </div>
+      <div class="ct-oneliner">
+        <div class="ol-bar"></div>
+        <span class="ol-text">Affiliate · Traffic · Media Buy</span>
+      </div>
+    </div>
+
+    <div class="card-reveal">
+      <div class="rv-divider"></div>
+      <p class="rv-desc">Strategic traffic partnerships and compliant inventory supply across multiple verticals with flexible integration models.</p>
+      <span class="rv-link">View Details <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+    </div>
+  </a>
+
+</div>
+
+<!-- ════════════════════════════════════════
+     BOTTOM ROW
+════════════════════════════════════════ -->
+<div class="bottom-row">
+  <div class="br-stats">
+    <div class="stat"><div class="stat-n">1,200+</div><div class="stat-l">Active Partners</div></div>
+    <div class="stat"><div class="stat-n">5</div><div class="stat-l">Verticals</div></div>
+    <div class="stat"><div class="stat-n">48</div><div class="stat-l">States</div></div>
+    <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Exclusive</div></div>
+  </div>
+  <div class="br-cta">
+    <a class="btn btn-ghost" href="/contact-us">
+      <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Schedule a Call
+    </a>
+    <a class="btn btn-fill" href="/partner-form">
+      Apply for Partnership
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

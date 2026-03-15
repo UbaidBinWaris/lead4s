@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Partnership Works</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #050a14;
+    --surface: #0b1628;
+    --card: #0e1d35;
+    --accent: #00c6ff;
+    --accent2: #ff6b35;
+    --gold: #f5c842;
+    --text: #e8edf5;
+    --muted: #6b7f9a;
+    --border: rgba(0, 198, 255, 0.12);
+    --glow: rgba(0, 198, 255, 0.25);
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    overflow-x: hidden;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,198,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,198,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .section-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  /* Header */
+  .section-header {
+    text-align: center;
+    margin-bottom: 80px;
+    position: relative;
+  }
+
+  .section-header .overline {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    padding: 6px 16px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    background: rgba(0,198,255,0.05);
+  }
+
+  .section-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    letter-spacing: 2px;
+    color: var(--text);
+    line-height: 0.95;
+    position: relative;
+    display: inline-block;
+  }
+
+  .section-header h2 span {
+    -webkit-text-stroke: 1px var(--accent);
+    color: transparent;
+  }
+
+  .header-line {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin: 24px auto 0;
+  }
+
+  /* Steps grid */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: 1fr 40px 1fr 40px 1fr 40px 1fr;
+    align-items: start;
+    gap: 0;
+  }
+
+  /* Connector arrow */
+  .connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+    opacity: 0.4;
+  }
+
+  .connector svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--accent);
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  /* Step card */
+  .step-card {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 40px 28px 36px;
+    cursor: default;
+    transition: transform 0.4s cubic-bezier(.23,1,.32,1), border-color 0.3s, box-shadow 0.4s;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: riseIn 0.7s cubic-bezier(.23,1,.32,1) forwards;
+  }
+
+  .step-card:nth-child(1) { animation-delay: 0.1s; }
+  .step-card:nth-child(3) { animation-delay: 0.25s; }
+  .step-card:nth-child(5) { animation-delay: 0.4s; }
+  .step-card:nth-child(7) { animation-delay: 0.55s; }
+
+  @keyframes riseIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .step-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at top left, rgba(0,198,255,0.06) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .step-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0,198,255,0.3);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px var(--glow);
+  }
+
+  .step-card:hover::before,
+  .step-card:hover::after { opacity: 1; }
+
+  /* Step number */
+  .step-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    color: rgba(0,198,255,0.07);
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    letter-spacing: -2px;
+    transition: color 0.3s;
+    user-select: none;
+  }
+
+  .step-card:hover .step-number {
+    color: rgba(0,198,255,0.12);
+  }
+
+  /* Icon container */
+  .icon-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 3px;
+    background: rgba(0,198,255,0.08);
+    border: 1px solid rgba(0,198,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .step-card:hover .icon-wrap {
+    background: rgba(0,198,255,0.14);
+    border-color: rgba(0,198,255,0.35);
+    box-shadow: 0 0 20px rgba(0,198,255,0.2);
+  }
+
+  .icon-wrap svg {
+    width: 28px;
+    height: 28px;
+    stroke: var(--accent);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Step label */
+  .step-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-title {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 10px;
+    position: relative;
+    z-index: 1;
+    font-weight: 300;
+  }
+
+  /* Corner accents */
+  .corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-color: var(--accent);
+    border-style: solid;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .corner-tl { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+  .corner-br { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+  .step-card:hover .corner { opacity: 0.5; }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .steps-grid {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .connector {
+      padding-top: 0;
+      transform: rotate(90deg);
+      height: 40px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="section-wrapper">
+
+  <div class="section-header">
+    <div class="overline">Partnership Process</div>
+    <h2>How Partnership <span>Works</span></h2>
+    <div class="header-line"></div>
+  </div>
+
+  <div class="steps-grid">
+
+    <!-- Step 1 -->
+    <div class="step-card">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-br"></div>
+      <div class="step-number">01</div>
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M9 12h6m-3-3v6M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"/></svg>
+      </div>
+      <div class="step-label">Step 01</div>
+      <div class="step-title">Apply for Partnership</div>
+      <div class="step-desc">Submit your application and tell us about your business goals and target market.</div>
+    </div>
+
+    <!-- Connector -->
+    <div class="connector">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-card">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-br"></div>
+      <div class="step-number">02</div>
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M3 12h3m12 0h3M12 3v3m0 12v3"/><path d="M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1M5.6 18.4l2.1-2.1m8.6-8.6 2.1-2.1"/></svg>
+      </div>
+      <div class="step-label">Step 02</div>
+      <div class="step-title">Define Volume, Geography &amp; Pricing</div>
+      <div class="step-desc">We align on lead volume, target regions, and a pricing model that fits your budget.</div>
+    </div>
+
+    <!-- Connector -->
+    <div class="connector">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-card">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-br"></div>
+      <div class="step-number">03</div>
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <div class="step-label">Step 03</div>
+      <div class="step-title">Campaign Launch</div>
+      <div class="step-desc">Our team activates your campaign across targeted channels with precision and speed.</div>
+    </div>
+
+    <!-- Connector -->
+    <div class="connector">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step-card">
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-br"></div>
+      <div class="step-number">04</div>
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17.3l-6.2 4L8.2 14 2 9.4h7.6L12 2z"/></svg>
+      </div>
+      <div class="step-label">Step 04</div>
+      <div class="step-title">Leads &amp; Appointments Delivered</div>
+      <div class="step-desc">Qualified leads and booked appointments land directly in your pipeline — ready to close.</div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

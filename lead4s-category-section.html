@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead4s – Who We Serve</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ─── RESET & BASE ─────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --navy:    #050d1a;
+  --dark:    #07111f;
+  --panel:   #0b1929;
+  --border:  rgba(0,174,239,0.12);
+  --blue:    #00aeef;   /* lead4s brand blue */
+  --blue2:   #0077cc;
+  --cyan:    #00d4ff;
+  --gold:    #f5a623;
+  --green:   #00c896;
+  --orange:  #ff6b35;
+  --purple:  #7b61ff;
+  --teal:    #00b8a9;
+  --white:   #e8f3fb;
+  --muted:   #4d6a85;
+  --text:    #c5daea;
+}
+
+body {
+  background: var(--navy);
+  font-family: 'Barlow', sans-serif;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 60px 24px;
+}
+
+/* ─── SECTION WRAPPER ──────────────────────────────── */
+.who-section {
+  width: 100%;
+  max-width: 1280px;
+  position: relative;
+}
+
+/* section eyebrow */
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  animation: fadeUp 0.6s ease both;
+}
+.eyebrow-line {
+  flex: 0 0 36px;
+  height: 2px;
+  background: var(--blue);
+  border-radius: 2px;
+}
+.eyebrow-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+/* section heading */
+.section-heading {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 5vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  margin-bottom: 48px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+.section-heading em {
+  font-style: normal;
+  color: var(--blue);
+}
+
+/* ─── GRID ─────────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .cards-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 560px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ─── CARD ─────────────────────────────────────────── */
+.card {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 20px 24px;
+  cursor: pointer;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+
+  /* stagger in */
+  animation: cardIn 0.55s cubic-bezier(0.34,1.3,0.64,1) both;
+}
+.card:nth-child(1){animation-delay:0.10s}
+.card:nth-child(2){animation-delay:0.18s}
+.card:nth-child(3){animation-delay:0.26s}
+.card:nth-child(4){animation-delay:0.34s}
+.card:nth-child(5){animation-delay:0.42s}
+
+@keyframes cardIn {
+  from { opacity:0; transform: translateY(28px) scale(0.94); }
+  to   { opacity:1; transform: translateY(0)    scale(1); }
+}
+
+/* diagonal tilt bg — matches existing shape_divider_bottom feel */
+.card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 70px;
+  background: linear-gradient(170deg, transparent 40%, rgba(0,174,239,0.05) 100%);
+  clip-path: polygon(0 40%, 100% 0, 100% 100%, 0 100%);
+  transition: opacity 0.4s;
+}
+
+/* hover glow layer */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 110%, var(--c-glow,rgba(0,174,239,0.15)), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  border-radius: 16px;
+}
+
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--c-accent, var(--blue));
+  box-shadow: 0 16px 48px rgba(0,0,0,0.45),
+              0 0 0 1px var(--c-accent, var(--blue)),
+              0 0 30px var(--c-glow, rgba(0,174,239,0.2));
+}
+.card:hover::after { opacity: 1; }
+
+/* per-card accent tokens */
+.card.contractor  { --c-accent: var(--orange); --c-glow: rgba(255,107,53,0.18); }
+.card.solar       { --c-accent: var(--gold);   --c-glow: rgba(245,166,35,0.18); }
+.card.insurance   { --c-accent: var(--blue);   --c-glow: rgba(0,174,239,0.18);  }
+.card.legal       { --c-accent: var(--purple); --c-glow: rgba(123,97,255,0.18); }
+.card.marketing   { --c-accent: var(--teal);   --c-glow: rgba(0,184,169,0.18);  }
+
+/* ── icon box ── */
+.card-icon {
+  position: relative;
+  z-index: 1;
+  width: 52px;
+  height: 52px;
+  border-radius: 13px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.35s ease;
+  flex-shrink: 0;
+}
+
+.card:hover .card-icon {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.03),
+              0 0 20px var(--c-glow);
+  transform: rotate(-4deg) scale(1.1);
+}
+
+.card-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--c-accent, var(--blue));
+  transition: filter 0.3s ease;
+}
+.card:hover .card-icon svg {
+  filter: drop-shadow(0 0 6px var(--c-accent, var(--blue)));
+}
+
+/* ── text ── */
+.card-body { position: relative; z-index: 1; }
+
+.card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.01em;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 8px;
+  transition: color 0.3s;
+}
+.card:hover .card-title { color: #fff; }
+
+.card-desc {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.55;
+  transition: color 0.3s;
+}
+.card:hover .card-desc { color: var(--text); }
+
+/* ── bottom arrow ── */
+.card-arrow {
+  position: absolute;
+  bottom: 18px;
+  right: 18px;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translate(4px, 4px);
+  transition: all 0.3s cubic-bezier(0.34,1.4,0.64,1);
+}
+.card:hover .card-arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+  border-color: var(--c-accent);
+  background: rgba(255,255,255,0.07);
+}
+.card-arrow svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: var(--c-accent, var(--blue));
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── tilt shape (mirroring existing SVG shape_divider) ── */
+.card-tilt {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 55px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  transition: opacity 0.4s;
+}
+.card:hover .card-tilt { opacity: 1; }
+.card-tilt .fill-1 { fill: var(--c-accent, var(--blue)); opacity: 0.06; }
+.card-tilt .fill-2 { fill: var(--c-accent, var(--blue)); opacity: 0.03; }
+.card-tilt .fill-3 { fill: var(--c-accent, var(--blue)); opacity: 0.015; }
+
+/* ── active badge ── */
+.card-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c-accent, var(--blue));
+  background: rgba(0,174,239,0.1);
+  border: 1px solid rgba(0,174,239,0.2);
+  border-radius: 5px;
+  padding: 2px 7px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease 0.05s;
+  z-index: 2;
+}
+.card:hover .card-badge {
+  opacity: 1;
+  transform: scale(1);
+  background: color-mix(in srgb, var(--c-accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--c-accent) 30%, transparent);
+}
+
+/* ── scan line animation ── */
+@keyframes scanLine {
+  0%   { top: -1px; opacity: 0.7; }
+  100% { top: 100%; opacity: 0; }
+}
+.card-scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--c-accent, var(--blue)), transparent);
+  top: -1px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.card:hover .card-scan {
+  animation: scanLine 0.6s ease forwards;
+}
+
+/* ─── BOTTOM CTA ROW ──────────────────────────────── */
+.cta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  animation: fadeUp 0.6s 0.5s ease both;
+}
+.cta-tagline {
+  font-size: 14px;
+  color: var(--muted);
+  letter-spacing: 0.01em;
+}
+.cta-tagline strong { color: var(--text); font-weight: 500; }
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--navy);
+  background: var(--blue);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0,174,239,0.35);
+}
+.cta-btn:hover {
+  background: var(--cyan);
+  box-shadow: 0 6px 24px rgba(0,174,239,0.5);
+  transform: translateY(-2px);
+}
+.cta-btn svg {
+  width: 14px; height: 14px;
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ─── ANIMATIONS ──────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ======================================================
+     WHO WE SERVE — bottom-of-header section
+     Drop this between </header> and your next section.
+     ====================================================== -->
+<section class="who-section">
+
+  <div class="section-eyebrow">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Who We Serve</span>
+  </div>
+
+  <h2 class="section-heading">
+    Built for <em>Serious Buyers</em><br>Across Every Vertical
+  </h2>
+
+  <div class="cards-grid">
+
+    <!-- 1 · Home Contractors -->
+    <a class="card contractor" href="/home-improvement-leads">
+      <div class="card-scan"></div>
+      <div class="card-badge">Active</div>
+
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V21H15v-5h-6v5H3V9.5z"/></svg>
+      </div>
+
+      <div class="card-body">
+        <div class="card-title">Home<br>Contractors</div>
+        <div class="card-desc">Solar, roofing, HVAC &amp; remodeling leads delivered exclusively.</div>
+      </div>
+
+      <svg class="card-tilt" viewBox="0 0 2600 131" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="fill-1" d="M0 0L2600 0 2600 69 0 0z"/>
+        <path class="fill-2" d="M0 0L2600 0 2600 69 0 69z"/>
+        <path class="fill-3" d="M2600 0L0 0 0 130 2600 69z"/>
+      </svg>
+
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </div>
+    </a>
+
+    <!-- 2 · Solar Providers -->
+    <a class="card solar" href="/solar-leads">
+      <div class="card-scan"></div>
+      <div class="card-badge">Active</div>
+
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </div>
+
+      <div class="card-body">
+        <div class="card-title">Solar<br>Providers</div>
+        <div class="card-desc">High-intent homeowner leads &amp; live transfers for solar sales teams.</div>
+      </div>
+
+      <svg class="card-tilt" viewBox="0 0 2600 131" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="fill-1" d="M0 0L2600 0 2600 69 0 0z"/>
+        <path class="fill-2" d="M0 0L2600 0 2600 69 0 69z"/>
+        <path class="fill-3" d="M2600 0L0 0 0 130 2600 69z"/>
+      </svg>
+
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </div>
+    </a>
+
+    <!-- 3 · Insurance Buyers -->
+    <a class="card insurance" href="/auto-insurance-leads">
+      <div class="card-scan"></div>
+      <div class="card-badge">Active</div>
+
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z"/></svg>
+      </div>
+
+      <div class="card-body">
+        <div class="card-title">Insurance<br>Buyers</div>
+        <div class="card-desc">Medicare, final expense, auto &amp; home warranty pipelines at scale.</div>
+      </div>
+
+      <svg class="card-tilt" viewBox="0 0 2600 131" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="fill-1" d="M0 0L2600 0 2600 69 0 0z"/>
+        <path class="fill-2" d="M0 0L2600 0 2600 69 0 69z"/>
+        <path class="fill-3" d="M2600 0L0 0 0 130 2600 69z"/>
+      </svg>
+
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </div>
+    </a>
+
+    <!-- 4 · Legal Firms -->
+    <a class="card legal" href="/mva-personal-injury-leads">
+      <div class="card-scan"></div>
+      <div class="card-badge">Active</div>
+
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 1l3 6h6l-5 4 2 6-6-4-6 4 2-6-5-4h6z"/>
+        </svg>
+      </div>
+
+      <div class="card-body">
+        <div class="card-title">Legal<br>Firms</div>
+        <div class="card-desc">MVA &amp; personal injury prospects through compliant intake systems.</div>
+      </div>
+
+      <svg class="card-tilt" viewBox="0 0 2600 131" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="fill-1" d="M0 0L2600 0 2600 69 0 0z"/>
+        <path class="fill-2" d="M0 0L2600 0 2600 69 0 69z"/>
+        <path class="fill-3" d="M2600 0L0 0 0 130 2600 69z"/>
+      </svg>
+
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </div>
+    </a>
+
+    <!-- 5 · Marketing Agencies -->
+    <a class="card marketing" href="/contact-us">
+      <div class="card-scan"></div>
+      <div class="card-badge">Active</div>
+
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+
+      <div class="card-body">
+        <div class="card-title">Marketing<br>Agencies</div>
+        <div class="card-desc">Compliant traffic partnerships &amp; flexible affiliate integrations.</div>
+      </div>
+
+      <svg class="card-tilt" viewBox="0 0 2600 131" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="fill-1" d="M0 0L2600 0 2600 69 0 0z"/>
+        <path class="fill-2" d="M0 0L2600 0 2600 69 0 69z"/>
+        <path class="fill-3" d="M2600 0L0 0 0 130 2600 69z"/>
+      </svg>
+
+      <div class="card-arrow">
+        <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </div>
+    </a>
+
+  </div><!-- /cards-grid -->
+
+  <div class="cta-row">
+    <p class="cta-tagline">
+      <strong>1,200+ active buying partners.</strong> Exclusive volume. Zero shared leads.
+    </p>
+    <a class="cta-btn" href="/partner-form">
+      Apply for Partnership
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+</section>
+
+</body>
+</html>

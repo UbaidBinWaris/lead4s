@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead4s – Design 4: Glass Morphism</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg1:#06091a;
+  --bg2:#0a0f28;
+  --glass:rgba(255,255,255,0.04);
+  --glass-border:rgba(255,255,255,0.09);
+  --blue:#00aeef;
+  --cyan:#38bdf8;
+}
+
+body{
+  background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:60px 24px;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ── PARTICLES CANVAS ── */
+#particles{
+  position:fixed;inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* big ambient orbs */
+.orb{
+  position:fixed;
+  border-radius:50%;
+  filter:blur(100px);
+  pointer-events:none;
+  z-index:0;
+}
+.orb1{width:600px;height:600px;top:-200px;left:-100px;background:rgba(0,60,140,0.18);animation:orbFloat1 12s ease-in-out infinite}
+.orb2{width:500px;height:500px;bottom:-100px;right:-80px;background:rgba(0,90,160,0.14);animation:orbFloat2 15s ease-in-out infinite}
+.orb3{width:300px;height:300px;top:40%;left:40%;background:rgba(0,174,239,0.06);animation:orbFloat3 10s ease-in-out infinite}
+@keyframes orbFloat1{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
+@keyframes orbFloat2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,30px)}}
+@keyframes orbFloat3{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-30px)}}
+
+/* ── WRAPPER ── */
+.wrapper{position:relative;z-index:1;width:100%;max-width:1280px}
+
+/* ── HEADER ── */
+.glass-header{
+  text-align:center;
+  margin-bottom:56px;
+  animation:fadeUp .8s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+
+.glass-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,174,239,0.1);
+  border:1px solid rgba(0,174,239,0.2);
+  border-radius:100px;
+  padding:6px 16px;
+  margin-bottom:20px;
+}
+.tag-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--blue);
+  box-shadow:0 0 8px var(--blue);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.tag-text{
+  font-size:11px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--blue);
+}
+
+.glass-h1{
+  font-weight:800;
+  font-size:clamp(36px,6vw,68px);
+  color:#fff;
+  line-height:1.08;
+  letter-spacing:-.02em;
+  margin-bottom:16px;
+}
+.glass-h1 .grad{
+  background:linear-gradient(90deg,var(--blue),var(--cyan),#fff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.glass-sub{
+  font-size:16px;font-weight:300;
+  color:rgba(255,255,255,.45);
+  max-width:500px;margin:0 auto;
+  line-height:1.6;
+}
+
+/* ── GRID ── */
+.glass-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:16px;
+}
+@media(max-width:960px){.glass-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.glass-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ── CARD ── */
+.g-card{
+  position:relative;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:20px;
+  padding:0;
+  overflow:hidden;
+  cursor:pointer;
+  text-decoration:none;
+  display:flex;flex-direction:column;
+  transition:transform .4s cubic-bezier(.34,1.4,.64,1),
+             box-shadow .4s ease,
+             border-color .3s ease;
+  animation:glassIn .7s cubic-bezier(.34,1.2,.64,1) both;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transform-style:preserve-3d;
+}
+.g-card:nth-child(1){animation-delay:.06s}
+.g-card:nth-child(2){animation-delay:.14s}
+.g-card:nth-child(3){animation-delay:.22s}
+.g-card:nth-child(4){animation-delay:.30s}
+.g-card:nth-child(5){animation-delay:.38s}
+@keyframes glassIn{from{opacity:0;transform:scale(.9) translateY(30px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.g-card:hover{
+  border-color:var(--c-a);
+  box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px var(--c-a),0 0 40px rgba(0,0,0,.3);
+  transform:translateY(-10px) scale(1.02);
+}
+
+.card-g1{--c-a:#ff6b35;--c-b:rgba(255,107,53,.15)}
+.card-g2{--c-a:#f5a623;--c-b:rgba(245,166,35,.15)}
+.card-g3{--c-a:#00aeef;--c-b:rgba(0,174,239,.15)}
+.card-g4{--c-a:#a78bfa;--c-b:rgba(167,139,250,.15)}
+.card-g5{--c-a:#00c896;--c-b:rgba(0,200,150,.15)}
+
+/* image area */
+.g-img{
+  width:100%;height:160px;
+  position:relative;overflow:hidden;
+  flex-shrink:0;
+}
+.g-img-bg{
+  width:100%;height:100%;
+  background-size:cover;background-position:center;
+  transition:transform .6s ease,filter .4s;
+  filter:saturate(.7) brightness(.6);
+}
+.g-card:hover .g-img-bg{
+  transform:scale(1.1);
+  filter:saturate(1) brightness(.5);
+}
+
+/* per-card gradient arts */
+.gi1{background:radial-gradient(ellipse at 40% 50%,#8B3A0A,#3d1500,#0f0500)}
+.gi2{background:radial-gradient(ellipse at 55% 35%,#b8860b,#5a4000,#150e00)}
+.gi3{background:radial-gradient(ellipse at 45% 55%,#005b99,#002244,#000810)}
+.gi4{background:radial-gradient(ellipse at 50% 45%,#5a1f9e,#200060,#080018)}
+.gi5{background:radial-gradient(ellipse at 40% 50%,#007055,#003025,#000d0a)}
+
+.g-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 30%,rgba(6,9,26,.9) 100%);
+}
+.g-img-icon{
+  position:absolute;
+  top:14px;left:14px;
+  width:38px;height:38px;
+  border-radius:10px;
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .3s;
+}
+.g-card:hover .g-img-icon{
+  background:var(--c-b);
+  border-color:var(--c-a);
+  box-shadow:0 0 16px var(--c-a);
+}
+.g-img-icon svg{
+  width:18px;height:18px;
+  fill:rgba(255,255,255,.8);
+  transition:fill .3s;
+}
+.g-card:hover .g-img-icon svg{fill:#fff}
+
+.g-img-num{
+  position:absolute;
+  bottom:8px;right:12px;
+  font-weight:800;font-size:44px;
+  color:rgba(255,255,255,.06);
+  line-height:1;
+  transition:color .3s;
+}
+.g-card:hover .g-img-num{color:rgba(255,255,255,.1)}
+
+/* body */
+.g-body{
+  padding:18px 18px 20px;
+  display:flex;flex-direction:column;
+  gap:8px;
+  flex:1;
+}
+
+.g-tag-label{
+  font-size:10px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--c-a);
+}
+
+.g-title{
+  font-weight:700;
+  font-size:17px;
+  color:#fff;
+  line-height:1.25;
+  letter-spacing:-.01em;
+  transition:color .3s;
+}
+.g-card:hover .g-title{color:#fff}
+
+.g-sep{
+  width:20px;height:1.5px;
+  background:var(--c-a);
+  border-radius:2px;
+  transition:width .4s .1s;
+}
+.g-card:hover .g-sep{width:40px}
+
+.g-desc{
+  font-size:12px;font-weight:300;
+  color:rgba(255,255,255,.35);
+  line-height:1.6;
+  transition:color .3s;
+}
+.g-card:hover .g-desc{color:rgba(255,255,255,.6)}
+
+/* link row */
+.g-link{
+  display:flex;align-items:center;gap:6px;
+  margin-top:4px;
+  font-size:11px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--c-a);
+  opacity:0;transform:translateY(8px);
+  transition:opacity .3s .05s,transform .3s .05s;
+}
+.g-card:hover .g-link{opacity:1;transform:none}
+.g-link svg{width:12px;height:12px;fill:none;stroke:var(--c-a);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* top shimmer on hover */
+.g-shimmer{
+  position:absolute;top:0;left:-120%;width:80%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.04),transparent);
+  pointer-events:none;
+  transition:left .6s ease;
+  z-index:5;
+}
+.g-card:hover .g-shimmer{left:120%}
+
+/* ── BOTTOM CTA ── */
+.glass-cta{
+  margin-top:40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:20px;
+  padding:28px 32px;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:16px;
+  backdrop-filter:blur(12px);
+  animation:fadeUp .8s .45s ease both;
+}
+.cta-left{}
+.cta-eyebrow{
+  font-size:10px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--blue);margin-bottom:6px;
+}
+.cta-text{
+  font-weight:600;font-size:18px;
+  color:#fff;line-height:1.3;
+}
+.cta-right{display:flex;gap:12px;flex-wrap:wrap}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 24px;
+  background:var(--blue);
+  color:#fff;
+  font-weight:700;font-size:13px;
+  letter-spacing:.06em;text-transform:uppercase;
+  border-radius:10px;
+  text-decoration:none;
+  transition:all .25s;
+  box-shadow:0 6px 24px rgba(0,174,239,.3);
+}
+.btn-primary:hover{background:#38bdf8;box-shadow:0 8px 32px rgba(0,174,239,.45);transform:translateY(-2px)}
+.btn-primary svg{width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 24px;
+  background:transparent;
+  color:rgba(255,255,255,.6);
+  font-weight:600;font-size:13px;
+  letter-spacing:.06em;text-transform:uppercase;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  text-decoration:none;
+  transition:all .25s;
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,.3);color:#fff;background:rgba(255,255,255,.05)}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="glass-header">
+    <div class="glass-tag">
+      <div class="tag-dot"></div>
+      <span class="tag-text">Accepting New Partners</span>
+    </div>
+    <h1 class="glass-h1">Who We <span class="grad">Partner With</span></h1>
+    <p class="glass-sub">We serve serious buyers across five high-value industries with exclusive, compliant lead supply.</p>
+  </div>
+
+  <!-- GRID -->
+  <div class="glass-grid">
+
+    <a class="g-card card-g1" href="#">
+      <div class="g-shimmer"></div>
+      <div class="g-img">
+        <div class="g-img-bg gi1"></div>
+        <div class="g-img-overlay"></div>
+        <div class="g-img-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V21H15v-5h-6v5H3V9.5z"/></svg></div>
+        <div class="g-img-num">01</div>
+      </div>
+      <div class="g-body">
+        <div class="g-tag-label">Home Services</div>
+        <div class="g-title">Home Contractors</div>
+        <div class="g-sep"></div>
+        <div class="g-desc">Roofing, HVAC & remodeling exclusive leads delivered to your team.</div>
+        <div class="g-link">Explore <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+    </a>
+
+    <a class="g-card card-g2" href="#">
+      <div class="g-shimmer"></div>
+      <div class="g-img">
+        <div class="g-img-bg gi2"></div>
+        <div class="g-img-overlay"></div>
+        <div class="g-img-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+        <div class="g-img-num">02</div>
+      </div>
+      <div class="g-body">
+        <div class="g-tag-label">Energy</div>
+        <div class="g-title">Solar Providers</div>
+        <div class="g-sep"></div>
+        <div class="g-desc">High-intent homeowner leads & live transfers for solar sales teams.</div>
+        <div class="g-link">Explore <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+    </a>
+
+    <a class="g-card card-g3" href="#">
+      <div class="g-shimmer"></div>
+      <div class="g-img">
+        <div class="g-img-bg gi3"></div>
+        <div class="g-img-overlay"></div>
+        <div class="g-img-icon"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z"/></svg></div>
+        <div class="g-img-num">03</div>
+      </div>
+      <div class="g-body">
+        <div class="g-tag-label">Financial</div>
+        <div class="g-title">Insurance Buyers</div>
+        <div class="g-sep"></div>
+        <div class="g-desc">Medicare, final expense & auto pipelines built for retention.</div>
+        <div class="g-link">Explore <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+    </a>
+
+    <a class="g-card card-g4" href="#">
+      <div class="g-shimmer"></div>
+      <div class="g-img">
+        <div class="g-img-bg gi4"></div>
+        <div class="g-img-overlay"></div>
+        <div class="g-img-icon"><svg viewBox="0 0 24 24"><path d="M12 1l3 6h6l-5 4 2 6-6-4-6 4 2-6-5-4h6z"/></svg></div>
+        <div class="g-img-num">04</div>
+      </div>
+      <div class="g-body">
+        <div class="g-tag-label">Legal</div>
+        <div class="g-title">Legal Firms</div>
+        <div class="g-sep"></div>
+        <div class="g-desc">MVA & personal injury prospects via compliant intake systems.</div>
+        <div class="g-link">Explore <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+    </a>
+
+    <a class="g-card card-g5" href="#">
+      <div class="g-shimmer"></div>
+      <div class="g-img">
+        <div class="g-img-bg gi5"></div>
+        <div class="g-img-overlay"></div>
+        <div class="g-img-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+        <div class="g-img-num">05</div>
+      </div>
+      <div class="g-body">
+        <div class="g-tag-label">Growth</div>
+        <div class="g-title">Marketing Agencies</div>
+        <div class="g-sep"></div>
+        <div class="g-desc">Compliant traffic partnerships & flexible affiliate models.</div>
+        <div class="g-link">Explore <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg></div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="glass-cta">
+    <div class="cta-left">
+      <div class="cta-eyebrow">Ready to scale?</div>
+      <div class="cta-text">Join 1,200+ partners getting exclusive lead flow.</div>
+    </div>
+    <div class="cta-right">
+      <a class="btn-ghost" href="#">Schedule a Call</a>
+      <a class="btn-primary" href="#">Apply for Partnership <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Particle system
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H, particles=[];
+
+function resize(){
+  W=canvas.width=window.innerWidth;
+  H=canvas.height=window.innerHeight;
+}
+resize();
+window.addEventListener('resize',resize);
+
+class Particle{
+  constructor(){this.reset()}
+  reset(){
+    this.x=Math.random()*W;
+    this.y=Math.random()*H;
+    this.vx=(Math.random()-.5)*.3;
+    this.vy=(Math.random()-.5)*.3;
+    this.r=Math.random()*1.5+.5;
+    this.a=Math.random()*.4+.05;
+    this.c=Math.random()<.7?'0,174,239':'56,189,248';
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(${this.c},${this.a})`;
+    ctx.fill();
+  }
+  update(){
+    this.x+=this.vx;this.y+=this.vy;
+    if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset();
+  }
+}
+
+for(let i=0;i<80;i++)particles.push(new Particle());
+
+// draw lines between nearby particles
+function drawLines(){
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){
+        ctx.beginPath();
+        ctx.strokeStyle=`rgba(0,174,239,${.04*(1-d/120)})`;
+        ctx.lineWidth=.5;
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function animate(){
+  ctx.clearRect(0,0,W,H);
+  drawLines();
+  particles.forEach(p=>{p.update();p.draw()});
+  requestAnimationFrame(animate);
+}
+animate();
+
+// 3D tilt on cards
+document.querySelectorAll('.g-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`translateY(-10px) scale(1.02) rotateX(${-y*8}deg) rotateY(${x*8}deg)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='';
+  });
+});
+</script>
+</body>
+</html>

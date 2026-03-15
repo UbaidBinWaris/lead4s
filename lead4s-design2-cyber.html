@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead4s – Design 2: Neon Cyber</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --void:#02040c;
+  --panel:#060d1c;
+  --blue:#00aeef;
+  --cyan:#00eeff;
+  --neon-green:#00ff9d;
+  --neon-orange:#ff6b35;
+  --neon-gold:#ffd700;
+  --neon-purple:#c77dff;
+  --neon-teal:#00ffcc;
+}
+
+body{
+  background:var(--void);
+  font-family:'Share Tech Mono',monospace;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:60px 0;
+  overflow-x:hidden;
+}
+
+/* grid lines bg */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(0,174,239,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,174,239,.04) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+
+/* ── TICKER TOP ── */
+.ticker-wrap{
+  width:100%;
+  background:rgba(0,174,239,.06);
+  border-top:1px solid rgba(0,174,239,.2);
+  border-bottom:1px solid rgba(0,174,239,.2);
+  overflow:hidden;
+  padding:10px 0;
+  margin-bottom:60px;
+}
+.ticker-track{
+  display:flex;
+  gap:64px;
+  white-space:nowrap;
+  animation:ticker 18s linear infinite;
+  width:max-content;
+}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-item{
+  font-family:'Orbitron',monospace;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.25em;
+  color:rgba(0,174,239,.5);
+  text-transform:uppercase;
+}
+.ticker-item span{color:var(--blue);margin-right:16px}
+
+/* ── HEADER ── */
+.cyber-header{
+  text-align:center;
+  padding:0 24px;
+  margin-bottom:56px;
+}
+.cyber-eyebrow{
+  font-family:'Orbitron',monospace;
+  font-size:9px;
+  letter-spacing:.35em;
+  color:var(--blue);
+  text-transform:uppercase;
+  margin-bottom:16px;
+  opacity:.7;
+}
+.cyber-title{
+  font-family:'Orbitron',monospace;
+  font-weight:900;
+  font-size:clamp(28px,6vw,64px);
+  color:#fff;
+  letter-spacing:.05em;
+  line-height:1.1;
+  text-shadow:0 0 40px rgba(0,174,239,.3);
+  animation:flicker 6s infinite;
+}
+@keyframes flicker{
+  0%,96%,100%{opacity:1}
+  97%{opacity:.85}
+  98%{opacity:1}
+  99%{opacity:.9}
+}
+.cyber-title .accent{
+  color:var(--blue);
+  text-shadow:0 0 20px var(--blue),0 0 60px rgba(0,174,239,.4);
+}
+
+/* ── CARDS ROW ── */
+.cyber-row{
+  display:flex;
+  gap:16px;
+  padding:0 40px 20px;
+  width:100%;
+  max-width:1340px;
+  perspective:1200px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.cyber-row::-webkit-scrollbar{display:none}
+
+@media(max-width:768px){
+  .cyber-row{padding:0 20px 20px;gap:12px}
+}
+
+/* ── CARD ── */
+.cyber-card{
+  position:relative;
+  flex:0 0 220px;
+  height:300px;
+  border-radius:4px;
+  background:var(--panel);
+  border:1px solid rgba(0,174,239,.15);
+  overflow:hidden;
+  cursor:pointer;
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:24px 20px;
+  transition:transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s ease, border-color .3s;
+  transform-style:preserve-3d;
+  animation:slideIn .6s cubic-bezier(.22,1,.36,1) both;
+}
+.cyber-card:nth-child(1){animation-delay:.05s}
+.cyber-card:nth-child(2){animation-delay:.14s}
+.cyber-card:nth-child(3){animation-delay:.23s}
+.cyber-card:nth-child(4){animation-delay:.32s}
+.cyber-card:nth-child(5){animation-delay:.41s}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px) rotateY(15deg)}to{opacity:1;transform:none}}
+
+.cyber-card:hover{
+  border-color:var(--c-neon);
+  box-shadow:
+    0 0 0 1px var(--c-neon),
+    0 0 30px rgba(0,0,0,.6),
+    inset 0 0 30px rgba(0,0,0,.3);
+  transform:translateY(-8px) rotateX(4deg);
+}
+
+.card-n1{--c-neon:var(--neon-orange)}
+.card-n2{--c-neon:var(--neon-gold)}
+.card-n3{--c-neon:var(--blue)}
+.card-n4{--c-neon:var(--neon-purple)}
+.card-n5{--c-neon:var(--neon-teal)}
+
+/* corner brackets */
+.cyber-card::before,.cyber-card::after{
+  content:'';
+  position:absolute;
+  width:16px;height:16px;
+  border-color:var(--c-neon);
+  border-style:solid;
+  transition:all .3s;
+  opacity:0;
+}
+.cyber-card::before{top:8px;left:8px;border-width:2px 0 0 2px}
+.cyber-card::after{bottom:8px;right:8px;border-width:0 2px 2px 0}
+.cyber-card:hover::before,.cyber-card:hover::after{opacity:1}
+
+/* scan line */
+.scan{
+  position:absolute;
+  top:-100%;left:0;right:0;height:40%;
+  background:linear-gradient(180deg,transparent,rgba(0,174,239,.03),transparent);
+  pointer-events:none;
+  animation:scanMove 3s linear infinite;
+}
+@keyframes scanMove{from{top:-40%}to{top:120%}}
+
+/* hex grid pattern overlay */
+.cyber-card .hex-bg{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%2300aeef' fill-opacity='0.03'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity:1;
+  z-index:0;
+}
+
+/* big gradient bg */
+.cyber-card .card-glow{
+  position:absolute;
+  bottom:-40px;left:50%;
+  transform:translateX(-50%);
+  width:160px;height:160px;
+  border-radius:50%;
+  background:var(--c-neon);
+  opacity:0;
+  filter:blur(50px);
+  transition:opacity .4s;
+  z-index:0;
+}
+.cyber-card:hover .card-glow{opacity:.12}
+
+/* content */
+.c-num{
+  position:absolute;
+  top:14px;left:18px;
+  font-family:'Orbitron',monospace;
+  font-weight:900;
+  font-size:11px;
+  color:var(--c-neon);
+  opacity:.5;
+  z-index:2;
+  letter-spacing:.1em;
+}
+.c-icon{
+  position:absolute;
+  top:14px;right:14px;
+  width:36px;height:36px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  z-index:2;
+  transition:all .3s;
+}
+.cyber-card:hover .c-icon{
+  border-color:var(--c-neon);
+  background:rgba(255,255,255,.04);
+  box-shadow:0 0 12px var(--c-neon);
+}
+.c-icon svg{width:16px;height:16px;fill:var(--c-neon);opacity:.7}
+.cyber-card:hover .c-icon svg{opacity:1}
+
+.c-title{
+  font-family:'Orbitron',monospace;
+  font-weight:700;
+  font-size:15px;
+  color:#fff;
+  letter-spacing:.04em;
+  line-height:1.3;
+  margin-bottom:8px;
+  position:relative;z-index:2;
+  transition:text-shadow .3s;
+}
+.cyber-card:hover .c-title{
+  text-shadow:0 0 10px var(--c-neon);
+}
+
+.c-desc{
+  font-size:11px;
+  color:rgba(255,255,255,.3);
+  line-height:1.6;
+  position:relative;z-index:2;
+  transition:color .3s;
+  letter-spacing:.02em;
+}
+.cyber-card:hover .c-desc{color:rgba(255,255,255,.6)}
+
+/* neon bottom line */
+.c-line{
+  position:absolute;
+  bottom:0;left:0;right:0;height:2px;
+  background:var(--c-neon);
+  box-shadow:0 0 8px var(--c-neon);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .5s cubic-bezier(.22,1,.36,1);
+}
+.cyber-card:hover .c-line{transform:scaleX(1)}
+
+/* status dot */
+.c-status{
+  position:absolute;
+  top:16px;left:50%;
+  transform:translateX(-50%);
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--c-neon);
+  box-shadow:0 0 6px var(--c-neon);
+  opacity:0;
+  transition:opacity .3s;
+}
+.cyber-card:hover .c-status{
+  opacity:1;
+  animation:blink 1s infinite;
+}
+@keyframes blink{50%{opacity:.3}}
+
+/* ── BOTTOM TICKER ── */
+.bottom-ticker{
+  margin-top:56px;
+  width:100%;
+  border-top:1px solid rgba(0,174,239,.15);
+  padding-top:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:40px;
+  flex-wrap:wrap;
+  padding:20px 40px 0;
+}
+.stat-item{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.stat-num{
+  font-family:'Orbitron',monospace;
+  font-weight:900;
+  font-size:26px;
+  color:var(--blue);
+  text-shadow:0 0 20px rgba(0,174,239,.4);
+}
+.stat-label{
+  font-size:10px;
+  letter-spacing:.18em;
+  color:rgba(255,255,255,.3);
+  text-transform:uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER TOP -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item"><span>▶</span>HOME CONTRACTORS</span>
+    <span class="ticker-item"><span>▶</span>SOLAR PROVIDERS</span>
+    <span class="ticker-item"><span>▶</span>INSURANCE BUYERS</span>
+    <span class="ticker-item"><span>▶</span>LEGAL FIRMS</span>
+    <span class="ticker-item"><span>▶</span>MARKETING AGENCIES</span>
+    <span class="ticker-item"><span>▶</span>EXCLUSIVE LEADS</span>
+    <span class="ticker-item"><span>▶</span>LIVE TRANSFERS</span>
+    <span class="ticker-item"><span>▶</span>TCPA COMPLIANT</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item"><span>▶</span>HOME CONTRACTORS</span>
+    <span class="ticker-item"><span>▶</span>SOLAR PROVIDERS</span>
+    <span class="ticker-item"><span>▶</span>INSURANCE BUYERS</span>
+    <span class="ticker-item"><span>▶</span>LEGAL FIRMS</span>
+    <span class="ticker-item"><span>▶</span>MARKETING AGENCIES</span>
+    <span class="ticker-item"><span>▶</span>EXCLUSIVE LEADS</span>
+    <span class="ticker-item"><span>▶</span>LIVE TRANSFERS</span>
+    <span class="ticker-item"><span>▶</span>TCPA COMPLIANT</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="cyber-header">
+  <div class="cyber-eyebrow">// SYSTEM ONLINE — VERTICALS ACTIVE //</div>
+  <div class="cyber-title">SELECT <span class="accent">YOUR</span><br>VERTICAL</div>
+</div>
+
+<!-- CARDS -->
+<div class="cyber-row">
+
+  <a class="cyber-card card-n1" href="#">
+    <div class="scan"></div>
+    <div class="hex-bg"></div>
+    <div class="card-glow"></div>
+    <div class="c-num">01</div>
+    <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V21H15v-5h-6v5H3V9.5z"/></svg></div>
+    <div class="c-title">HOME<br>CONTRACTORS</div>
+    <div class="c-desc">Roofing · Solar · HVAC · Remodeling</div>
+    <div class="c-line"></div>
+  </a>
+
+  <a class="cyber-card card-n2" href="#">
+    <div class="scan"></div>
+    <div class="hex-bg"></div>
+    <div class="card-glow"></div>
+    <div class="c-num">02</div>
+    <div class="c-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+    <div class="c-title">SOLAR<br>PROVIDERS</div>
+    <div class="c-desc">Live Transfers · Homeowner Leads</div>
+    <div class="c-line"></div>
+  </a>
+
+  <a class="cyber-card card-n3" href="#">
+    <div class="scan"></div>
+    <div class="hex-bg"></div>
+    <div class="card-glow"></div>
+    <div class="c-num">03</div>
+    <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z"/></svg></div>
+    <div class="c-title">INSURANCE<br>BUYERS</div>
+    <div class="c-desc">Medicare · Final Expense · Auto</div>
+    <div class="c-line"></div>
+  </a>
+
+  <a class="cyber-card card-n4" href="#">
+    <div class="scan"></div>
+    <div class="hex-bg"></div>
+    <div class="card-glow"></div>
+    <div class="c-num">04</div>
+    <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M12 1l3 6h6l-5 4 2 6-6-4-6 4 2-6-5-4h6z"/></svg></div>
+    <div class="c-title">LEGAL<br>FIRMS</div>
+    <div class="c-desc">MVA · Personal Injury · Intake</div>
+    <div class="c-line"></div>
+  </a>
+
+  <a class="cyber-card card-n5" href="#">
+    <div class="scan"></div>
+    <div class="hex-bg"></div>
+    <div class="card-glow"></div>
+    <div class="c-num">05</div>
+    <div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+    <div class="c-title">MARKETING<br>AGENCIES</div>
+    <div class="c-desc">Affiliate · Traffic · Media Buy</div>
+    <div class="c-line"></div>
+  </a>
+
+</div>
+
+<!-- STATS -->
+<div class="bottom-ticker">
+  <div class="stat-item"><div class="stat-num">1200+</div><div class="stat-label">Active Partners</div></div>
+  <div class="stat-item"><div class="stat-num">5</div><div class="stat-label">Verticals</div></div>
+  <div class="stat-item"><div class="stat-num">48</div><div class="stat-label">States Covered</div></div>
+  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Exclusive Leads</div></div>
+</div>
+
+</body>
+</html>

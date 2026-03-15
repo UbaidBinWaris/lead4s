@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead4s – Design 3: Editorial Luxury</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --paper:#f5f0ea;
+  --ink:#0f0f0f;
+  --mid:#6b6b6b;
+  --blue:#003a6b;
+  --accent:#00aeef;
+  --gold:#c9a84c;
+  --rust:#c0392b;
+}
+
+body{
+  background:var(--paper);
+  font-family:'Outfit',sans-serif;
+  color:var(--ink);
+  min-height:100vh;
+  padding:80px 0 60px;
+  overflow-x:hidden;
+}
+
+/* ── MASTHEAD ── */
+.masthead{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  padding:0 60px 28px;
+  border-bottom:2px solid var(--ink);
+  margin-bottom:0;
+  animation:fadeIn .8s ease both;
+  flex-wrap:wrap;
+  gap:20px;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.mast-left{}
+.mast-issue{
+  font-family:'Outfit',sans-serif;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--mid);
+  margin-bottom:6px;
+}
+.mast-brand{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:clamp(40px,7vw,80px);
+  line-height:.95;
+  color:var(--ink);
+  letter-spacing:-.02em;
+}
+.mast-brand em{font-style:italic;color:var(--blue)}
+
+.mast-right{
+  text-align:right;
+}
+.mast-tagline{
+  font-size:13px;
+  font-weight:300;
+  color:var(--mid);
+  line-height:1.6;
+  max-width:260px;
+}
+
+/* ── HORIZONTAL RULE WITH TEXT ── */
+.section-rule{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:16px 60px;
+  border-bottom:1px solid rgba(0,0,0,.15);
+}
+.rule-label{
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--mid);
+  white-space:nowrap;
+}
+.rule-line{flex:1;height:1px;background:rgba(0,0,0,.12)}
+
+/* ── EDITORIAL GRID ── */
+.editorial-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  border-left:1px solid rgba(0,0,0,.12);
+}
+@media(max-width:900px){.editorial-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:540px){.editorial-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ── CARD ── */
+.ed-card{
+  position:relative;
+  border-right:1px solid rgba(0,0,0,.12);
+  border-bottom:1px solid rgba(0,0,0,.12);
+  overflow:hidden;
+  text-decoration:none;
+  display:block;
+  cursor:pointer;
+  background:var(--paper);
+  transition:background .3s;
+  animation:panelIn .7s cubic-bezier(.22,1,.36,1) both;
+}
+.ed-card:nth-child(1){animation-delay:.05s}
+.ed-card:nth-child(2){animation-delay:.13s}
+.ed-card:nth-child(3){animation-delay:.21s}
+.ed-card:nth-child(4){animation-delay:.29s}
+.ed-card:nth-child(5){animation-delay:.37s}
+@keyframes panelIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.ed-card:hover{background:#fff}
+
+/* image reveal area */
+.ed-img{
+  width:100%;
+  height:200px;
+  overflow:hidden;
+  position:relative;
+}
+.ed-img-inner{
+  width:100%;height:100%;
+  background-size:cover;
+  background-position:center;
+  transform:scale(1.12);
+  transition:transform .8s cubic-bezier(.22,1,.36,1);
+  filter:grayscale(30%) contrast(1.1);
+}
+.ed-card:hover .ed-img-inner{transform:scale(1)}
+
+/* gradient art placeholder images */
+.img-c1{background:
+  radial-gradient(ellipse at 30% 50%,#8B4513 0%,#4a2000 40%,#1a0a00 80%),
+  linear-gradient(45deg,#2d1400,#0a0500);}
+.img-c2{background:
+  radial-gradient(ellipse at 60% 30%,#DAA520 0%,#8B6914 40%,#1a1000 80%),
+  linear-gradient(45deg,#1a1000,#050400);}
+.img-c3{background:
+  radial-gradient(ellipse at 40% 60%,#0066cc 0%,#003d7a 40%,#001428 80%),
+  linear-gradient(45deg,#001428,#000508);}
+.img-c4{background:
+  radial-gradient(ellipse at 50% 40%,#6B3FA0 0%,#3d1d6e 40%,#100028 80%),
+  linear-gradient(45deg,#100028,#040010);}
+.img-c5{background:
+  radial-gradient(ellipse at 35% 50%,#008B8B 0%,#004a4a 40%,#001a1a 80%),
+  linear-gradient(45deg,#001a1a,#000a0a);}
+
+/* overlay text on image */
+.ed-img-label{
+  position:absolute;
+  bottom:12px;left:14px;right:14px;
+  z-index:2;
+}
+.img-category{
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+  display:block;
+  margin-bottom:4px;
+}
+.img-num{
+  font-family:'Playfair Display',serif;
+  font-weight:900;
+  font-size:52px;
+  color:rgba(255,255,255,.08);
+  line-height:1;
+  position:absolute;
+  bottom:-8px;right:10px;
+}
+
+/* color band */
+.color-band{
+  height:4px;
+  background:var(--c-color, var(--accent));
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .5s .1s cubic-bezier(.22,1,.36,1);
+}
+.ed-card:hover .color-band{transform:scaleX(1)}
+
+.card-e1{--c-color:#ff6b35}
+.card-e2{--c-color:#c9a84c}
+.card-e3{--c-color:#00aeef}
+.card-e4{--c-color:#8b5cf6}
+.card-e5{--c-color:#00b8a9}
+
+/* text content */
+.ed-body{padding:20px 20px 24px}
+
+.ed-label{
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--c-color, var(--accent));
+  margin-bottom:10px;
+  display:block;
+}
+
+.ed-title{
+  font-family:'Playfair Display',serif;
+  font-weight:700;
+  font-size:22px;
+  color:var(--ink);
+  line-height:1.15;
+  margin-bottom:12px;
+  letter-spacing:-.01em;
+  transition:color .3s;
+}
+.ed-card:hover .ed-title{color:var(--blue)}
+
+.ed-divider{
+  width:24px;height:1px;
+  background:var(--c-color, var(--accent));
+  margin-bottom:12px;
+  transition:width .4s .1s;
+}
+.ed-card:hover .ed-divider{width:48px}
+
+.ed-desc{
+  font-size:12.5px;
+  font-weight:300;
+  color:var(--mid);
+  line-height:1.65;
+}
+
+.ed-read-more{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--ink);
+  margin-top:16px;
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity .3s .05s, transform .3s .05s;
+  border-bottom:1px solid var(--ink);
+  padding-bottom:2px;
+}
+.ed-card:hover .ed-read-more{opacity:1;transform:none}
+.ed-read-more svg{
+  width:10px;height:10px;
+  fill:none;stroke:var(--ink);stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+/* ── BOTTOM BAR ── */
+.ed-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:20px 60px;
+  border-top:2px solid var(--ink);
+  margin-top:0;
+  flex-wrap:wrap;
+  gap:16px;
+  animation:fadeIn .8s .5s ease both;
+}
+.footer-copy{
+  font-size:12px;
+  font-weight:300;
+  color:var(--mid);
+  letter-spacing:.04em;
+}
+.footer-cta{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:14px;
+  color:var(--blue);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  cursor:pointer;
+  transition:color .2s;
+}
+.footer-cta:hover{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="mast-left">
+    <div class="mast-issue">Vol. IX · Performance Edition · 2025</div>
+    <div class="mast-brand"><em>lead</em>4s</div>
+  </div>
+  <div class="mast-right">
+    <div class="mast-tagline">Exclusive leads, live transfers & booked appointments across high-value industries.</div>
+  </div>
+</div>
+
+<!-- RULE -->
+<div class="section-rule">
+  <span class="rule-label">Who We Partner With</span>
+  <div class="rule-line"></div>
+  <span class="rule-label">5 Verticals</span>
+  <div class="rule-line"></div>
+  <span class="rule-label">1,200+ Partners</span>
+</div>
+
+<!-- CARDS -->
+<div class="editorial-grid">
+
+  <a class="ed-card card-e1" href="#">
+    <div class="ed-img">
+      <div class="ed-img-inner img-c1"></div>
+      <div class="ed-img-label">
+        <span class="img-category">Vertical 01</span>
+      </div>
+      <div class="img-num">01</div>
+    </div>
+    <div class="color-band"></div>
+    <div class="ed-body">
+      <span class="ed-label">Home Services</span>
+      <div class="ed-title">Home Contractors</div>
+      <div class="ed-divider"></div>
+      <div class="ed-desc">Solar, roofing, HVAC & remodeling. Exclusive homeowner leads delivered at scale.</div>
+      <div class="ed-read-more">View Details <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </a>
+
+  <a class="ed-card card-e2" href="#">
+    <div class="ed-img">
+      <div class="ed-img-inner img-c2"></div>
+      <div class="ed-img-label">
+        <span class="img-category">Vertical 02</span>
+      </div>
+      <div class="img-num">02</div>
+    </div>
+    <div class="color-band"></div>
+    <div class="ed-body">
+      <span class="ed-label">Energy</span>
+      <div class="ed-title">Solar Providers</div>
+      <div class="ed-divider"></div>
+      <div class="ed-desc">High-intent homeowner leads & live transfers built for high-volume solar teams.</div>
+      <div class="ed-read-more">View Details <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </a>
+
+  <a class="ed-card card-e3" href="#">
+    <div class="ed-img">
+      <div class="ed-img-inner img-c3"></div>
+      <div class="ed-img-label">
+        <span class="img-category">Vertical 03</span>
+      </div>
+      <div class="img-num">03</div>
+    </div>
+    <div class="color-band"></div>
+    <div class="ed-body">
+      <span class="ed-label">Financial</span>
+      <div class="ed-title">Insurance Buyers</div>
+      <div class="ed-divider"></div>
+      <div class="ed-desc">Medicare, final expense, auto & home warranty. Structured for long-term partnerships.</div>
+      <div class="ed-read-more">View Details <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </a>
+
+  <a class="ed-card card-e4" href="#">
+    <div class="ed-img">
+      <div class="ed-img-inner img-c4"></div>
+      <div class="ed-img-label">
+        <span class="img-category">Vertical 04</span>
+      </div>
+      <div class="img-num">04</div>
+    </div>
+    <div class="color-band"></div>
+    <div class="ed-body">
+      <span class="ed-label">Legal</span>
+      <div class="ed-title">Legal Firms</div>
+      <div class="ed-divider"></div>
+      <div class="ed-desc">MVA & personal injury prospects. Compliant acquisition & optimized intake.</div>
+      <div class="ed-read-more">View Details <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </a>
+
+  <a class="ed-card card-e5" href="#">
+    <div class="ed-img">
+      <div class="ed-img-inner img-c5"></div>
+      <div class="ed-img-label">
+        <span class="img-category">Vertical 05</span>
+      </div>
+      <div class="img-num">05</div>
+    </div>
+    <div class="color-band"></div>
+    <div class="ed-body">
+      <span class="ed-label">Growth</span>
+      <div class="ed-title">Marketing Agencies</div>
+      <div class="ed-divider"></div>
+      <div class="ed-desc">Strategic traffic partnerships & compliant inventory supply. Flexible models.</div>
+      <div class="ed-read-more">View Details <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </div>
+  </a>
+
+</div>
+
+<!-- FOOTER -->
+<div class="ed-footer">
+  <div class="footer-copy">Built for serious buyers who demand quality, compliance & scalable lead flow.</div>
+  <a class="footer-cta" href="#">Apply for Partnership →</a>
+</div>
+
+</body>
+</html>

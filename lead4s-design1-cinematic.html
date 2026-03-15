@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lead4s – Design 1: Cinematic</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --ink:#020810;
+  --blue:#00aeef;
+  --cyan:#00d4ff;
+  --gold:#f5a623;
+}
+
+body{
+  background:var(--ink);
+  font-family:'Rajdhani',sans-serif;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:60px 24px;
+  overflow-x:hidden;
+}
+
+/* ── LABEL ── */
+.design-label{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:11px;
+  letter-spacing:.4em;
+  color:rgba(0,174,239,.4);
+  text-transform:uppercase;
+  margin-bottom:48px;
+  text-align:center;
+}
+
+/* ── HEADER TEXT ── */
+.headline{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(42px,7vw,84px);
+  letter-spacing:.04em;
+  color:#fff;
+  text-align:center;
+  margin-bottom:52px;
+  line-height:1;
+  animation:fadeDown .8s ease both;
+}
+.headline span{
+  color:var(--blue);
+  position:relative;
+  display:inline-block;
+}
+.headline span::after{
+  content:attr(data-text);
+  position:absolute;
+  left:3px;top:3px;
+  color:var(--gold);
+  clip-path:polygon(0 40%,100% 40%,100% 60%,0 60%);
+  opacity:.5;
+  animation:glitch 4s infinite;
+}
+@keyframes glitch{
+  0%,94%,100%{clip-path:polygon(0 40%,100% 40%,100% 60%,0 60%);left:3px}
+  95%{clip-path:polygon(0 0,100% 0,100% 35%,0 35%);left:-3px}
+  97%{clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);left:5px}
+}
+
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
+
+/* ── GRID ── */
+.cine-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:3px;
+  width:100%;
+  max-width:1300px;
+}
+@media(max-width:900px){.cine-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.cine-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ── CARD ── */
+.cine-card{
+  position:relative;
+  height:360px;
+  overflow:hidden;
+  cursor:pointer;
+  text-decoration:none;
+  display:block;
+  animation:riseIn .7s cubic-bezier(.22,1,.36,1) both;
+}
+.cine-card:nth-child(1){animation-delay:.05s}
+.cine-card:nth-child(2){animation-delay:.12s}
+.cine-card:nth-child(3){animation-delay:.19s}
+.cine-card:nth-child(4){animation-delay:.26s}
+.cine-card:nth-child(5){animation-delay:.33s}
+@keyframes riseIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+
+/* bg image via CSS gradient placeholder — use real images in production */
+.cine-card .bg{
+  position:absolute;inset:0;
+  background-size:cover;
+  background-position:center;
+  transform:scale(1.08);
+  transition:transform .8s cubic-bezier(.22,1,.36,1);
+  filter:saturate(.6) brightness(.45);
+}
+.cine-card:hover .bg{
+  transform:scale(1.18);
+  filter:saturate(.9) brightness(.3);
+}
+
+/* unique bg per card using gradient art */
+.card-c1 .bg{background:
+  radial-gradient(ellipse at 30% 40%,#b35a00 0%,transparent 60%),
+  radial-gradient(ellipse at 70% 60%,#1a0a00 0%,transparent 70%),
+  linear-gradient(160deg,#2d1200,#0a0500);}
+.card-c2 .bg{background:
+  radial-gradient(ellipse at 50% 20%,#c8801a 0%,transparent 55%),
+  radial-gradient(ellipse at 20% 80%,#ff6b00 0%,transparent 50%),
+  linear-gradient(160deg,#1a0e00,#050300);}
+.card-c3 .bg{background:
+  radial-gradient(ellipse at 60% 30%,#004d80 0%,transparent 60%),
+  radial-gradient(ellipse at 20% 70%,#001a33 0%,transparent 55%),
+  linear-gradient(160deg,#00182e,#020a14);}
+.card-c4 .bg{background:
+  radial-gradient(ellipse at 40% 50%,#3a1a6e 0%,transparent 55%),
+  radial-gradient(ellipse at 80% 20%,#1a0040 0%,transparent 60%),
+  linear-gradient(160deg,#0f0028,#030008);}
+.card-c5 .bg{background:
+  radial-gradient(ellipse at 50% 40%,#003d38 0%,transparent 55%),
+  radial-gradient(ellipse at 20% 60%,#001a18 0%,transparent 55%),
+  linear-gradient(160deg,#00130f,#020808);}
+
+/* overlay gradient */
+.cine-card::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 30%,rgba(2,8,16,.95) 100%);
+  z-index:1;
+  transition:opacity .4s;
+}
+
+/* top color line */
+.cine-card::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:var(--c-accent,var(--blue));
+  z-index:4;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .5s cubic-bezier(.22,1,.36,1);
+}
+.cine-card:hover::after{transform:scaleX(1)}
+
+.card-c1{--c-accent:#ff6b35}
+.card-c2{--c-accent:#f5a623}
+.card-c3{--c-accent:#00aeef}
+.card-c4{--c-accent:#7b61ff}
+.card-c5{--c-accent:#00b8a9}
+
+/* number */
+.card-num{
+  position:absolute;
+  top:18px;right:18px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:64px;
+  color:rgba(255,255,255,.06);
+  z-index:2;
+  transition:color .4s,transform .4s;
+  line-height:1;
+}
+.cine-card:hover .card-num{
+  color:var(--c-accent);
+  opacity:.15;
+  transform:scale(1.1) translateY(-5px);
+}
+
+/* content */
+.card-content{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:24px 22px 26px;
+  z-index:3;
+  transform:translateY(20px);
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+}
+.cine-card:hover .card-content{transform:translateY(0)}
+
+.card-icon-wrap{
+  width:44px;height:44px;
+  border-radius:10px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+  transition:all .35s;
+}
+.cine-card:hover .card-icon-wrap{
+  background:var(--c-accent);
+  border-color:var(--c-accent);
+  box-shadow:0 0 24px var(--c-accent);
+}
+.card-icon-wrap svg{
+  width:20px;height:20px;
+  fill:rgba(255,255,255,.7);
+  transition:fill .3s;
+}
+.cine-card:hover .card-icon-wrap svg{fill:#fff}
+
+.card-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:28px;
+  letter-spacing:.06em;
+  color:#fff;
+  line-height:1.1;
+  margin-bottom:8px;
+}
+
+.card-desc{
+  font-size:13px;
+  font-weight:500;
+  color:rgba(255,255,255,0);
+  line-height:1.5;
+  transition:color .4s .05s;
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease, color .3s;
+}
+.cine-card:hover .card-desc{
+  color:rgba(255,255,255,.7);
+  max-height:80px;
+}
+
+/* bottom bar */
+.card-bar{
+  position:absolute;
+  bottom:0;left:0;right:0;height:3px;
+  background:var(--c-accent);
+  z-index:4;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .6s .1s cubic-bezier(.22,1,.36,1);
+}
+.cine-card:hover .card-bar{transform:scaleX(1)}
+
+/* noise texture */
+.cine-card .noise{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  z-index:2;
+  pointer-events:none;
+  opacity:.4;
+}
+</style>
+</head>
+<body>
+
+<p class="design-label">Design 1 — Cinematic Full-Bleed</p>
+
+<h1 class="headline">WHO <span data-text="WE SERVE">WE SERVE</span></h1>
+
+<div class="cine-grid">
+
+  <a class="cine-card card-c1" href="#">
+    <div class="bg"></div>
+    <div class="noise"></div>
+    <div class="card-num">01</div>
+    <div class="card-content">
+      <div class="card-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V21H15v-5h-6v5H3V9.5z"/></svg>
+      </div>
+      <div class="card-title">Home<br>Contractors</div>
+      <div class="card-desc">Exclusive roofing, solar, HVAC & remodeling leads delivered to your team.</div>
+    </div>
+    <div class="card-bar"></div>
+  </a>
+
+  <a class="cine-card card-c2" href="#">
+    <div class="bg"></div>
+    <div class="noise"></div>
+    <div class="card-num">02</div>
+    <div class="card-content">
+      <div class="card-icon-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </div>
+      <div class="card-title">Solar<br>Providers</div>
+      <div class="card-desc">High-intent homeowner leads & live transfers for solar sales teams at scale.</div>
+    </div>
+    <div class="card-bar"></div>
+  </a>
+
+  <a class="cine-card card-c3" href="#">
+    <div class="bg"></div>
+    <div class="noise"></div>
+    <div class="card-num">03</div>
+    <div class="card-content">
+      <div class="card-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z"/></svg>
+      </div>
+      <div class="card-title">Insurance<br>Buyers</div>
+      <div class="card-desc">Medicare, final expense, auto & home warranty pipelines built for retention.</div>
+    </div>
+    <div class="card-bar"></div>
+  </a>
+
+  <a class="cine-card card-c4" href="#">
+    <div class="bg"></div>
+    <div class="noise"></div>
+    <div class="card-num">04</div>
+    <div class="card-content">
+      <div class="card-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M12 1l3 6h6l-5 4 2 6-6-4-6 4 2-6-5-4h6z"/></svg>
+      </div>
+      <div class="card-title">Legal<br>Firms</div>
+      <div class="card-desc">MVA & personal injury prospects via compliant, verified intake pipelines.</div>
+    </div>
+    <div class="card-bar"></div>
+  </a>
+
+  <a class="cine-card card-c5" href="#">
+    <div class="bg"></div>
+    <div class="noise"></div>
+    <div class="card-num">05</div>
+    <div class="card-content">
+      <div class="card-icon-wrap">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <div class="card-title">Marketing<br>Agencies</div>
+      <div class="card-desc">Strategic compliant traffic partnerships across all major verticals.</div>
+    </div>
+    <div class="card-bar"></div>
+  </a>
+
+</div>
+</body>
+</html>
