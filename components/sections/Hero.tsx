@@ -1,35 +1,11 @@
 "use client";
 
-import { Suspense, useRef } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import { FaArrowRight, FaCalendarAlt, FaHandshake } from "react-icons/fa";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
-
-// Load the heavy R3F canvas only on the client, no SSR
-const ParticleField = dynamic(
-  () =>
-    import("@/components/three/ParticleField").then((m) => ({
-      default: m.ParticleField,
-    })),
-  { ssr: false }
-);
-
-/* ── Static data ──────────────────────────────────────────────── */
-const STATS = [
-  { value: "2,400+", label: "Active clients" },
-  { value: "94%",    label: "Retention rate" },
-  { value: "3.8×",   label: "Avg. ROI" },
-];
-
-const LEAD_ROWS = [
-  { name: "Sarah Mitchell", company: "PropTech Co.",  score: 94, status: "Hot"  },
-  { name: "James Okafor",   company: "MedGroup Inc.", score: 87, status: "Warm" },
-  { name: "Liu Wei",        company: "NovaSaaS",      score: 91, status: "Hot"  },
-  { name: "Elena Rossi",    company: "LexFirm LLP",   score: 76, status: "Warm" },
-];
-
-const SPARKLINE = [30, 45, 38, 60, 52, 74, 68, 85, 78, 92, 88, 96];
+import { heroContent } from "@/data/hero";
 
 /* ── Hero ─────────────────────────────────────────────────────── */
 export function Hero() {
@@ -42,11 +18,19 @@ export function Hero() {
   });
   const orbY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
+  const ctaIconMap = {
+    handshake: FaHandshake,
+    calendar: FaCalendarAlt,
+    arrow: FaArrowRight,
+  } as const;
+  const PrimaryCtaIcon = ctaIconMap[heroContent.ctaPrimary.iconName];
+  const SecondaryCtaIcon = ctaIconMap[heroContent.ctaSecondary.iconName];
+
   return (
     <section
       ref={sectionRef}
-      id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden bg-grid"
+      id={heroContent.id}
+      className="relative h-screen overflow-hidden bg-grid"
     >
       
 
@@ -68,8 +52,8 @@ export function Hero() {
       </motion.div>
 
       {/* ── Content ───────────────────────────────────────────── */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-28 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-16 lg:grid-cols-2">
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-16 lg:gap-24 lg:grid-cols-2">
 
           {/* ── LEFT: Copy ───────────────────────────────────── */}
           <motion.div
@@ -82,23 +66,21 @@ export function Hero() {
             {/* Headline */}
             <motion.h1
               variants={fadeInUp}
-              className="mb-6 text-5xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]"
+              className="mb-6 text-3xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[3.5rem] xl:text-[3.8rem]"
             >
-              Force{" "}
+              {heroContent.headlineStart}<br />
               <span className="gradient-brand-text">
-                Behind your
-              </span><br></br>
-              Success
+                {heroContent.headlineAccent}
+              </span><br />
+              {heroContent.headlineEnd}
             </motion.h1>
 
             {/* Sub-headline */}
             <motion.p 
               variants={fadeInUp}
-              className="mb-10 mx-auto max-w-lg text-lg leading-relaxed text-slate-400 lg:mx-0"
+              className="mb-10 mx-auto max-w-md text-justify text-lg leading-relaxed text-slate-400 lg:mx-0"
             >
-              Lead4s uses AI to find, score, and deliver high-intent prospects
-              directly into your pipeline — so your team closes deals, not
-              cold-calls.
+              {heroContent.description}
             </motion.p>
 
             {/* CTA row */}
@@ -106,25 +88,37 @@ export function Hero() {
               variants={fadeInUp}
               className="mb-14 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
             >
-              <Link
-                id="hero-cta-primary"
-                href="/signup"
-                className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-900/50 transition-all duration-300 hover:shadow-blue-500/40 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
-              >
-                {/* Shine sweep */}
-                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-500 group-hover:translate-x-full" />
-                Start free — no card needed
-                <ArrowRight className="transition-transform group-hover:translate-x-1" />
-              </Link>
+              {heroContent.ctaPrimary.visible ? (
+                <Link
+                  id="hero-cta-primary"
+                  href={heroContent.ctaPrimary.href}
+                  className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-900/50 transition-all duration-300 hover:brightness-110 hover:shadow-blue-500/40 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <PrimaryCtaIcon
+                    className="text-sm text-white"
+                    aria-hidden="true"
+                  />
+                  {/* Shine sweep */}
+                  <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-500 group-hover:translate-x-full" />
+                  {heroContent.ctaPrimary.text}
+                </Link>
+              ) : null}
 
-              <Link
-                id="hero-cta-demo"
-                href="#how-it-works"
-                className="inline-flex items-center gap-2.5 rounded-2xl border border-white/10 bg-white/[0.03] px-8 py-4 text-sm font-semibold text-slate-300 backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <PlayIcon />
-                Watch 2-min demo
-              </Link>
+              {heroContent.ctaSecondary.visible ? (
+                <Link
+                  id="hero-cta-demo"
+                  href={heroContent.ctaSecondary.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2.5 rounded-2xl border border-white/10  text-(--secondary) bg-white/[0.03] px-8 py-4 text-sm font-semibold backdrop-blur-sm transition-all duration-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-(--secondary) hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <SecondaryCtaIcon
+                    className="text-sm text-(--secondary)"
+                    aria-hidden="true"
+                  />
+                  {heroContent.ctaSecondary.text}
+                </Link>
+              ) : null}
             </motion.div>
 
             {/* Stats row */}
@@ -132,7 +126,7 @@ export function Hero() {
               variants={fadeInUp}
               className="flex flex-wrap items-center justify-center gap-10 lg:justify-start"
             >
-              {STATS.map((s, i) => (
+              {heroContent.stats.map((s, i) => (
                 <div key={s.label} className="relative">
                   {i > 0 && (
                     <span className="absolute -left-5 top-1/2 h-6 w-px -translate-y-1/2 bg-white/10" />
@@ -149,7 +143,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 36, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.85, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="relative hidden lg:block"
+            className="relative hidden lg:block lg:pl-8"
           >
             {/* Outer orbit ring */}
             <div className="pointer-events-none absolute inset-0 -m-10 rounded-3xl border border-blue-500/10" />
@@ -168,11 +162,13 @@ export function Hero() {
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
                   </span>
                   <span className="text-xs font-semibold text-slate-300">
-                    Live Lead Pipeline
+                    {heroContent.cardTitle}
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-xs text-slate-500">Today</span>
+                  <span className="text-xs text-slate-500">
+                    {heroContent.cardDateLabel}
+                  </span>
                   <div className="flex gap-1">
                     {["#f97316", "#f59e0b", "#22c55e"].map((c) => (
                       <span
@@ -187,11 +183,7 @@ export function Hero() {
 
               {/* Metric row */}
               <div className="grid grid-cols-3 divide-x divide-white/[0.07] border-b border-white/[0.07]">
-                {[
-                  { label: "New leads",  value: "128", delta: "+12%" },
-                  { label: "Qualified",  value: "47",  delta: "+8%"  },
-                  { label: "Meetings",   value: "9",   delta: "+33%" },
-                ].map((m) => (
+                {heroContent.cardMetricRow.map((m) => (
                   <div key={m.label} className="px-5 py-4">
                     <p className="text-xs text-slate-500 mb-1">{m.label}</p>
                     <p className="text-2xl font-bold text-white leading-none">{m.value}</p>
@@ -202,7 +194,7 @@ export function Hero() {
 
               {/* Lead rows */}
               <div className="divide-y divide-white/[0.04] px-2 py-2">
-                {LEAD_ROWS.map((lead) => (
+                {heroContent.leadRows.map((lead) => (
                   <div
                     key={lead.name}
                     className="flex items-center justify-between rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.04]"
@@ -227,16 +219,16 @@ export function Hero() {
               {/* Sparkline footer */}
               <div className="border-t border-white/[0.07] px-5 py-4">
                 <div className="flex items-end gap-[3px]" style={{ height: 36 }}>
-                  {SPARKLINE.map((h, i) => (
+                  {heroContent.sparkline.map((h, i) => (
                     <div
-                      key={i}
+                      key={`${h}-${i}`}
                       className="flex-1 rounded-sm bg-gradient-to-t from-blue-600/60 to-blue-400/40 transition-all hover:from-orange-500/70 hover:to-orange-400/50"
                       style={{ height: `${(h / 100) * 36}px` }}
                     />
                   ))}
                 </div>
                 <p className="mt-2 text-[11px] text-slate-500">
-                  Lead velocity — last 12 weeks
+                  {heroContent.sparklineLabel}
                 </p>
               </div>
             </div>
@@ -248,9 +240,15 @@ export function Hero() {
               transition={{ delay: 0.9, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className="glass animate-float absolute -right-6 top-8 min-w-[110px] rounded-2xl border border-blue-400/20 px-4 py-3 shadow-xl shadow-blue-950/50"
             >
-              <p className="text-[10px] text-slate-400">AI Score</p>
-              <p className="text-xl font-extrabold text-white">94</p>
-              <p className="text-[10px] font-medium text-emerald-400">↑ High intent</p>
+              <p className="text-[10px] text-slate-400">
+                {heroContent.floatingBadges.aiScoreLabel}
+              </p>
+              <p className="text-xl font-extrabold text-white">
+                {heroContent.floatingBadges.aiScoreValue}
+              </p>
+              <p className="text-[10px] font-medium text-emerald-400">
+                {heroContent.floatingBadges.aiScoreMeta}
+              </p>
             </motion.div>
 
             {/* Floating badge: time saved */}
@@ -258,11 +256,17 @@ export function Hero() {
               initial={{ opacity: 0, x: -20, y: 10 }}
               animate={{ opacity: 1, x: 0, y: 0 }}
               transition={{ delay: 1.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="glass animate-float-delayed absolute -bottom-6 -left-6 min-w-[130px] rounded-2xl border border-white/10 px-4 py-3 shadow-xl"
+              className="glass animate-float-delayed absolute -bottom-6 left-2 min-w-[130px] rounded-2xl border border-white/10 px-4 py-3 shadow-xl"
             >
-              <p className="text-[10px] text-slate-400">Time saved / week</p>
-              <p className="text-xl font-extrabold text-white">18 hrs</p>
-              <p className="text-[10px] font-medium text-orange-400">on prospecting</p>
+              <p className="text-[10px] text-slate-400">
+                {heroContent.floatingBadges.savedTimeLabel}
+              </p>
+              <p className="text-xl font-extrabold text-white">
+                {heroContent.floatingBadges.savedTimeValue}
+              </p>
+              <p className="text-[10px] font-medium text-orange-400">
+                {heroContent.floatingBadges.savedTimeMeta}
+              </p>
             </motion.div>
 
             {/* Floating badge: revenue */}
@@ -270,11 +274,17 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.3, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="glass absolute -left-10 top-1/3 rounded-2xl border border-amber-400/15 px-4 py-3 shadow-xl"
+              className="glass absolute left-0 top-1/3 rounded-2xl border border-amber-400/15 px-4 py-3 shadow-xl"
             >
-              <p className="text-[10px] text-slate-400">Pipeline added</p>
-              <p className="text-xl font-extrabold text-amber-300">$240k</p>
-              <p className="text-[10px] font-medium text-slate-500">this month</p>
+              <p className="text-[10px] text-slate-400">
+                {heroContent.floatingBadges.pipelineLabel}
+              </p>
+              <p className="text-xl font-extrabold text-amber-300">
+                {heroContent.floatingBadges.pipelineValue}
+              </p>
+              <p className="text-[10px] font-medium text-slate-500">
+                {heroContent.floatingBadges.pipelineMeta}
+              </p>
             </motion.div>
           </motion.div>
         </div>
@@ -289,7 +299,7 @@ export function Hero() {
 }
 
 /* ── Sub-components ───────────────────────────────────────────── */
-function ScoreBar({ score }: { score: number }) {
+function ScoreBar({ score }: Readonly<{ score: number }>) {
   return (
     <div className="flex items-center gap-2">
       <div className="h-1.5 w-16 overflow-hidden rounded-full bg-white/10">
@@ -303,7 +313,7 @@ function ScoreBar({ score }: { score: number }) {
   );
 }
 
-function StatusBadge({ status }: { status: string }) {
+function StatusBadge({ status }: Readonly<{ status: string }>) {
   const isHot = status === "Hot";
   return (
     <span
@@ -318,32 +328,3 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
-function ArrowRight({ className }: { className?: string }) {
-  return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 14 14"
-      fill="none"
-      aria-hidden="true"
-      className={className}
-    >
-      <path
-        d="M2 7h10M8 3l4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function PlayIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-      <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M5.5 4.5l4 2.5-4 2.5V4.5z" fill="currentColor" />
-    </svg>
-  );
-}
