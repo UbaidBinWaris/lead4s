@@ -16,7 +16,7 @@ export const headerData: HeaderData = {
   companyName: "Lead4s",
   logoPath: "/icon.png",
   heading: "The Force behind your success",
-  subheading: "Main Menu",
+  subheading: "",
   links: [
     { label: "Home", href: "/" },
     {

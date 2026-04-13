@@ -12,6 +12,11 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMobileSections, setOpenMobileSections] = useState<string[]>([]);
 
+  const closeMobileMenu = () => {
+    setMobileOpen(false);
+    setOpenMobileSections([]);
+  };
+
   const toggleMobileSection = (label: string) => {
     setOpenMobileSections((prev) =>
       prev.includes(label)
@@ -34,12 +39,6 @@ export function Navbar() {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
-
-  useEffect(() => {
-    if (!mobileOpen) {
-      setOpenMobileSections([]);
-    }
-  }, [mobileOpen]);
 
   // Prevent page scroll while mobile drawer is open.
   useEffect(() => {
@@ -66,17 +65,17 @@ export function Navbar() {
       )}
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center gap-2 shrink-0">
             <Image
               src={headerData.logoPath}
               alt={`${headerData.companyName} logo`}
-              width={36}
-              height={36}
+              width={44}
+              height={44}
               priority
-              className="h-9 w-9 rounded-lg object-cover"
+              className="h-11 w-11 rounded-lg object-cover"
             />
-            <span className="text-lg font-semibold tracking-tight text-white">
+            <span className="text-xl font-semibold tracking-tight text-white">
               {headerData.companyName}
             </span>
           </Link>
@@ -88,7 +87,7 @@ export function Navbar() {
                   <>
                     <button
                       type="button"
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
                     >
                       {link.label}
                       <ChevronDown />
@@ -99,7 +98,7 @@ export function Navbar() {
                         <Link
                           key={`${child.label}-${child.href}`}
                           href={child.href}
-                          className="block rounded-lg px-3 py-2 text-sm text-slate-200 hover:bg-white/10 hover:text-white transition-colors"
+                          className="block rounded-lg px-3 py-2 text-[15px] text-slate-200 hover:bg-white/10 hover:text-white transition-colors"
                         >
                           {child.label}
                         </Link>
@@ -109,7 +108,7 @@ export function Navbar() {
                 ) : (
                   <Link
                     href={link.href}
-                    className="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
+                    className="inline-flex items-center px-4 py-2 rounded-lg text-base font-medium text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -141,7 +140,7 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={() => setMobileOpen(false)}
+              onClick={closeMobileMenu}
               className="absolute inset-0 bg-surface-950/55 backdrop-blur-md"
             />
 
@@ -156,17 +155,17 @@ export function Navbar() {
               <div className="mb-8 flex items-center justify-between">
                 <Link
                   href="/"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={closeMobileMenu}
                   className="flex items-center gap-2"
                 >
                   <Image
                     src={headerData.logoPath}
                     alt={`${headerData.companyName} logo`}
-                    width={34}
-                    height={34}
-                    className="h-8 w-8 rounded-lg object-cover"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded-lg object-cover"
                   />
-                  <span className="text-base font-semibold text-white">
+                  <span className="text-lg font-semibold text-white">
                     {headerData.companyName}
                   </span>
                 </Link>
@@ -174,7 +173,7 @@ export function Navbar() {
                 <button
                   type="button"
                   aria-label="Close menu"
-                  onClick={() => setMobileOpen(false)}
+                  onClick={closeMobileMenu}
                   className="rounded-lg p-2 text-slate-200 hover:bg-white/10 hover:text-white"
                 >
                   <CloseIcon />
@@ -196,7 +195,7 @@ export function Navbar() {
                         <button
                           type="button"
                           onClick={() => toggleMobileSection(link.label)}
-                          className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left text-base font-medium text-slate-200 hover:bg-white/10 hover:text-white transition-colors"
+                          className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left text-lg font-medium text-slate-200 hover:bg-white/10 hover:text-white transition-colors"
                         >
                           <span>{link.label}</span>
                           <ChevronDown
@@ -215,8 +214,8 @@ export function Navbar() {
                               <Link
                                 key={`${child.label}-${child.href}`}
                                 href={child.href}
-                                onClick={() => setMobileOpen(false)}
-                                className="block rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/10 hover:text-white transition-colors"
+                                onClick={closeMobileMenu}
+                                className="block rounded-lg px-3 py-2 text-base text-slate-300 hover:bg-white/10 hover:text-white transition-colors"
                               >
                                 {child.label}
                               </Link>
@@ -227,8 +226,8 @@ export function Navbar() {
                     ) : (
                       <Link
                         href={link.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="block rounded-xl px-3 py-3 text-base font-medium text-slate-200 hover:bg-white/10 hover:text-white transition-colors"
+                        onClick={closeMobileMenu}
+                        className="block rounded-xl px-3 py-3 text-lg font-medium text-slate-200 hover:bg-white/10 hover:text-white transition-colors"
                       >
                         {link.label}
                       </Link>

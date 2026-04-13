@@ -283,21 +283,7 @@ export function Hero() {
       {/* ── Bottom fade into next section ─────────────────────── */}
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-32 bg-gradient-to-t from-[#07070f] to-transparent" />
 
-      {/* ── Scroll cue ────────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8 }}
-        className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2"
-        aria-hidden="true"
-      >
-        <div className="flex flex-col items-center gap-1.5">
-          <span className="text-[10px] font-medium tracking-widest text-slate-600 uppercase">
-            scroll
-          </span>
-          <div className="h-8 w-px bg-gradient-to-b from-slate-600 to-transparent" />
-        </div>
-      </motion.div>
+      
     </section>
   );
 }
