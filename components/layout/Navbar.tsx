@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { headerData } from "@/dfata/jheader";
+import { headerData } from "@/data/header";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
