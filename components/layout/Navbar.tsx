@@ -58,10 +58,10 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300",
         scrolled
-          ? "bg-surface-950/92 shadow-lg shadow-black/25 backdrop-blur-xl border-b border-white/10"
-          : "bg-surface-950/70 md:bg-transparent"
+          ? "bg-surface-900/92 shadow-lg shadow-black/25 backdrop-blur-xl border-b border-white/10"
+          : "bg-transparent border-transparent"
       )}
     >
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -141,7 +141,7 @@ export function Navbar() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={closeMobileMenu}
-              className="absolute inset-0 bg-surface-950/55 backdrop-blur-md"
+              className="absolute inset-0 bg-surface-900/55 backdrop-blur-md"
             />
 
             <motion.aside

@@ -53,7 +53,7 @@ export type HeroContent = {
 
 export const heroContent: HeroContent = {
   id: "hero",
-  headlineStart: "Force",
+  headlineStart: "The Force",
   headlineAccent: "Behind your",
   headlineEnd: "Success",
   description:
