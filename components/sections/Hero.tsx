@@ -48,12 +48,7 @@ export function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center overflow-hidden bg-grid"
     >
-      {/* ── 3-D particle sphere (full-bleed backdrop) ────────── */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <Suspense fallback={null}>
-          <ParticleField />
-        </Suspense>
-      </div>
+      
 
       {/* ── Edge vignette (darkens corners so text pops) ──────── */}
       <div className="pointer-events-none absolute inset-0 z-[1] vignette" />
@@ -83,31 +78,21 @@ export function Hero() {
             animate="visible"
             className="text-center lg:text-left"
           >
-            {/* Live badge */}
-            <motion.div variants={fadeInUp} className="mb-8 flex justify-center lg:justify-start">
-              <span className="glass inline-flex items-center gap-2.5 rounded-full border border-blue-500/25 px-5 py-2 text-xs font-semibold tracking-wide text-blue-300 shadow-lg shadow-blue-950/30">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-                </span>
-                AI-Powered Lead Intelligence — Now Live
-              </span>
-            </motion.div>
-
+            
             {/* Headline */}
             <motion.h1
               variants={fadeInUp}
               className="mb-6 text-5xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-[4.5rem] xl:text-[5rem]"
             >
-              Turn cold markets into{" "}
+              Force{" "}
               <span className="gradient-brand-text">
-                qualified leads
-              </span>{" "}
-              at scale.
+                Behind your
+              </span><br></br>
+              Success
             </motion.h1>
 
             {/* Sub-headline */}
-            <motion.p
+            <motion.p 
               variants={fadeInUp}
               className="mb-10 mx-auto max-w-lg text-lg leading-relaxed text-slate-400 lg:mx-0"
             >

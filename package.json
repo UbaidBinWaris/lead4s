@@ -6,7 +6,8 @@
     "dev": "next dev --port 3005",
     "build": "next build",
     "start": "next start --port 3005",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:favicon": "node scripts/generate-favicon.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
@@ -27,6 +28,8 @@
     "@types/three": "^0.183.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
+    "png-to-ico": "^3.0.1",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
