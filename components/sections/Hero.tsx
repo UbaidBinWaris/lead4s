@@ -145,7 +145,7 @@ export function Hero() {
 
             <motion.p
               variants={fadeInUp}
-              className="mb-10 mx-auto max-w-md text-justify text-lg leading-relaxed text-slate-400 lg:mx-0"
+              className="mb-10 mx-auto max-w-lg text-justify text-lg leading-relaxed text-slate-400 lg:mx-0"
             >
               {heroContent.description}
             </motion.p>
