@@ -57,6 +57,7 @@ export const headerData: HeaderData = {
         },
       ],
     },
+    { label: "Compliance", href: "/compliance" },
     { label: "Blogs", href: "/blog-posts" },
     { label: "About", href: "/about-us/" },
   ],

@@ -80,7 +80,7 @@ export const footerContent: FooterContent = {
   usefulInfoTitle: "Useful Info",
   usefulLinks: [
     { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Compliance", href: "/Compliance" },
+    { label: "Compliance", href: "/compliance" },
     { label: "Career", href: "/career/" },
     { label: "Case Studies", href: "/case-studies" },
   ],
