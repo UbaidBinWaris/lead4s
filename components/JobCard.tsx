@@ -22,7 +22,7 @@ export function JobCard({ job }: Readonly<JobCardProps>) {
       <h3 className="mb-2 text-xl font-bold text-white">{job.title}</h3>
       <p className="mb-5 text-sm leading-relaxed text-slate-400">{job.summary}</p>
 
-      <div className="mb-6 inline-flex items-center rounded-full border border-white/15 bg-white/8 px-3 py-1.5 text-xs text-slate-300">
+      <div className="mb-5 inline-flex items-center rounded-full border border-white/15 bg-white/8 px-3 py-1.5 text-xs text-slate-300">
         {job.location}
       </div>
 
@@ -32,7 +32,7 @@ export function JobCard({ job }: Readonly<JobCardProps>) {
           scroll
           className="inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-brand-600 to-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-900/40 transition-all duration-300 hover:brightness-110 hover:shadow-brand-600/30"
         >
-          Apply now{" "}
+          Apply Now{" "}
           <span aria-hidden="true">→</span>
         </Link>
       </div>

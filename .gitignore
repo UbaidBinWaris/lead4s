@@ -40,5 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# resume uploads (stored outside public/ — never commit)
+/uploads/
 
 remote-deploy.sh
+
+.remember 

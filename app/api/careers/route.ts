@@ -1,7 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { Pool } from "pg";
+import { db } from "@/lib/db";
+import { env } from "@/lib/env";
 import { applicationSchema } from "@/lib/validations/career";
 
 export const runtime = "nodejs";
@@ -17,54 +18,15 @@ const ALLOWED_RESUME_MIME_TYPES = new Set([
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ]);
 
+// ── In-memory rate limiter ─────────────────────────────────────────────────
+// Sufficient for a single-instance deployment. Replace with Redis for
+// multi-instance / edge deployments.
 const requestWindowByIp = new Map<string, number[]>();
 
-let pool: Pool | null = null;
-
-function getPool() {
-  if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL is not configured");
-  }
-
-  if (!pool) {
-    pool = new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl:
-        process.env.NODE_ENV === "production"
-          ? { rejectUnauthorized: false }
-          : false,
-    });
-  }
-
-  return pool;
-}
-
-function sanitizeInput(value: string) {
-  return value.replaceAll(/[<>]/g, "").replaceAll(/\s+/g, " ").trim();
-}
-
-function sanitizeFileName(value: string) {
-  return value.toLowerCase().replaceAll(/[^a-z0-9._-]/g, "-");
-}
-
-function getTextField(formData: FormData, key: string) {
-  const value = formData.get(key);
-  return typeof value === "string" ? value : "";
-}
-
-function getRequestIp(request: Request) {
-  const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) {
-    return forwarded.split(",")[0]?.trim() ?? "unknown";
-  }
-
-  return request.headers.get("x-real-ip") ?? "unknown";
-}
-
-function isRateLimited(ip: string) {
+function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const recent = (requestWindowByIp.get(ip) ?? []).filter(
-    (timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS
+    (ts) => now - ts < RATE_LIMIT_WINDOW_MS
   );
 
   if (recent.length >= RATE_LIMIT_MAX_REQUESTS) {
@@ -77,9 +39,38 @@ function isRateLimited(ip: string) {
   return false;
 }
 
+function getIp(request: Request): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  return (
+    forwarded?.split(",")[0]?.trim() ??
+    request.headers.get("x-real-ip") ??
+    "unknown"
+  );
+}
+
+function getTextField(formData: FormData, key: string): string {
+  const value = formData.get(key);
+  return typeof value === "string" ? value : "";
+}
+
+function sanitize(value: string): string {
+  return value.replaceAll(/[<>]/g, "").replaceAll(/\s+/g, " ").trim();
+}
+
+function safeFileName(name: string): string {
+  return name.toLowerCase().replaceAll(/[^a-z0-9._-]/g, "-");
+}
+
+// Stored OUTSIDE public/ so files are not directly served.
+// Override with env.UPLOAD_DIR in production (e.g. a mounted volume).
+function uploadsDir(): string {
+  return env.UPLOAD_DIR ?? path.join(process.cwd(), "uploads", "resumes");
+}
+
 export async function POST(request: Request) {
   try {
-    const ip = getRequestIp(request);
+    const ip = getIp(request);
+
     if (isRateLimited(ip)) {
       return Response.json(
         { message: "Too many requests. Please try again shortly." },
@@ -100,7 +91,8 @@ export async function POST(request: Request) {
       return Response.json(
         {
           message:
-            parsed.error.issues[0]?.message ?? "Please check the submitted data.",
+            parsed.error.issues[0]?.message ??
+            "Please check the submitted data.",
         },
         { status: 400 }
       );
@@ -116,7 +108,7 @@ export async function POST(request: Request) {
 
     if (resumeFile.size <= 0 || resumeFile.size > MAX_RESUME_FILE_SIZE) {
       return Response.json(
-        { message: "Resume file must be between 1 byte and 5MB." },
+        { message: "Resume file must be between 1 byte and 5 MB." },
         { status: 400 }
       );
     }
@@ -136,48 +128,41 @@ export async function POST(request: Request) {
       );
     }
 
-    const uploadsDir = path.join(process.cwd(), "public", "uploads", "resumes");
-    await mkdir(uploadsDir, { recursive: true });
+    // ── Persist resume file outside public/ ─────────────────────────────
+    const dir = uploadsDir();
+    await mkdir(dir, { recursive: true });
 
-    const safeName = sanitizeFileName(path.basename(resumeFile.name, extension));
-    const storedFileName = `${Date.now()}-${safeName}-${randomUUID()}${extension}`;
-    const storedFilePath = path.join(uploadsDir, storedFileName);
-    const storedResumeUrl = `/uploads/resumes/${storedFileName}`;
+    const baseName = safeFileName(path.basename(resumeFile.name, extension));
+    const storedFileName = `${Date.now()}-${baseName}-${randomUUID()}${extension}`;
+    const storedFilePath = path.join(dir, storedFileName);
+    const resumePath = path.join("uploads", "resumes", storedFileName);
 
-    const bytes = await resumeFile.arrayBuffer();
-    await writeFile(storedFilePath, Buffer.from(bytes));
-
-    const data = parsed.data;
-    const db = getPool();
-
-    await db.query(
-      `
-      INSERT INTO job_applications (
-        full_name,
-        email,
-        phone,
-        position,
-        resume,
-        cover_letter
-      )
-      VALUES ($1, $2, $3, $4, $5, $6)
-      `,
-      [
-        sanitizeInput(data.fullName),
-        sanitizeInput(data.email),
-        data.phone ? sanitizeInput(data.phone) : null,
-        sanitizeInput(data.position),
-        storedResumeUrl,
-        sanitizeInput(data.coverLetter),
-      ]
+    await writeFile(
+      storedFilePath,
+      Buffer.from(await resumeFile.arrayBuffer())
     );
+
+    // ── Persist application via Prisma ───────────────────────────────────
+    const data = parsed.data;
+
+    await db.jobApplication.create({
+      data: {
+        fullName: sanitize(data.fullName),
+        email: sanitize(data.email),
+        phone: data.phone ? sanitize(data.phone) : null,
+        position: sanitize(data.position),
+        resumePath,
+        coverLetter: sanitize(data.coverLetter),
+        ipAddress: ip === "unknown" ? null : ip,
+      },
+    });
 
     return Response.json(
       { message: "Application submitted successfully." },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Career application API error", error);
+    console.error("[careers/POST]", error);
 
     return Response.json(
       { message: "Server error while submitting application." },

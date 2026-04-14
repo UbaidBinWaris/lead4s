@@ -15,57 +15,95 @@ export type JobPost = {
 
 export const cultureCards: CultureCard[] = [
   {
-    title: "Innovation",
+    title: "Positive Environment",
     description:
-      "We ship fast, test aggressively, and turn acquisition data into smarter systems every week.",
+      "We maintain a positive and professional workplace where everyone can do their best work.",
     icon: "innovation",
   },
   {
-    title: "Growth",
+    title: "Collaboration",
     description:
-      "Your impact is measurable from day one with clear ownership, mentorship, and performance pathways.",
+      "Teamwork and collaboration are part of our daily rhythm across support, verification, and operations.",
     icon: "growth",
   },
   {
-    title: "Teamwork",
+    title: "Equal Opportunity",
     description:
-      "Media buyers, sales strategists, and operators collaborate closely to solve real customer problems.",
+      "Respect and equal opportunity for everyone is a core part of how we hire, coach, and promote.",
     icon: "teamwork",
   },
   {
-    title: "Flexibility",
+    title: "Continuous Learning",
     description:
-      "Hybrid workflows, async collaboration, and outcome-based planning keep teams productive across time zones.",
+      "We invest in ongoing learning and improvement through practical coaching and live feedback.",
     icon: "flexibility",
   },
 ];
 
 export const openPositions: JobPost[] = [
   {
-    id: "senior-performance-marketer",
-    title: "Senior Performance Marketer",
-    location: "Las Vegas, NV",
+    id: "customer-support-representative-csr",
+    title: "Customer Support Representative (CSR)",
+    location: "Rawalpindi (Office) / Remote",
     type: "Full-time",
-    department: "Growth",
+    department: "Customer Support",
     summary:
-      "Own paid acquisition strategy across search, social, and native channels to drive qualified pipeline.",
+      "Handle customer calls professionally, maintain CRM records, and deliver excellent customer experiences.",
   },
   {
-    id: "compliance-operations-specialist",
-    title: "Compliance Operations Specialist",
-    location: "Remote (US)",
+    id: "self-verification-executive",
+    title: "Self-Verification Executive",
+    location: "Remote / Rawalpindi",
     type: "Remote",
-    department: "Operations",
+    department: "Verification",
     summary:
-      "Build and monitor lead verification workflows with TrustedForm and TCPA controls at scale.",
+      "Perform applicant and customer verification workflows while meeting quality and compliance standards.",
   },
   {
-    id: "partnership-account-manager",
-    title: "Partnership Account Manager",
-    location: "Las Vegas, NV",
+    id: "verification-specialist",
+    title: "Verification Specialist",
+    location: "Rawalpindi (Office) / Remote",
     type: "Full-time",
-    department: "Client Success",
+    department: "Quality & Compliance",
     summary:
-      "Manage buyer relationships, reporting cadence, and optimization plans for long-term retention.",
+      "Ensure call quality, documentation accuracy, and policy compliance across daily verification tasks.",
   },
 ];
+
+export const jobResponsibilities: string[] = [
+  "Handle customer calls professionally",
+  "Maintain call records and CRM updates",
+  "Ensure compliance and call quality standards",
+  "Work towards daily and weekly targets",
+  "Collaborate with team members for better performance",
+];
+
+export const employeeBenefits: string[] = [
+  "Daily, weekly, and monthly bonuses",
+  "Performance-based incentives",
+  "Free training and skill development",
+  "Career growth opportunities",
+  "Supportive team environment",
+  "Flexible working hours",
+];
+
+export const growthHighlights: string[] = [
+  "Training in communication and sales skills",
+  "Leadership and management opportunities",
+  "Fast-track promotions for top performers",
+];
+
+export const whyJoinLead4s: string[] = [
+  "No experience? No problem - we train you",
+  "Friendly and motivating workplace",
+  "High earning potential with bonuses",
+  "Opportunity to work with international clients",
+  "Flexible remote and office-based options",
+];
+
+export const officeDetails = {
+  city: "Rawalpindi",
+  label: "Office-based hiring in Rawalpindi",
+  address: "2nd Floor, J&J Plaza, Opposite Pizza Hut, 4th Road Commercial Market, Rawalpindi 46000",
+  mapQuery: "2nd Floor J&J Plaza Opposite Pizza Hut 4th Road Commercial Market Rawalpindi 46000",
+};

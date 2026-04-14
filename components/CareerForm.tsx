@@ -134,7 +134,7 @@ export function CareerForm({ jobs }: Readonly<CareerFormProps>) {
           <input
             type="text"
             autoComplete="name"
-            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/45"
+            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/60 focus-visible:ring-2 focus-visible:ring-brand-400/50"
             placeholder="Jane Doe"
             {...register("fullName")}
           />
@@ -144,7 +144,7 @@ export function CareerForm({ jobs }: Readonly<CareerFormProps>) {
           <input
             type="email"
             autoComplete="email"
-            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/45"
+            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/60 focus-visible:ring-2 focus-visible:ring-brand-400/50"
             placeholder="jane@company.com"
             {...register("email")}
           />
@@ -154,7 +154,7 @@ export function CareerForm({ jobs }: Readonly<CareerFormProps>) {
           <input
             type="tel"
             autoComplete="tel"
-            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/45"
+            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/60 focus-visible:ring-2 focus-visible:ring-brand-400/50"
             placeholder="+1 (702) 000-0000"
             {...register("phone")}
           />
@@ -165,7 +165,7 @@ export function CareerForm({ jobs }: Readonly<CareerFormProps>) {
           error={errors.position?.message}
         >
           <select
-            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/45"
+            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/60 focus-visible:ring-2 focus-visible:ring-brand-400/50"
             {...register("position")}
           >
             <option value="" className="bg-surface-900">
@@ -186,7 +186,7 @@ export function CareerForm({ jobs }: Readonly<CareerFormProps>) {
             key={resumeInputKey}
             type="file"
             accept=".pdf,.doc,.docx"
-            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/45"
+            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/60 focus-visible:ring-2 focus-visible:ring-brand-400/50"
             onChange={handleResumeChange}
           />
           <span className="mt-1 block text-xs text-slate-500">
@@ -197,7 +197,7 @@ export function CareerForm({ jobs }: Readonly<CareerFormProps>) {
         <Field label="Cover Letter" error={errors.coverLetter?.message}>
           <textarea
             rows={6}
-            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/45"
+            className="w-full rounded-xl border border-white/12 bg-white/5 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-brand-400/60 focus-visible:ring-2 focus-visible:ring-brand-400/50"
             placeholder="Tell us why you'd be a strong fit for this role."
             {...register("coverLetter")}
           />
@@ -217,14 +217,15 @@ export function CareerForm({ jobs }: Readonly<CareerFormProps>) {
         </button>
 
         <p className="text-xs text-slate-500">
-          By applying, you agree to be contacted by our recruiting team.
+          By applying, you agree to be contacted by our recruiting team for
+          office-based and remote opportunities.
         </p>
       </div>
 
       {isSuccess && (
         <p className="mt-4 rounded-xl border border-emerald-400/25 bg-emerald-500/10 px-4 py-2 text-sm text-emerald-300">
           Application submitted successfully. Our team will review your profile
-          and reach out soon.
+          and contact you with next steps.
         </p>
       )}
 
