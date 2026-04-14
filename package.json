@@ -11,7 +11,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "prisma:seed:case-studies": "node scripts/seed-case-studies.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

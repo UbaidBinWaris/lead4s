@@ -20,3 +20,21 @@ model JobApplication {
 
   @@map("job_applications")
 }
+
+model CaseStudy {
+  id           Int      @id @default(autoincrement())
+  slug         String   @unique
+  title        String
+  vertical     String
+  challenge    String
+  solution     String
+  results      String[]
+  kpiLabel     String   @map("kpi_label")
+  kpiValue     String   @map("kpi_value")
+  isPublished  Boolean  @default(true) @map("is_published")
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("case_studies")
+}
