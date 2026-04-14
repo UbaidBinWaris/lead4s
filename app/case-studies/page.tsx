@@ -16,6 +16,7 @@ type CaseStudyView = {
   slug: string;
   title: string;
   vertical: string;
+  summary: string | null;
   challenge: string;
   solution: string;
   results: string[];
@@ -36,6 +37,7 @@ async function getCaseStudies(): Promise<CaseStudyView[]> {
       slug: row.slug,
       title: row.title,
       vertical: row.vertical,
+      summary: row.summary,
       challenge: row.challenge,
       solution: row.solution,
       results: row.results,
@@ -101,7 +103,7 @@ export default async function CaseStudiesPage() {
                 <h2 className="text-2xl font-bold tracking-tight text-white">{item.title}</h2>
 
                 <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-slate-300">
-                  {item.challenge}
+                  {item.summary ?? item.challenge}
                 </p>
 
                 <div className="mt-5">

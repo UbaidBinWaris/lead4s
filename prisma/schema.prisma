@@ -26,6 +26,10 @@ model CaseStudy {
   slug         String   @unique
   title        String
   vertical     String
+  summary      String   @default("")
+  heroLabel    String   @map("hero_label") @default("Case Study")
+  heroTitle    String   @map("hero_title") @default("")
+  heroIntro    String   @map("hero_intro") @default("")
   challenge    String
   solution     String
   results      String[]
@@ -35,6 +39,21 @@ model CaseStudy {
   displayOrder Int      @default(0) @map("display_order")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
+  sections     CaseStudySection[]
 
   @@map("case_studies")
+}
+
+model CaseStudySection {
+  id           Int       @id @default(autoincrement())
+  caseStudyId  Int       @map("case_study_id")
+  sectionLabel String?   @map("section_label")
+  title        String
+  markdown     String
+  displayOrder Int       @default(0) @map("display_order")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  caseStudy    CaseStudy @relation(fields: [caseStudyId], references: [id], onDelete: Cascade)
+
+  @@map("case_study_sections")
 }
