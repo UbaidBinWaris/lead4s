@@ -58,6 +58,6 @@ export const headerData: HeaderData = {
       ],
     },
     { label: "Blogs", href: "/blog-posts" },
-    { label: "About", href: "/about-us/" },
+    { label: "About", href: "/about" },
   ],
 };
