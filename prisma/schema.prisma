@@ -57,3 +57,32 @@ model CaseStudySection {
 
   @@map("case_study_sections")
 }
+
+model Blog {
+  id         String   @id @default(uuid())
+  title      String
+  slug       String   @unique
+  excerpt    String
+  content    String   // markdown content
+  coverImage String?
+  author     String   @default("Admin")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("blogs")
+}
+
+model Industry {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  description  String?
+  content      Json     // structured sections array
+  coverImage   String?
+  isPublished  Boolean  @default(true) @map("is_published")
+  displayOrder Int      @default(0) @map("display_order")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("industries")
+}

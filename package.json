@@ -12,15 +12,19 @@
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
-    "prisma:seed:case-studies": "node scripts/seed-case-studies.mjs"
+    "prisma:seed:case-studies": "node scripts/seed-case-studies.mjs",
+    "prisma:seed:blogs": "node scripts/seed-blogs.mjs",
+    "prisma:seed:industries": "node scripts/seed-industries.mjs"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.1",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/client": "^6.19.3",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.38.0",
+    "jose": "^6.1.0",
     "next": "16.2.3",
     "react": "19.2.4",
     "react-dom": "19.2.4",
