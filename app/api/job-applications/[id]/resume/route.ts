@@ -21,7 +21,9 @@ export async function GET(
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    const filePath = path.join(process.cwd(), application.resumePath);
+    const storedPath = application.resumePath.replaceAll("\\", "/");
+    const fileNameOnly = path.basename(storedPath);
+    const filePath = path.join(process.cwd(), "uploads", "resumes", fileNameOnly);
 
     try {
       await stat(filePath);
