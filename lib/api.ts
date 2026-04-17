@@ -1,6 +1,7 @@
 import type { Blog, BlogInput, UploadImageResponse } from "@/types/blog";
 import type { Industry, IndustryInput } from "@/types/industry";
 import type { CaseStudy, CaseStudyInput } from "@/types/case-study";
+import type { TeamMember, TeamMemberInput } from "@/types/team-member";
 
 
 async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
@@ -154,5 +155,31 @@ export async function updateCaseStudy(id: string, payload: CaseStudyInput): Prom
 
 export async function deleteCaseStudy(id: string): Promise<void> {
   await apiRequest<void>(`/api/case-studies/${id}`, { method: "DELETE" });
+}
+
+// ---------------------------------------------------------------------------
+// Team Members API
+// ---------------------------------------------------------------------------
+
+export async function getTeamMembers(): Promise<TeamMember[]> {
+  return apiRequest<TeamMember[]>("/api/team-members", { method: "GET" });
+}
+
+export async function createTeamMember(payload: TeamMemberInput): Promise<TeamMember> {
+  return apiRequest<TeamMember>("/api/team-members", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function updateTeamMember(id: string, payload: TeamMemberInput): Promise<TeamMember> {
+  return apiRequest<TeamMember>(`/api/team-members/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function deleteTeamMember(id: string): Promise<void> {
+  await apiRequest<void>(`/api/team-members/${id}`, { method: "DELETE" });
 }
 

@@ -36,6 +36,7 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
         <NavButton icon={FaPenNib} label="Blogs" active={activeView === "blogs"} onClick={() => onNavigate("blogs")} />
         <NavButton icon={FaBuilding} label="Industries" active={activeView === "industries"} onClick={() => onNavigate("industries")} />
         <NavButton icon={FaLightbulb} label="Solutions" active={activeView === "solutions"} onClick={() => onNavigate("solutions")} />
+        <NavButton icon={FaUserTie} label="Team Members" active={activeView === "team-members"} onClick={() => onNavigate("team-members")} />
         <NavButton icon={FaClipboardList} label="Case Studies" active={activeView === "case-studies"} onClick={() => onNavigate("case-studies")} />
         <NavButton icon={FaUserTie} label="Applications" active={activeView === "jobs"} onClick={() => onNavigate("jobs")} />
       </nav>

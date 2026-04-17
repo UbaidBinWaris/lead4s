@@ -1,1 +1,0 @@
-ALTER TABLE "industries" ADD COLUMN IF NOT EXISTS "type" TEXT NOT NULL DEFAULT 'industry';

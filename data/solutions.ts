@@ -2,18 +2,6 @@
 /* DATA: Solutions Listing Page                                    */
 /* ─────────────────────────────────────────────────────────────── */
 
-export type SolutionCardData = {
-  slug: string;
-  title: string;
-  description: string;
-  icon: string;
-  /** Key maps to ACCENT_MAP in the page component */
-  color: "blue" | "emerald" | "violet" | "amber" | "indigo";
-  tags: string[];
-  metric: { value: string; label: string };
-  benefit: string;
-};
-
 export type SolutionsPageData = {
   seo: {
     title: string;
@@ -39,7 +27,6 @@ export type SolutionsPageData = {
     secondaryLabel: string;
     secondaryHref: string;
   };
-  solutions: SolutionCardData[];
 };
 
 export const solutionsPageData: SolutionsPageData = {
@@ -88,62 +75,4 @@ export const solutionsPageData: SolutionsPageData = {
     secondaryLabel: "View Case Studies",
     secondaryHref: "/case-studies",
   },
-
-  solutions: [
-    {
-      slug: "exclusive-leads-cpl-model",
-      title: "Exclusive Leads (CPL Model)",
-      description:
-        "Pay only for verified leads that meet your exact criteria. No shared pools, no retainers, no wasted spend. Every lead is yours exclusively — delivered real-time with full data transparency.",
-      icon: "🎯",
-      color: "blue",
-      tags: ["Cost Per Lead", "Exclusive", "Real-Time"],
-      metric: { value: "0 shared", label: "leads — 100% exclusive" },
-      benefit: "Fixed cost-per-acquisition",
-    },
-    {
-      slug: "live-transfer-calls",
-      title: "Live Transfer Calls",
-      description:
-        "Pre-qualified consumers transferred live to your agents the moment they express buying intent. Our agents do the qualification; your team focuses entirely on closing.",
-      icon: "📞",
-      color: "emerald",
-      tags: ["Warm Transfer", "Pre-Qualified", "TCPA Compliant"],
-      metric: { value: "5–10×", label: "higher conversion vs cold" },
-      benefit: "Your closers close — we handle the rest",
-    },
-    {
-      slug: "appointment-setting",
-      title: "Appointment Setting",
-      description:
-        "We fill your calendar with confirmed, decision-maker appointments. Multi-channel outreach, CRM sync, and automated reminders keep your no-show rate under 15%.",
-      icon: "📅",
-      color: "violet",
-      tags: ["Calendar Filling", "Multi-Channel", "CRM Sync"],
-      metric: { value: "<15%", label: "average no-show rate" },
-      benefit: "Full calendar without hiring SDRs",
-    },
-    {
-      slug: "bpo-call-center-services",
-      title: "BPO & Call Center Services",
-      description:
-        "A fully staffed, trained, and compliant call center extension of your team — inbound, outbound, or blended. Scale up or down with 48-hour notice, zero overhead.",
-      icon: "🏢",
-      color: "amber",
-      tags: ["Inbound", "Outbound", "24/7 Available"],
-      metric: { value: "48hr", label: "to full operational capacity" },
-      benefit: "Enterprise operations without enterprise cost",
-    },
-    {
-      slug: "ppc-campaign-management",
-      title: "PPC Campaign Management",
-      description:
-        "Data-driven paid search and social campaigns optimized for cost-per-acquisition — not vanity clicks. We manage Google, Meta, Microsoft, and TikTok with full transparency.",
-      icon: "📈",
-      color: "indigo",
-      tags: ["Google Ads", "Meta", "CPA Optimized"],
-      metric: { value: "Full", label: "cross-channel attribution" },
-      benefit: "Every dollar tracked to revenue",
-    },
-  ],
 };

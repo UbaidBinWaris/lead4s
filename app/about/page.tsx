@@ -9,8 +9,9 @@ import { Compliance } from "@/components/about/Compliance";
 import { Industries } from "@/components/about/Industries";
 import { Results } from "@/components/about/Results";
 import { Team } from "@/components/about/Team";
-import { CtaBanner } from "@/components/sections/CtaBanner";
+import { CtaBanner } from "@/components/layout/CtaBanner";
 import { aboutData } from "@/data/about";
+import { db } from "@/lib/db";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
@@ -56,7 +57,37 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
+async function getTeamData() {
+  try {
+    const members = await db.teamMember.findMany({
+      where: { isActive: true },
+      orderBy: [{ position: "asc" }, { createdAt: "asc" }],
+    });
+
+    if (members.length === 0) {
+      return aboutData.team;
+    }
+
+    return {
+      ...aboutData.team,
+      members: members.map((member) => ({
+        name: member.name,
+        role: member.role,
+        bio: member.bio,
+        initials: member.initials,
+        gradient: member.gradient,
+        linkedin: member.linkedin,
+        twitter: member.twitter,
+      })),
+    };
+  } catch {
+    return aboutData.team;
+  }
+}
+
+export default async function AboutPage() {
+  const teamData = await getTeamData();
+
   return (
     <main className="min-h-full">
       {/* Hero */}
@@ -87,7 +118,7 @@ export default function AboutPage() {
       <Industries data={aboutData.industries} />
 
       {/* Team */}
-      <Team data={aboutData.team} />
+      <Team data={teamData} />
 
       {/* CTA Banner (global, not part of About section) */}
       <CtaBanner />

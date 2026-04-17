@@ -60,6 +60,11 @@ model Industry {
   slug         String   @unique
   type         String   @default("industry") // "industry" | "solution"
   description  String?
+  cardColor    String?  @map("card_color")
+  cardTags     Json?    @map("card_tags")
+  cardMetricValue String? @map("card_metric_value")
+  cardMetricLabel String? @map("card_metric_label")
+  cardBenefit  String?  @map("card_benefit")
   content      Json     // structured sections array
   coverImage   String?  @map("cover_image")
   isPublished  Boolean  @default(true) @map("is_published")
@@ -68,4 +73,22 @@ model Industry {
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   @@map("industries")
+}
+
+model TeamMember {
+  id        String   @id @default(uuid())
+  name      String
+  role      String
+  bio       String
+  initials  String
+  gradient  String
+  linkedin  String?
+  twitter   String?
+  position  Int      @default(0)
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([position])
+  @@map("team_members")
 }

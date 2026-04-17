@@ -9,12 +9,15 @@
     "lint": "eslint",
     "generate:favicon": "node scripts/generate-favicon.mjs",
     "prisma:generate": "prisma generate",
-    "prisma:migrate:dev": "prisma migrate dev",
-    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "prisma:seed:case-studies": "node scripts/seed-case-studies.mjs",
     "prisma:seed:blogs": "node scripts/seed-blogs.mjs",
-    "prisma:seed:industries": "node scripts/seed-industries.mjs"
+    "prisma:seed:industries": "node scripts/seed-industries.mjs",
+    "prisma:seed:industry-cards": "node scripts/seed-industry-cards.mjs",
+    "prisma:seed:solution-cards": "node scripts/seed-solution-cards.mjs",
+    "prisma:seed:team-members": "node scripts/seed-team-members.mjs",
+    "wp:import": "node scripts/wp-import.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -43,12 +46,14 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/three": "^0.183.1",
+    "@types/turndown": "^5.0.6",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
     "png-to-ico": "^3.0.1",
     "prisma": "^6.19.3",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
+    "turndown": "^7.2.4",
     "typescript": "^5"
   }
 }

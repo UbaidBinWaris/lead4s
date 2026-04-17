@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
-import { CtaBanner } from "@/components/sections/CtaBanner";
+import { CtaBanner } from "@/components/layout/CtaBanner";
 import type { ReactNode } from "react";
 
 export function SiteChrome({ children }: { readonly children: ReactNode }) {

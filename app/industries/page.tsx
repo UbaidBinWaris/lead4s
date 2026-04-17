@@ -1,9 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { db } from "@/lib/db";
 import { industriesPageData } from "@/data/industries";
-import type { IndustryCardData } from "@/data/industries";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+
+type AccentColor = "amber" | "emerald" | "violet" | "blue" | "red" | "teal";
+
+type IndustryCardData = {
+  slug: string;
+  title: string;
+  description: string;
+  color: AccentColor;
+  tags: string[];
+  metric: { value: string; label: string };
+};
 
 export const metadata: Metadata = {
   title: industriesPageData.seo.title,
@@ -29,41 +40,87 @@ export const metadata: Metadata = {
 const ACCENT_MAP = {
   amber: {
     border: "from-amber-500/60 to-amber-400/30",
-    iconBg: "bg-amber-500/10 ring-amber-500/20",
     text: "text-amber-400",
     tag: "border-amber-500/20 text-amber-500/70",
   },
   emerald: {
     border: "from-emerald-500/60 to-emerald-400/30",
-    iconBg: "bg-emerald-500/10 ring-emerald-500/20",
     text: "text-emerald-400",
     tag: "border-emerald-500/20 text-emerald-500/70",
   },
   violet: {
     border: "from-violet-500/60 to-violet-400/30",
-    iconBg: "bg-violet-500/10 ring-violet-500/20",
     text: "text-violet-400",
     tag: "border-violet-500/20 text-violet-500/70",
   },
   blue: {
     border: "from-blue-500/60 to-blue-400/30",
-    iconBg: "bg-blue-500/10 ring-blue-500/20",
     text: "text-blue-400",
     tag: "border-blue-500/20 text-blue-500/70",
   },
   red: {
     border: "from-red-500/60 to-red-400/30",
-    iconBg: "bg-red-500/10 ring-red-500/20",
     text: "text-red-400",
     tag: "border-red-500/20 text-red-500/70",
   },
   teal: {
     border: "from-teal-500/60 to-teal-400/30",
-    iconBg: "bg-teal-500/10 ring-teal-500/20",
     text: "text-teal-400",
     tag: "border-teal-500/20 text-teal-500/70",
   },
 } as const;
+
+const COLOR_FALLBACK_BY_SLUG: Record<string, AccentColor> = {
+  "solar-leads": "amber",
+  "home-improvement-leads": "emerald",
+  "final-expense-lead": "violet",
+  "auto-insurance-leads": "blue",
+  "mva-personal-injury-leads": "red",
+  "medicare-o65": "teal",
+};
+
+function isAccentColor(value: string | null | undefined): value is AccentColor {
+  return value === "amber" || value === "emerald" || value === "violet" || value === "blue" || value === "red" || value === "teal";
+}
+
+function toTags(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((tag): tag is string => typeof tag === "string");
+}
+
+async function getIndustryCards(): Promise<IndustryCardData[]> {
+  const industries = await db.industry.findMany({
+    where: { type: "industry", isPublished: true },
+    orderBy: [{ displayOrder: "asc" }, { createdAt: "desc" }],
+    select: {
+      slug: true,
+      title: true,
+      description: true,
+      cardColor: true,
+      cardTags: true,
+      cardMetricValue: true,
+      cardMetricLabel: true,
+    },
+  });
+
+  return industries.map((industry) => {
+    const color = isAccentColor(industry.cardColor)
+      ? industry.cardColor
+      : (COLOR_FALLBACK_BY_SLUG[industry.slug] ?? "blue");
+
+    return {
+      slug: industry.slug,
+      title: industry.title,
+      description: industry.description ?? "",
+      color,
+      tags: toTags(industry.cardTags),
+      metric: {
+        value: industry.cardMetricValue ?? "",
+        label: industry.cardMetricLabel ?? "",
+      },
+    };
+  });
+}
 
 // ---------------------------------------------------------------------------
 // Industry card
@@ -74,14 +131,9 @@ function IndustryCard({ industry }: { readonly industry: IndustryCardData }) {
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-800 bg-[hsl(0,0%,6%)] transition-all duration-300 hover:border-slate-700 hover:bg-[hsl(0,0%,8%)] hover:shadow-xl hover:shadow-black/30">
       {/* Top gradient accent line */}
-      <div className={`absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r ${accent.border}`} />
+      <div className={`absolute inset-x-0 top-0 h-0.5 bg-linear-to-r ${accent.border}`} />
 
       <div className="flex flex-1 flex-col p-6">
-        {/* Icon */}
-        <div className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl ring-1 text-2xl ${accent.iconBg}`}>
-          {industry.icon}
-        </div>
-
         {/* Tags */}
         <div className="mb-4 flex flex-wrap gap-1.5">
           {industry.tags.map((tag) => (
@@ -107,12 +159,16 @@ function IndustryCard({ industry }: { readonly industry: IndustryCardData }) {
         {/* Footer */}
         <div className="mt-6 flex items-end justify-between border-t border-slate-800/80 pt-5">
           <div>
-            <p className="text-[10px] font-medium uppercase tracking-wider text-slate-600">
-              {industry.metric.label}
-            </p>
-            <p className={`mt-0.5 text-sm font-semibold ${accent.text}`}>
-              {industry.metric.value}
-            </p>
+            {industry.metric.label ? (
+              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-600">
+                {industry.metric.label}
+              </p>
+            ) : null}
+            {industry.metric.value ? (
+              <p className={`mt-0.5 text-sm font-semibold ${accent.text}`}>
+                {industry.metric.value}
+              </p>
+            ) : null}
           </div>
           <Link
             href={`/industries/${industry.slug}`}
@@ -133,8 +189,9 @@ function IndustryCard({ industry }: { readonly industry: IndustryCardData }) {
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
-export default function IndustriesPage() {
-  const { hero, cta, industries } = industriesPageData;
+export default async function IndustriesPage() {
+  const { hero, cta } = industriesPageData;
+  const industries = await getIndustryCards();
 
   return (
     <main className="min-h-screen">
@@ -142,7 +199,7 @@ export default function IndustriesPage() {
       <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-28">
         <div className="absolute inset-0 bg-grid opacity-20" />
         <div className="pointer-events-none absolute inset-0 flex items-start justify-center">
-          <div className="mt-16 h-[500px] w-[900px] rounded-full bg-blue-600/6 blur-[140px]" />
+          <div className="mt-16 h-125 w-225 rounded-full bg-blue-600/6 blur-[140px]" />
         </div>
 
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -157,7 +214,7 @@ export default function IndustriesPage() {
           {/* H1 */}
           <h1 className="mx-auto mt-6 max-w-4xl text-center text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
             {hero.heading}{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               {hero.headingHighlight}
             </span>
           </h1>
@@ -180,33 +237,39 @@ export default function IndustriesPage() {
       </section>
 
       {/* Divider */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
+      <div className="h-px w-full bg-linear-to-r from-transparent via-slate-700/50 to-transparent" />
 
       {/* ── Industry cards ────────────────────────────────────────── */}
       <section
         className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24"
         aria-label="Industries we serve"
       >
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {industries.map((industry) => (
-            <IndustryCard key={industry.slug} industry={industry} />
-          ))}
-        </div>
+        {industries.length > 0 ? (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {industries.map((industry) => (
+              <IndustryCard key={industry.slug} industry={industry} />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border border-slate-800 bg-[hsl(0,0%,6%)] p-6 text-center text-sm text-slate-400">
+            No industries are published yet.
+          </div>
+        )}
       </section>
 
       {/* Divider */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
+      <div className="h-px w-full bg-linear-to-r from-transparent via-slate-700/50 to-transparent" />
 
       {/* ── CTA ───────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden py-20 lg:py-28">
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="h-[400px] w-[700px] rounded-full bg-blue-600/5 blur-[120px]" />
+          <div className="h-100 w-175 rounded-full bg-blue-600/5 blur-[120px]" />
         </div>
 
         <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
             {cta.heading}{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
               {cta.headingHighlight}
             </span>
           </h2>
@@ -216,7 +279,7 @@ export default function IndustriesPage() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
               href={cta.primaryHref}
-              className="inline-flex min-h-[48px] items-center rounded-xl bg-blue-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+              className="inline-flex min-h-12 items-center rounded-xl bg-blue-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
             >
               {cta.primaryLabel}
             </Link>
@@ -224,7 +287,7 @@ export default function IndustriesPage() {
               href={cta.secondaryHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[48px] items-center rounded-xl border border-slate-700 px-7 py-3 text-sm font-semibold text-slate-300 transition-colors hover:border-slate-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
+              className="inline-flex min-h-12 items-center rounded-xl border border-slate-700 px-7 py-3 text-sm font-semibold text-slate-300 transition-colors hover:border-slate-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
             >
               {cta.secondaryLabel}
             </a>
