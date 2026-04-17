@@ -16,9 +16,11 @@ function isAdminRoute(pathname: string): boolean {
   return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
+const IS_HTTPS = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https://") ?? false;
+
 function buildCsp(): string {
   const dev = process.env.NODE_ENV === "development";
-  return [
+  const directives = [
     "default-src 'self'",
     `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
@@ -30,8 +32,9 @@ function buildCsp(): string {
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
-    "upgrade-insecure-requests",
-  ].join("; ");
+  ];
+  if (IS_HTTPS) directives.push("upgrade-insecure-requests");
+  return directives.join("; ");
 }
 
 async function enforceAdminAuth(request: NextRequest): Promise<NextResponse | null> {
@@ -87,7 +90,9 @@ export async function proxy(request: NextRequest) {
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
-  response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  if (IS_HTTPS) {
+    response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+  }
 
   if (pathname.startsWith("/api/")) {
     const origin = request.headers.get("origin") ?? "";
