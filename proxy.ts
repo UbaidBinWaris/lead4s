@@ -5,9 +5,15 @@ import type { NextRequest } from "next/server";
 const ADMIN_AUTH_COOKIE = process.env.ADMIN_AUTH_COOKIE_NAME ?? "admin_token";
 const ADMIN_LOGIN = "/admin/login";
 
+// True when CORS_ALLOWED_ORIGINS contains a bare "*" entry — means allow all origins.
+const CORS_ALLOW_ALL = (process.env.CORS_ALLOWED_ORIGINS ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .includes("*");
+
 function normalizeOrigin(value: string): string | null {
   const trimmed = value.trim().replace(/\/$/, "");
-  if (!trimmed) return null;
+  if (!trimmed || trimmed === "*") return null;
   try {
     return new URL(trimmed).origin;
   } catch {
@@ -43,8 +49,16 @@ const IS_HTTPS = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https://") ?? fal
 function isAllowedRequestOrigin(request: NextRequest, requestOrigin: string): boolean {
   if (!requestOrigin) return false;
 
-  // Always allow same-host requests on the active deployment domain.
-  if (requestOrigin === request.nextUrl.origin) return true;
+  if (CORS_ALLOW_ALL) return true;
+
+  // Compare against the actual client-facing origin (request.url), not
+  // request.nextUrl.origin which may be rewritten to an internal host.
+  try {
+    const requestHost = new URL(request.url).origin;
+    if (requestOrigin === requestHost) return true;
+  } catch {
+    // fall through to allowlist check
+  }
 
   return ALLOWED_ORIGINS.has(requestOrigin);
 }

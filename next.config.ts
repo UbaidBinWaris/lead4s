@@ -29,10 +29,10 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=(), payment=()",
           },
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=63072000; includeSubDomains; preload",
-          },
+          // HSTS is set conditionally in proxy.ts (only when NEXT_PUBLIC_SITE_URL
+          // uses https://). Omitting it here avoids forcing HTTPS on HTTP-only
+          // deployments and prevents browsers from caching an HSTS policy that
+          // would break local dev on the same hostname.
         ],
       },
     ];

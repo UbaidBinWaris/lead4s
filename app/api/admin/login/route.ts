@@ -38,9 +38,10 @@ export async function POST(req: NextRequest) {
       .sign(jwtSecret());
 
     const res = NextResponse.json({ success: true });
+    const isHttps = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https://") ?? false;
     res.cookies.set(COOKIE, token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: isHttps,
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
