@@ -4,7 +4,29 @@ import type { NextRequest } from "next/server";
 
 const ADMIN_AUTH_COOKIE = process.env.ADMIN_AUTH_COOKIE_NAME ?? "admin_token";
 const ADMIN_LOGIN = "/admin/login";
-const ALLOWED_ORIGIN = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? null;
+
+function normalizeOrigin(value: string): string | null {
+  const trimmed = value.trim().replace(/\/$/, "");
+  if (!trimmed) return null;
+  try {
+    return new URL(trimmed).origin;
+  } catch {
+    return null;
+  }
+}
+
+function configuredOrigins(): Set<string> {
+  const fromSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const fromList = process.env.CORS_ALLOWED_ORIGINS ?? "";
+
+  const origins = [fromSiteUrl, ...fromList.split(",")]
+    .map((value) => normalizeOrigin(value))
+    .filter((value): value is string => Boolean(value));
+
+  return new Set(origins);
+}
+
+const ALLOWED_ORIGINS = configuredOrigins();
 
 function jwtSecret(): Uint8Array {
   const s = process.env.JWT_SECRET;
@@ -17,6 +39,15 @@ function isAdminRoute(pathname: string): boolean {
 }
 
 const IS_HTTPS = process.env.NEXT_PUBLIC_SITE_URL?.startsWith("https://") ?? false;
+
+function isAllowedRequestOrigin(request: NextRequest, requestOrigin: string): boolean {
+  if (!requestOrigin) return false;
+
+  // Always allow same-host requests on the active deployment domain.
+  if (requestOrigin === request.nextUrl.origin) return true;
+
+  return ALLOWED_ORIGINS.has(requestOrigin);
+}
 
 function buildCsp(): string {
   const dev = process.env.NODE_ENV === "development";
@@ -96,13 +127,25 @@ export async function proxy(request: NextRequest) {
 
   if (pathname.startsWith("/api/")) {
     const origin = request.headers.get("origin") ?? "";
-    const allowOrigin = ALLOWED_ORIGIN && origin === ALLOWED_ORIGIN ? origin : "null";
-    response.headers.set("Access-Control-Allow-Origin", allowOrigin);
+    const allowOrigin = isAllowedRequestOrigin(request, origin) ? origin : "";
+
+    if (allowOrigin) {
+      response.headers.set("Access-Control-Allow-Origin", allowOrigin);
+      response.headers.set("Access-Control-Allow-Credentials", "true");
+      response.headers.set("Vary", "Origin");
+    }
+
     response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    response.headers.set("Access-Control-Allow-Headers", "Content-Type");
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      request.headers.get("access-control-request-headers") ?? "Content-Type, Authorization"
+    );
     response.headers.set("Access-Control-Max-Age", "86400");
 
     if (request.method === "OPTIONS") {
+      if (origin && !allowOrigin) {
+        return NextResponse.json({ error: "CORS origin not allowed" }, { status: 403 });
+      }
       return new NextResponse(null, { status: 204, headers: response.headers });
     }
   }
@@ -113,7 +156,7 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     {
-      source: "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+      source: String.raw`/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)`,
       missing: [
         { type: "header", key: "next-router-prefetch" },
         { type: "header", key: "purpose", value: "prefetch" },
