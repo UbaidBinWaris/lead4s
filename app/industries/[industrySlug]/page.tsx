@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
-
-export const dynamic = "force-dynamic";
 import { IndustryHero } from "@/components/industry/IndustryHero";
 import { SectionRenderer } from "@/components/industry/SectionRenderer";
 import type { IndustrySection } from "@/types/industry";
+
 
 interface IndustryPageProps {
   readonly params: Promise<{ industrySlug: string }>;

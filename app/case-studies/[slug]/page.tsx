@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
-
-export const dynamic = "force-dynamic";
 import { CaseStudyHero } from "@/components/case-studies/CaseStudyHero";
 import { ResultsSection } from "@/components/case-studies/ResultsSection";
 import { ChallengeSection } from "@/components/case-studies/ChallengeSection";
@@ -10,6 +8,7 @@ import { SolutionSection } from "@/components/case-studies/SolutionSection";
 import { SectionRenderer } from "@/components/industry/SectionRenderer";
 import type { CaseStudyResult } from "@/types/case-study";
 import type { IndustrySection } from "@/types/industry";
+
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 

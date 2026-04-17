@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { db } from "@/lib/db";
-
-export const dynamic = "force-dynamic";
 import { formatDate } from "@/lib/blog";
 import { BlogContent } from "@/components/blog/BlogContent";
+
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 

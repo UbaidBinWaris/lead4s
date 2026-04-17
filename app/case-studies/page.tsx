@@ -21,8 +21,6 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_URL}/case-studies` },
 };
 
-export const dynamic = "force-dynamic";
-
 export default async function CaseStudiesPage() {
   const caseStudies = await db.caseStudy.findMany({
     where: { isPublished: true },
