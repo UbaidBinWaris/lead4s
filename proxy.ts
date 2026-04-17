@@ -16,11 +16,11 @@ function isAdminRoute(pathname: string): boolean {
   return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
-function buildCsp(nonce: string): string {
+function buildCsp(): string {
   const dev = process.env.NODE_ENV === "development";
   return [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${dev ? " 'unsafe-eval'" : ""}`,
+    `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""}`,
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self' data:",
     "img-src 'self' blob: data: https:",
@@ -75,11 +75,9 @@ export async function proxy(request: NextRequest) {
   const authRedirect = await enforceAdminAuth(request);
   if (authRedirect) return authRedirect;
 
-  const nonce = crypto.randomUUID();
-  const csp = buildCsp(nonce);
+  const csp = buildCsp();
 
   const reqHeaders = new Headers(request.headers);
-  reqHeaders.set("x-nonce", nonce);
   reqHeaders.set("Content-Security-Policy", csp);
 
   const response = NextResponse.next({ request: { headers: reqHeaders } });
