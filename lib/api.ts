@@ -1,5 +1,6 @@
 import type { Blog, BlogInput, UploadImageResponse } from "@/types/blog";
 import type { Industry, IndustryInput } from "@/types/industry";
+import type { CaseStudy, CaseStudyInput } from "@/types/case-study";
 
 
 async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
@@ -93,5 +94,65 @@ export async function updateIndustry(
 
 export async function deleteIndustry(id: string): Promise<void> {
   await apiRequest<void>(`/api/industries/${id}`, { method: "DELETE" });
+}
+
+// ---------------------------------------------------------------------------
+// Solutions API
+// ---------------------------------------------------------------------------
+
+export async function getSolutions(): Promise<Industry[]> {
+  return apiRequest<Industry[]>("/api/solutions", { method: "GET" });
+}
+
+export async function getSolutionBySlug(slug: string): Promise<Industry> {
+  return apiRequest<Industry>(`/api/solutions/by-slug/${slug}`, { method: "GET" });
+}
+
+export async function createSolution(payload: IndustryInput): Promise<Industry> {
+  return apiRequest<Industry>("/api/solutions", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function updateSolution(id: string, payload: IndustryInput): Promise<Industry> {
+  return apiRequest<Industry>(`/api/solutions/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function deleteSolution(id: string): Promise<void> {
+  await apiRequest<void>(`/api/solutions/${id}`, { method: "DELETE" });
+}
+
+// ---------------------------------------------------------------------------
+// Case Studies API
+// ---------------------------------------------------------------------------
+
+export async function getCaseStudies(): Promise<CaseStudy[]> {
+  return apiRequest<CaseStudy[]>("/api/case-studies", { method: "GET" });
+}
+
+export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy> {
+  return apiRequest<CaseStudy>(`/api/case-studies/by-slug/${slug}`, { method: "GET" });
+}
+
+export async function createCaseStudy(payload: CaseStudyInput): Promise<CaseStudy> {
+  return apiRequest<CaseStudy>("/api/case-studies", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function updateCaseStudy(id: string, payload: CaseStudyInput): Promise<CaseStudy> {
+  return apiRequest<CaseStudy>(`/api/case-studies/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function deleteCaseStudy(id: string): Promise<void> {
+  await apiRequest<void>(`/api/case-studies/${id}`, { method: "DELETE" });
 }
 

@@ -12,6 +12,8 @@ import { Team } from "@/components/about/Team";
 import { CtaBanner } from "@/components/sections/CtaBanner";
 import { aboutData } from "@/data/about";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+
 export const metadata: Metadata = {
   title: "About Lead4s | Performance Lead Generation Network",
   description:
@@ -28,10 +30,10 @@ export const metadata: Metadata = {
     description:
       "Powering high-intent customer acquisition at scale. First-party leads, verified consumers, proven results.",
     type: "website",
-    url: "https://lead4s.io/about",
+    url: `${SITE_URL}/about`,
     images: [
       {
-        url: "https://lead4s.io/og.png",
+        url: `${SITE_URL}/og.png`,
         width: 1200,
         height: 630,
         alt: "Lead4s",
@@ -43,10 +45,10 @@ export const metadata: Metadata = {
     title: "About Lead4s",
     description:
       "Powering high-intent customer acquisition. First-party leads, verified consumers, proven results.",
-    images: ["https://lead4s.io/og.png"],
+    images: [`${SITE_URL}/og.png`],
   },
   alternates: {
-    canonical: "https://lead4s.io/about",
+    canonical: `${SITE_URL}/about`,
   },
   robots: {
     index: true,

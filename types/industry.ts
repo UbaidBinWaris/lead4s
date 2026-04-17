@@ -50,12 +50,13 @@ export interface IndustryHeroData {
 }
 
 // ---------------------------------------------------------------------------
-// Full industry document
+// Full industry / solution document
 // ---------------------------------------------------------------------------
 export interface Industry {
   readonly id: string;
   readonly title: string;
   readonly slug: string;
+  readonly type: "industry" | "solution";
   readonly description: string | null;
   /** Structured content: first item MAY be a hero (type not in union — typed separately) */
   readonly content: IndustrySection[];
@@ -72,6 +73,7 @@ export interface Industry {
 export interface IndustryInput {
   readonly title: string;
   readonly slug: string;
+  readonly type?: "industry" | "solution";
   readonly description?: string | null;
   readonly content: IndustrySection[];
   readonly coverImage?: string | null;

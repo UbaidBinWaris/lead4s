@@ -21,39 +21,33 @@ export const headerData: HeaderData = {
     { label: "Home", href: "/" },
     {
       label: "Industries",
-      href: "#",
+      href: "/industries",
       children: [
-        { label: "Solar Leads & Live Transfers", href: "/solar-leads/" },
-        {
-          label: "Home Improvement Leads",
-          href: "/home-improvement-leads",
-        },
-        { label: "Final Expense Leads", href: "/final-expense-lead" },
-        { label: "Auto Insurance Leads", href: "/auto-insurance-leads" },
-        {
-          label: "MVA & Personal Injury Leads",
-          href: "/mva-personal-injury-leads",
-        },
-        { label: "Medicare O65 Leads", href: "/medicare-o65" },
+        { label: "Solar Leads & Live Transfers", href: "/industries/solar-leads" },
+        { label: "Home Improvement Leads", href: "/industries/home-improvement-leads" },
+        { label: "Final Expense Leads", href: "/industries/final-expense-lead" },
+        { label: "Auto Insurance Leads", href: "/industries/auto-insurance-leads" },
+        { label: "MVA & Personal Injury Leads", href: "/industries/mva-personal-injury-leads" },
+        { label: "Medicare O65 Leads", href: "/industries/medicare-o65" },
       ],
     },
     {
       label: "Solutions",
-      href: "#",
+      href: "/solutions",
       children: [
         {
           label: "Exclusive Leads (CPL Model)",
-          href: "/exclusive-leads-cpl-model",
+          href: "/solutions/exclusive-leads-cpl-model",
         },
-        { label: "Live Transfer Calls", href: "/live-transfer-calls" },
-        { label: "Appointment Setting", href: "/appointment-setting" },
+        { label: "Live Transfer Calls", href: "/solutions/live-transfer-calls" },
+        { label: "Appointment Setting", href: "/solutions/appointment-setting" },
         {
           label: "BPO & Call Center Services",
-          href: "/bpo-call-center-services",
+          href: "/solutions/bpo-call-center-services",
         },
         {
           label: "PPC Campaign Management",
-          href: "/ppc-campaign-management",
+          href: "/solutions/ppc-campaign-management",
         },
       ],
     },

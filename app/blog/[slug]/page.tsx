@@ -5,6 +5,8 @@ import { db } from "@/lib/db";
 import { formatDate } from "@/lib/blog";
 import { BlogContent } from "@/components/blog/BlogContent";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+
 interface BlogDetailPageProps {
   readonly params: Promise<{ slug: string }>;
 }
@@ -26,7 +28,7 @@ export async function generateMetadata({
       title: blog.title,
       description: blog.excerpt,
       type: "article",
-      url: `https://lead4s.io/blog/${blog.slug}`,
+      url: `${SITE_URL}/blog/${blog.slug}`,
       images: blog.coverImage
         ? [
             {
@@ -45,7 +47,7 @@ export async function generateMetadata({
       images: blog.coverImage ? [blog.coverImage] : [],
     },
     alternates: {
-      canonical: `https://lead4s.io/blog/${blog.slug}`,
+      canonical: `${SITE_URL}/blog/${blog.slug}`,
     },
   };
 }

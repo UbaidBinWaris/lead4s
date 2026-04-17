@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { BlogCard } from "@/components/blog/BlogCard";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+
 export const metadata: Metadata = {
   title: "Blog | Lead4s",
   description: "Read our latest insights on lead generation, sales, and growth strategies.",
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
     title: "Blog | Lead4s",
     description: "Read our latest insights on lead generation, sales, and growth strategies.",
     type: "website",
-    url: "https://lead4s.io/blog",
+    url: `${SITE_URL}/blog`,
   },
 };
 

@@ -3,6 +3,7 @@ import {
   FaChartBar,
   FaClipboardList,
   FaCog,
+  FaLightbulb,
   FaPenNib,
   FaShieldAlt,
   FaUserTie,
@@ -34,6 +35,8 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
         <NavButton icon={FaChartBar} label="Dashboard" active={activeView === "overview"} onClick={() => onNavigate("overview")} />
         <NavButton icon={FaPenNib} label="Blogs" active={activeView === "blogs"} onClick={() => onNavigate("blogs")} />
         <NavButton icon={FaBuilding} label="Industries" active={activeView === "industries"} onClick={() => onNavigate("industries")} />
+        <NavButton icon={FaLightbulb} label="Solutions" active={activeView === "solutions"} onClick={() => onNavigate("solutions")} />
+        <NavButton icon={FaClipboardList} label="Case Studies" active={activeView === "case-studies"} onClick={() => onNavigate("case-studies")} />
         <NavButton icon={FaUserTie} label="Applications" active={activeView === "jobs"} onClick={() => onNavigate("jobs")} />
       </nav>
 
@@ -42,7 +45,6 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
         <p className="mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-widest text-slate-600">
           Soon
         </p>
-        <NavSoon icon={FaClipboardList} label="Case Studies" />
         <NavSoon icon={FaCog} label="Settings" />
       </nav>
 
@@ -60,10 +62,10 @@ function NavButton({
   active,
   onClick,
 }: {
-  icon: React.ComponentType<{ className?: string }>;
-  label: string;
-  active: boolean;
-  onClick: () => void;
+  readonly icon: React.ComponentType<{ className?: string }>;
+  readonly label: string;
+  readonly active: boolean;
+  readonly onClick: () => void;
 }) {
   return (
     <button
@@ -81,7 +83,7 @@ function NavButton({
   );
 }
 
-function NavSoon({ icon: Icon, label }: { icon: React.ComponentType<{ className?: string }>; label: string }) {
+function NavSoon({ icon: Icon, label }: { readonly icon: React.ComponentType<{ className?: string }>; readonly label: string }) {
   return (
     <div className="flex w-full cursor-not-allowed items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-slate-700">
       <Icon className="h-3.5 w-3.5 shrink-0" />

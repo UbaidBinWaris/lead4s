@@ -22,40 +22,22 @@ model JobApplication {
 }
 
 model CaseStudy {
-  id           Int      @id @default(autoincrement())
-  slug         String   @unique
+  id           String   @id @default(uuid())
   title        String
-  vertical     String
-  summary      String   @default("")
-  heroLabel    String   @map("hero_label") @default("Case Study")
-  heroTitle    String   @map("hero_title") @default("")
-  heroIntro    String   @map("hero_intro") @default("")
+  slug         String   @unique
+  industry     String
+  summary      String
   challenge    String
   solution     String
-  results      String[]
-  kpiLabel     String   @map("kpi_label")
-  kpiValue     String   @map("kpi_value")
+  results      Json     // [{ label: string, value: string }]
+  content      Json     @default("[]") // IndustrySection[]
+  coverImage   String?
   isPublished  Boolean  @default(true) @map("is_published")
   displayOrder Int      @default(0) @map("display_order")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
-  sections     CaseStudySection[]
 
   @@map("case_studies")
-}
-
-model CaseStudySection {
-  id           Int       @id @default(autoincrement())
-  caseStudyId  Int       @map("case_study_id")
-  sectionLabel String?   @map("section_label")
-  title        String
-  markdown     String
-  displayOrder Int       @default(0) @map("display_order")
-  createdAt    DateTime  @default(now()) @map("created_at")
-  updatedAt    DateTime  @updatedAt @map("updated_at")
-  caseStudy    CaseStudy @relation(fields: [caseStudyId], references: [id], onDelete: Cascade)
-
-  @@map("case_study_sections")
 }
 
 model Blog {
@@ -76,6 +58,7 @@ model Industry {
   id           String   @id @default(uuid())
   title        String
   slug         String   @unique
+  type         String   @default("industry") // "industry" | "solution"
   description  String?
   content      Json     // structured sections array
   coverImage   String?

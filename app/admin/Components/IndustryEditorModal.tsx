@@ -40,6 +40,7 @@ type Props = {
   readonly isSaving: boolean;
   readonly onCancel: () => void;
   readonly onSave: (payload: IndustryInput, id?: string) => void;
+  readonly contentType?: "industry" | "solution";
 };
 
 // ---------------------------------------------------------------------------
@@ -475,7 +476,12 @@ export function IndustryEditorModal({
   isSaving,
   onCancel,
   onSave,
+  contentType = "industry",
 }: Props) {
+  const isSolution = contentType === "solution";
+  const noun = isSolution ? "solution" : "industry";
+  const Noun = isSolution ? "Solution" : "Industry";
+  const urlBase = isSolution ? "/solutions/" : "/industries/";
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [description, setDescription] = useState("");
@@ -606,7 +612,7 @@ export function IndustryEditorModal({
       className="fixed inset-0 z-50 flex flex-col bg-[hsl(0,0%,4%)]"
       role="dialog"
       aria-modal="true"
-      aria-label={isEditing ? "Edit industry page" : "New industry page"}
+      aria-label={isEditing ? `Edit ${noun} page` : `New ${noun} page`}
     >
       {/* ── Top bar ─────────────────────────────────────────────────────── */}
       <header className="flex shrink-0 items-center justify-between border-b border-slate-800 bg-[hsl(0,0%,5%)] px-5 py-3.5">
@@ -622,7 +628,7 @@ export function IndustryEditorModal({
           <div className="h-4 w-px bg-slate-700" />
           <div>
             <p className="text-xs font-medium uppercase tracking-widest text-slate-500">
-              {isEditing ? "Editing industry" : "New industry"}
+              {isEditing ? `Editing ${noun}` : `New ${noun}`}
             </p>
             <p className="text-sm font-semibold text-white line-clamp-1">
               {title || "Untitled"}
@@ -653,8 +659,8 @@ export function IndustryEditorModal({
             {isSaving
               ? "Saving…"
               : isEditing
-              ? "Update Page"
-              : "Publish Page"}
+              ? `Update ${Noun}`
+              : `Publish ${Noun}`}
           </button>
         </div>
       </header>
@@ -858,7 +864,7 @@ export function IndustryEditorModal({
               </p>
               <div className="flex items-center gap-2 rounded-lg border border-slate-800 bg-[hsl(0,0%,7%)] px-3 py-2.5">
                 <span className="flex-1 truncate font-mono text-xs text-slate-400">
-                  /{slug || "…"}
+                  {urlBase}{slug || "…"}
                 </span>
                 <div className="relative flex items-center gap-1">
                   <button
@@ -871,7 +877,7 @@ export function IndustryEditorModal({
                   </button>
                   {isEditing && slug && (
                     <a
-                      href={`/${slug}`}
+                      href={`${urlBase}${slug}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="Open page"

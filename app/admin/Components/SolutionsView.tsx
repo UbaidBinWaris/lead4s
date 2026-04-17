@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  createIndustry,
-  deleteIndustry,
-  getIndustries,
-  updateIndustry,
+  createSolution,
+  deleteSolution,
+  getSolutions,
+  updateSolution,
 } from "@/lib/api";
 import type { Industry, IndustryInput } from "@/types/industry";
 import { FiRefreshCw, FiExternalLink } from "react-icons/fi";
@@ -36,91 +36,88 @@ function formatDate(dateString: string) {
   });
 }
 
-export function IndustriesView() {
+export function SolutionsView() {
   const queryClient = useQueryClient();
-  const [editorIndustry, setEditorIndustry] = useState<Industry | null>(null);
+  const [editorSolution, setEditorSolution] = useState<Industry | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [page, setPage] = useState(1);
 
-  const industriesQuery = useQuery({
-    queryKey: ["industries"],
-    queryFn: getIndustries,
+  const solutionsQuery = useQuery({
+    queryKey: ["solutions"],
+    queryFn: getSolutions,
   });
 
-  const allIndustries = industriesQuery.data ?? [];
-  const totalPages = Math.max(1, Math.ceil(allIndustries.length / PAGE_SIZE));
-  const pagedIndustries = allIndustries.slice(
+  const allSolutions = solutionsQuery.data ?? [];
+  const totalPages = Math.max(1, Math.ceil(allSolutions.length / PAGE_SIZE));
+  const pagedSolutions = allSolutions.slice(
     (page - 1) * PAGE_SIZE,
     page * PAGE_SIZE
   );
 
   const createMutation = useMutation({
-    mutationFn: (payload: IndustryInput) => createIndustry(payload),
+    mutationFn: (payload: IndustryInput) => createSolution(payload),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["industries"] }).catch(() => undefined);
+      queryClient.invalidateQueries({ queryKey: ["solutions"] }).catch(() => undefined);
       queryClient.invalidateQueries({ queryKey: ["stats"] }).catch(() => undefined);
       setEditorOpen(false);
-      setEditorIndustry(null);
+      setEditorSolution(null);
       setPage(1);
     },
   });
 
   const updateMutation = useMutation({
     mutationFn: ({ id, payload }: { id: string; payload: IndustryInput }) =>
-      updateIndustry(id, payload),
+      updateSolution(id, payload),
     onMutate: async ({ id, payload }) => {
-      await queryClient.cancelQueries({ queryKey: ["industries"] });
-      const prev = queryClient.getQueryData<Industry[]>(["industries"]);
+      await queryClient.cancelQueries({ queryKey: ["solutions"] });
+      const prev = queryClient.getQueryData<Industry[]>(["solutions"]);
       if (prev)
         queryClient.setQueryData<Industry[]>(
-          ["industries"],
-          prev.map((i) => (i.id === id ? { ...i, ...payload } : i))
+          ["solutions"],
+          prev.map((s) => (s.id === id ? { ...s, ...payload } : s))
         );
       return { prev };
     },
     onError: (_e, _v, ctx) => {
-      if (ctx?.prev) queryClient.setQueryData(["industries"], ctx.prev);
+      if (ctx?.prev) queryClient.setQueryData(["solutions"], ctx.prev);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["industries"] }).catch(() => undefined);
+      queryClient.invalidateQueries({ queryKey: ["solutions"] }).catch(() => undefined);
       setEditorOpen(false);
-      setEditorIndustry(null);
+      setEditorSolution(null);
     },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: string) => deleteIndustry(id),
+    mutationFn: (id: string) => deleteSolution(id),
     onMutate: async (id) => {
       setDeletingId(id);
-      await queryClient.cancelQueries({ queryKey: ["industries"] });
-      const prev = queryClient.getQueryData<Industry[]>(["industries"]);
+      await queryClient.cancelQueries({ queryKey: ["solutions"] });
+      const prev = queryClient.getQueryData<Industry[]>(["solutions"]);
       if (prev) {
         queryClient.setQueryData<Industry[]>(
-          ["industries"],
-          prev.filter((i) => i.id !== id)
+          ["solutions"],
+          prev.filter((s) => s.id !== id)
         );
-        const newMax = Math.max(
-          1,
-          Math.ceil((prev.length - 1) / PAGE_SIZE)
-        );
+        const newMax = Math.max(1, Math.ceil((prev.length - 1) / PAGE_SIZE));
         if (page > newMax) setPage(newMax);
       }
       return { prev };
     },
     onError: (_e, _id, ctx) => {
-      if (ctx?.prev) queryClient.setQueryData(["industries"], ctx.prev);
+      if (ctx?.prev) queryClient.setQueryData(["solutions"], ctx.prev);
     },
     onSettled: () => {
       setDeletingId(null);
-      queryClient.invalidateQueries({ queryKey: ["industries"] }).catch(() => undefined);
+      queryClient.invalidateQueries({ queryKey: ["solutions"] }).catch(() => undefined);
       queryClient.invalidateQueries({ queryKey: ["stats"] }).catch(() => undefined);
     },
   });
 
   const isSaving = createMutation.isPending || updateMutation.isPending;
 
-  function saveIndustry(payload: IndustryInput, id?: string) {
+  function saveSolution(payload: IndustryInput, id?: string) {
     if (id) {
       updateMutation.mutate({ id, payload });
       return;
@@ -128,23 +125,23 @@ export function IndustriesView() {
     createMutation.mutate(payload);
   }
 
-  function removeIndustry(industry: Industry) {
-    if (!globalThis.confirm(`Delete "${industry.title}"?`)) return;
-    deleteMutation.mutate(industry.id);
+  function removeSolution(solution: Industry) {
+    if (!globalThis.confirm(`Delete "${solution.title}"?`)) return;
+    deleteMutation.mutate(solution.id);
   }
 
   return (
     <>
-      {/* Editor modal */}
       {editorOpen && (
         <IndustryEditorModal
-          initialIndustry={editorIndustry}
+          initialIndustry={editorSolution}
           isSaving={isSaving}
+          contentType="solution"
           onCancel={() => {
             setEditorOpen(false);
-            setEditorIndustry(null);
+            setEditorSolution(null);
           }}
-          onSave={saveIndustry}
+          onSave={saveSolution}
         />
       )}
 
@@ -153,60 +150,58 @@ export function IndustriesView() {
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-800 bg-[hsl(0,0%,6%)] p-5">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-white">
-              Industries Manager
+              Solutions Manager
             </h1>
             <p className="mt-1 text-sm text-slate-400">
-              {allIndustries.length > 0
-                ? `${allIndustries.length} industry page${allIndustries.length !== 1 ? "s" : ""} total`
-                : "No industry pages yet — create your first one."}
+              {allSolutions.length > 0
+                ? `${allSolutions.length} solution page${allSolutions.length !== 1 ? "s" : ""} total`
+                : "No solution pages yet — create your first one."}
             </p>
           </div>
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() =>
-                industriesQuery.refetch().catch(() => undefined)
-              }
-              disabled={industriesQuery.isRefetching}
+              onClick={() => solutionsQuery.refetch().catch(() => undefined)}
+              disabled={solutionsQuery.isRefetching}
               aria-label="Refresh"
               className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-slate-700 px-4 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800 disabled:opacity-60"
             >
               <FiRefreshCw
-                className={`h-3.5 w-3.5 ${industriesQuery.isRefetching ? "animate-spin" : ""}`}
+                className={`h-3.5 w-3.5 ${solutionsQuery.isRefetching ? "animate-spin" : ""}`}
               />
-              {industriesQuery.isRefetching ? "Refreshing…" : "Refresh"}
+              {solutionsQuery.isRefetching ? "Refreshing…" : "Refresh"}
             </button>
             <button
               type="button"
               onClick={() => {
-                setEditorIndustry(null);
+                setEditorSolution(null);
                 setEditorOpen(true);
               }}
-              className="inline-flex min-h-[44px] items-center rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+              className="inline-flex min-h-[44px] items-center rounded-lg bg-indigo-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-indigo-500"
             >
-              + New Industry
+              + New Solution
             </button>
           </div>
         </div>
 
         {/* Table */}
         <div className="overflow-hidden rounded-xl border border-slate-800 bg-[hsl(0,0%,6%)]">
-          {industriesQuery.isLoading ? (
+          {solutionsQuery.isLoading ? (
             <div className="flex items-center justify-center py-20 text-slate-500">
-              Loading industries…
+              Loading solutions…
             </div>
-          ) : pagedIndustries.length === 0 ? (
+          ) : pagedSolutions.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <p className="text-slate-500">No industry pages found.</p>
+              <p className="text-slate-500">No solution pages found.</p>
               <button
                 type="button"
                 onClick={() => {
-                  setEditorIndustry(null);
+                  setEditorSolution(null);
                   setEditorOpen(true);
                 }}
-                className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500"
+                className="mt-4 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
               >
-                Create First Industry
+                Create First Solution
               </button>
             </div>
           ) : (
@@ -222,61 +217,61 @@ export function IndustriesView() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60">
-                {pagedIndustries.map((industry) => (
+                {pagedSolutions.map((solution) => (
                   <tr
-                    key={industry.id}
+                    key={solution.id}
                     className="group transition-colors hover:bg-slate-800/30"
                   >
                     <td className="px-5 py-4">
                       <p className="font-medium text-white line-clamp-1">
-                        {industry.title}
+                        {solution.title}
                       </p>
-                      {industry.description && (
+                      {solution.description && (
                         <p className="mt-0.5 text-xs text-slate-500 line-clamp-1">
-                          {industry.description}
+                          {solution.description}
                         </p>
                       )}
                     </td>
                     <td className="px-5 py-4 hidden sm:table-cell">
                       <div className="flex items-center gap-1.5">
                         <code className="rounded bg-slate-800/70 px-1.5 py-0.5 font-mono text-xs text-slate-400">
-                          /{industry.slug}
+                          /solutions/{solution.slug}
                         </code>
                         <a
-                          href={`/industries/${industry.slug}`}
+                          href={`/solutions/${solution.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="opacity-0 transition-opacity group-hover:opacity-100"
-                          aria-label="Open page"
+                          aria-label="Open solution page"
                         >
-                          <FiExternalLink className="h-3 w-3 text-slate-500 hover:text-blue-400" />
+                          <FiExternalLink className="h-3 w-3 text-slate-500 hover:text-indigo-400" />
                         </a>
                       </div>
                     </td>
                     <td className="px-5 py-4 hidden md:table-cell">
                       <span className="text-slate-400">
-                        {Array.isArray(industry.content)
-                          ? (industry.content as unknown[]).length
+                        {Array.isArray(solution.content)
+                          ? (solution.content as unknown[]).length
                           : 0}{" "}
                         section
-                        {Array.isArray(industry.content) &&
-                        (industry.content as unknown[]).length !== 1
+                        {Array.isArray(solution.content) &&
+                        (solution.content as unknown[]).length !== 1
                           ? "s"
                           : ""}
                       </span>
                     </td>
                     <td className="px-5 py-4 hidden lg:table-cell">
-                      <StatusBadge published={industry.isPublished} />
+                      <StatusBadge published={solution.isPublished} />
                     </td>
                     <td className="px-5 py-4 hidden lg:table-cell text-slate-500">
-                      {formatDate(industry.updatedAt)}
+                      {formatDate(solution.updatedAt)}
                     </td>
                     <td className="px-5 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           type="button"
                           onClick={() => {
-                            setEditorIndustry(industry);
+                            setEditorSolution(solution);
                             setEditorOpen(true);
                           }}
                           className="rounded-lg border border-slate-700 px-3 py-1.5 text-xs font-medium text-slate-300 transition-colors hover:bg-slate-800"
@@ -285,11 +280,11 @@ export function IndustriesView() {
                         </button>
                         <button
                           type="button"
-                          disabled={deletingId === industry.id}
-                          onClick={() => removeIndustry(industry)}
+                          disabled={deletingId === solution.id}
+                          onClick={() => removeSolution(solution)}
                           className="rounded-lg border border-red-500/30 px-3 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/10 disabled:opacity-40"
                         >
-                          {deletingId === industry.id ? "…" : "Delete"}
+                          {deletingId === solution.id ? "…" : "Delete"}
                         </button>
                       </div>
                     </td>
@@ -301,43 +296,42 @@ export function IndustriesView() {
         </div>
 
         {/* Pagination */}
-        {!industriesQuery.isLoading &&
-          allIndustries.length > PAGE_SIZE && (
-            <div className="flex items-center justify-between rounded-xl border border-slate-800 bg-[hsl(0,0%,6%)] px-5 py-3">
-              <p className="text-xs text-slate-500">
-                Showing{" "}
-                <span className="font-medium text-slate-300">
-                  {(page - 1) * PAGE_SIZE + 1}–
-                  {Math.min(page * PAGE_SIZE, allIndustries.length)}
-                </span>{" "}
-                of{" "}
-                <span className="font-medium text-slate-300">
-                  {allIndustries.length}
-                </span>
-              </p>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  disabled={page === 1}
-                  onClick={() => setPage((p) => p - 1)}
-                  className="inline-flex min-h-[36px] items-center rounded-lg border border-slate-700 px-3 text-xs font-medium text-slate-300 transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  ← Prev
-                </button>
-                <span className="px-2 text-xs text-slate-500">
-                  {page} / {totalPages}
-                </span>
-                <button
-                  type="button"
-                  disabled={page === totalPages}
-                  onClick={() => setPage((p) => p + 1)}
-                  className="inline-flex min-h-[36px] items-center rounded-lg border border-slate-700 px-3 text-xs font-medium text-slate-300 transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Next →
-                </button>
-              </div>
+        {!solutionsQuery.isLoading && allSolutions.length > PAGE_SIZE && (
+          <div className="flex items-center justify-between rounded-xl border border-slate-800 bg-[hsl(0,0%,6%)] px-5 py-3">
+            <p className="text-xs text-slate-500">
+              Showing{" "}
+              <span className="font-medium text-slate-300">
+                {(page - 1) * PAGE_SIZE + 1}–
+                {Math.min(page * PAGE_SIZE, allSolutions.length)}
+              </span>{" "}
+              of{" "}
+              <span className="font-medium text-slate-300">
+                {allSolutions.length}
+              </span>
+            </p>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+                className="inline-flex min-h-[36px] items-center rounded-lg border border-slate-700 px-3 text-xs font-medium text-slate-300 transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                ← Prev
+              </button>
+              <span className="px-2 text-xs text-slate-500">
+                {page} / {totalPages}
+              </span>
+              <button
+                type="button"
+                disabled={page === totalPages}
+                onClick={() => setPage((p) => p + 1)}
+                className="inline-flex min-h-[36px] items-center rounded-lg border border-slate-700 px-3 text-xs font-medium text-slate-300 transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Next →
+              </button>
             </div>
-          )}
+          </div>
+        )}
       </div>
     </>
   );

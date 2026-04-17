@@ -13,15 +13,15 @@ export async function generateMetadata({
   params,
 }: IndustryPageProps): Promise<Metadata> {
   const { industrySlug } = await params;
-  const industry = await db.industry.findUnique({
-    where: { slug: industrySlug },
+  const industry = await db.industry.findFirst({
+    where: { slug: industrySlug, type: "industry" },
   });
 
   if (!industry) {
     return { title: "Industry Not Found" };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lead4s.io";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
   return {
     title: `${industry.title} | Lead4s`,
@@ -30,16 +30,9 @@ export async function generateMetadata({
       title: industry.title,
       description: industry.description ?? undefined,
       type: "website",
-      url: `${siteUrl}/${industry.slug}`,
+      url: `${siteUrl}/industries/${industry.slug}`,
       images: industry.coverImage
-        ? [
-            {
-              url: industry.coverImage,
-              width: 1200,
-              height: 630,
-              alt: industry.title,
-            },
-          ]
+        ? [{ url: industry.coverImage, width: 1200, height: 630, alt: industry.title }]
         : [],
     },
     twitter: {
@@ -49,7 +42,7 @@ export async function generateMetadata({
       images: industry.coverImage ? [industry.coverImage] : [],
     },
     alternates: {
-      canonical: `${siteUrl}/${industry.slug}`,
+      canonical: `${siteUrl}/industries/${industry.slug}`,
     },
   };
 }
@@ -57,8 +50,8 @@ export async function generateMetadata({
 export default async function IndustryPage({ params }: IndustryPageProps) {
   const { industrySlug } = await params;
 
-  const industry = await db.industry.findUnique({
-    where: { slug: industrySlug },
+  const industry = await db.industry.findFirst({
+    where: { slug: industrySlug, type: "industry" },
   });
 
   if (!industry || !industry.isPublished) {
@@ -74,17 +67,16 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
         description={industry.description}
         coverImage={industry.coverImage}
         slug={industry.slug}
+        variant="industry"
       />
 
-      {/* Alternating-BG divider */}
       <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-700/50 to-transparent" />
 
       <SectionRenderer sections={sections} />
 
-      {/* Back to all industries */}
       <div className="border-t border-slate-800 py-10 text-center">
         <a
-          href="/"
+          href="/industries"
           className="inline-flex items-center gap-2 text-sm text-blue-400 transition-colors hover:text-blue-300"
         >
           <svg
@@ -94,13 +86,9 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
             stroke="currentColor"
             strokeWidth={2}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          Back to Home
+          Back to Industries
         </a>
       </div>
     </main>
