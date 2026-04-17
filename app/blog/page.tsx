@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
 import { BlogCard } from "@/components/blog/BlogCard";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { db } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
 import { CaseStudyHero } from "@/components/case-studies/CaseStudyHero";
 import { ResultsSection } from "@/components/case-studies/ResultsSection";
 import { ChallengeSection } from "@/components/case-studies/ChallengeSection";
