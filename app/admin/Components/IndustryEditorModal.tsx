@@ -23,10 +23,18 @@ import type {
   CTASection,
   FeaturesSection,
   FeatureItem,
+  FaqSection,
+  FaqItem,
+  HeroCtaSection,
   ImageSection,
+  ImageTextSection,
   Industry,
   IndustryInput,
   IndustrySection,
+  ProcessSection,
+  ProcessStep,
+  StatItem,
+  StatsSection,
   TextSection,
 } from "@/types/industry";
 
@@ -34,6 +42,238 @@ import type {
 // Types
 // ---------------------------------------------------------------------------
 type SectionType = IndustrySection["type"];
+
+// ---------------------------------------------------------------------------
+// Section-specific field editors (new types)
+// ---------------------------------------------------------------------------
+
+function HeroCtaSectionEditor({
+  section,
+  onChange,
+}: {
+  section: HeroCtaSection;
+  onChange: (s: HeroCtaSection) => void;
+}) {
+  return (
+    <div className="space-y-3 pt-2">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">Primary Button Label</label>
+          <input
+            value={section.primaryLabel}
+            onChange={(e) => onChange({ ...section, primaryLabel: e.target.value })}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
+            placeholder="Get Free Leads"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">Primary Button Link</label>
+          <input
+            value={section.primaryHref}
+            onChange={(e) => onChange({ ...section, primaryHref: e.target.value })}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
+            placeholder="/#contact"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">Secondary Label <span className="text-slate-600">(optional)</span></label>
+          <input
+            value={section.secondaryLabel ?? ""}
+            onChange={(e) => onChange({ ...section, secondaryLabel: e.target.value || undefined })}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
+            placeholder="Learn More"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">Secondary Link <span className="text-slate-600">(optional)</span></label>
+          <input
+            value={section.secondaryHref ?? ""}
+            onChange={(e) => onChange({ ...section, secondaryHref: e.target.value || undefined })}
+            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
+            placeholder="/industries"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatItemEditor({
+  item,
+  index,
+  onChange,
+  onRemove,
+}: {
+  item: StatItem;
+  index: number;
+  onChange: (i: StatItem) => void;
+  onRemove: () => void;
+}) {
+  return (
+    <div className="relative rounded-lg border border-slate-700/60 bg-slate-900/60 p-3">
+      <button type="button" onClick={onRemove} aria-label={`Remove stat ${index + 1}`} className="absolute right-2 top-2 rounded p-0.5 text-slate-600 hover:text-red-400">
+        <FiMinus className="h-3.5 w-3.5" />
+      </button>
+      <div className="grid gap-2 sm:grid-cols-2">
+        <div>
+          <label className="mb-1 block text-[10px] font-medium text-slate-500">Value</label>
+          <input value={item.value} onChange={(e) => onChange({ ...item, value: e.target.value })} className="w-full rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="95%" />
+        </div>
+        <div>
+          <label className="mb-1 block text-[10px] font-medium text-slate-500">Label</label>
+          <input value={item.label} onChange={(e) => onChange({ ...item, label: e.target.value })} className="w-full rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Average ROI" />
+        </div>
+        <div className="sm:col-span-2">
+          <label className="mb-1 block text-[10px] font-medium text-slate-500">Description <span className="text-slate-600">(optional)</span></label>
+          <input value={item.description ?? ""} onChange={(e) => onChange({ ...item, description: e.target.value || undefined })} className="w-full rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Across all campaigns" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatsSectionEditor({ section, onChange }: { section: StatsSection; onChange: (s: StatsSection) => void }) {
+  return (
+    <div className="space-y-3 pt-2">
+      <div>
+        <label className="mb-1 block text-xs font-medium text-slate-400">Title <span className="text-slate-600">(optional)</span></label>
+        <input value={section.title ?? ""} onChange={(e) => onChange({ ...section, title: e.target.value || undefined })} className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Proven Results" />
+      </div>
+      <div className="space-y-2">
+        <p className="text-xs font-medium text-slate-400">Stats ({section.items.length})</p>
+        {section.items.map((item, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: positional
+          <StatItemEditor key={i} item={item} index={i} onChange={(updated) => { const items = [...section.items]; items[i] = updated; onChange({ ...section, items }); }} onRemove={() => onChange({ ...section, items: section.items.filter((_, idx) => idx !== i) })} />
+        ))}
+        <button type="button" onClick={() => onChange({ ...section, items: [...section.items, { value: "", label: "" }] })} className="flex items-center gap-1.5 rounded-lg border border-dashed border-slate-700 px-3 py-2 text-xs text-slate-500 hover:border-blue-500/50 hover:text-blue-400">
+          <FiPlus className="h-3 w-3" /> Add Stat
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FaqItemEditor({ item, index, onChange, onRemove }: { item: FaqItem; index: number; onChange: (i: FaqItem) => void; onRemove: () => void }) {
+  return (
+    <div className="relative rounded-lg border border-slate-700/60 bg-slate-900/60 p-3">
+      <button type="button" onClick={onRemove} aria-label={`Remove FAQ ${index + 1}`} className="absolute right-2 top-2 rounded p-0.5 text-slate-600 hover:text-red-400">
+        <FiMinus className="h-3.5 w-3.5" />
+      </button>
+      <div className="space-y-2">
+        <div>
+          <label className="mb-1 block text-[10px] font-medium text-slate-500">Question</label>
+          <input value={item.question} onChange={(e) => onChange({ ...item, question: e.target.value })} className="w-full rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="How do your leads work?" />
+        </div>
+        <div>
+          <label className="mb-1 block text-[10px] font-medium text-slate-500">Answer</label>
+          <textarea rows={3} value={item.answer} onChange={(e) => onChange({ ...item, answer: e.target.value })} className="w-full resize-none rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Detailed answer…" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FaqSectionEditor({ section, onChange }: { section: FaqSection; onChange: (s: FaqSection) => void }) {
+  return (
+    <div className="space-y-3 pt-2">
+      <div>
+        <label className="mb-1 block text-xs font-medium text-slate-400">Title <span className="text-slate-600">(optional)</span></label>
+        <input value={section.title ?? ""} onChange={(e) => onChange({ ...section, title: e.target.value || undefined })} className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Frequently Asked Questions" />
+      </div>
+      <div className="space-y-2">
+        <p className="text-xs font-medium text-slate-400">FAQ Items ({section.items.length})</p>
+        {section.items.map((item, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: positional
+          <FaqItemEditor key={i} item={item} index={i} onChange={(updated) => { const items = [...section.items]; items[i] = updated; onChange({ ...section, items }); }} onRemove={() => onChange({ ...section, items: section.items.filter((_, idx) => idx !== i) })} />
+        ))}
+        <button type="button" onClick={() => onChange({ ...section, items: [...section.items, { question: "", answer: "" }] })} className="flex items-center gap-1.5 rounded-lg border border-dashed border-slate-700 px-3 py-2 text-xs text-slate-500 hover:border-blue-500/50 hover:text-blue-400">
+          <FiPlus className="h-3 w-3" /> Add Question
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ProcessStepEditor({ step, index, onChange, onRemove }: { step: ProcessStep; index: number; onChange: (s: ProcessStep) => void; onRemove: () => void }) {
+  return (
+    <div className="relative rounded-lg border border-slate-700/60 bg-slate-900/60 p-3">
+      <button type="button" onClick={onRemove} aria-label={`Remove step ${index + 1}`} className="absolute right-2 top-2 rounded p-0.5 text-slate-600 hover:text-red-400">
+        <FiMinus className="h-3.5 w-3.5" />
+      </button>
+      <div className="space-y-2">
+        <div>
+          <label className="mb-1 block text-[10px] font-medium text-slate-500">Step {index + 1} Title</label>
+          <input value={step.title} onChange={(e) => onChange({ ...step, title: e.target.value })} className="w-full rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Step title" />
+        </div>
+        <div>
+          <label className="mb-1 block text-[10px] font-medium text-slate-500">Description</label>
+          <textarea rows={2} value={step.description} onChange={(e) => onChange({ ...step, description: e.target.value })} className="w-full resize-none rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="What happens in this step" />
+        </div>
+        <div className="rounded-md border border-slate-700/40 bg-slate-900 p-2">
+          <ImageUploader value={step.image ?? null} onChange={(url) => onChange({ ...step, image: url ?? undefined })} />
+        </div>
+        {step.image && (
+          <div>
+            <label className="mb-1 block text-[10px] font-medium text-slate-500">Image Alt Text</label>
+            <input value={step.imageAlt ?? ""} onChange={(e) => onChange({ ...step, imageAlt: e.target.value || undefined })} className="w-full rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Descriptive alt text" />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ProcessSectionEditor({ section, onChange }: { section: ProcessSection; onChange: (s: ProcessSection) => void }) {
+  return (
+    <div className="space-y-3 pt-2">
+      <div>
+        <label className="mb-1 block text-xs font-medium text-slate-400">Title <span className="text-slate-600">(optional)</span></label>
+        <input value={section.title ?? ""} onChange={(e) => onChange({ ...section, title: e.target.value || undefined })} className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="How It Works" />
+      </div>
+      <div className="space-y-2">
+        <p className="text-xs font-medium text-slate-400">Steps ({section.items.length})</p>
+        {section.items.map((step, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: positional
+          <ProcessStepEditor key={i} step={step} index={i} onChange={(updated) => { const items = [...section.items]; items[i] = updated; onChange({ ...section, items }); }} onRemove={() => onChange({ ...section, items: section.items.filter((_, idx) => idx !== i) })} />
+        ))}
+        <button type="button" onClick={() => onChange({ ...section, items: [...section.items, { title: "", description: "" }] })} className="flex items-center gap-1.5 rounded-lg border border-dashed border-slate-700 px-3 py-2 text-xs text-slate-500 hover:border-blue-500/50 hover:text-blue-400">
+          <FiPlus className="h-3 w-3" /> Add Step
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ImageTextSectionEditor({ section, onChange }: { section: ImageTextSection; onChange: (s: ImageTextSection) => void }) {
+  return (
+    <div className="space-y-3 pt-2">
+      <div>
+        <label className="mb-1 block text-xs font-medium text-slate-400">Title <span className="text-slate-600">(optional)</span></label>
+        <input value={section.title ?? ""} onChange={(e) => onChange({ ...section, title: e.target.value || undefined })} className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Section heading" />
+      </div>
+      <div>
+        <label className="mb-1 block text-xs font-medium text-slate-400">Content <span className="text-slate-600">(separate paragraphs with blank line)</span></label>
+        <textarea rows={5} value={section.content} onChange={(e) => onChange({ ...section, content: e.target.value })} className="w-full resize-none rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Write your content here…" />
+      </div>
+      <div className="rounded-md border border-slate-700/40 bg-slate-900 p-2">
+        <ImageUploader value={section.image || null} onChange={(url) => onChange({ ...section, image: url ?? "" })} />
+      </div>
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">Image Alt Text</label>
+          <input value={section.imageAlt ?? ""} onChange={(e) => onChange({ ...section, imageAlt: e.target.value || undefined })} className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none" placeholder="Descriptive alt text" />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs font-medium text-slate-400">Image Position</label>
+          <select value={section.imagePosition ?? "left"} onChange={(e) => onChange({ ...section, imagePosition: e.target.value as "left" | "right" })} className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none">
+            <option value="left">Left</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 type Props = {
   readonly initialIndustry?: Industry | null;
@@ -61,11 +301,24 @@ function defaultSection(type: SectionType): IndustrySection {
     case "cta":
       return {
         type: "cta",
-        heading: "Get Started Today",
-        subheading: "Contact us to learn more.",
-        buttonLabel: "Contact Us",
+        eyebrow: "",
+        heading: "Ready to Transform Your Business?",
+        subheading: "Contact us today and let's discuss how we can help you achieve your goals.",
+        buttonLabel: "Get a Free Quote",
         buttonHref: "/#contact",
+        secondaryLabel: "",
+        secondaryHref: "",
       };
+    case "hero-cta":
+      return { type: "hero-cta", primaryLabel: "Get Free Leads", primaryHref: "/#contact" };
+    case "stats":
+      return { type: "stats", title: "Proven Results", items: [{ value: "", label: "" }] };
+    case "faq":
+      return { type: "faq", title: "Frequently Asked Questions", items: [{ question: "", answer: "" }] };
+    case "process":
+      return { type: "process", title: "How It Works", items: [{ title: "", description: "" }] };
+    case "image-text":
+      return { type: "image-text", content: "", image: "", imagePosition: "left" };
   }
 }
 
@@ -304,13 +557,22 @@ function CTASectionEditor({
     <div className="space-y-3 pt-2">
       <div>
         <label className="mb-1 block text-xs font-medium text-slate-400">
-          Heading
+          Eyebrow Label <span className="text-slate-600">(optional — shown above heading)</span>
         </label>
+        <input
+          value={section.eyebrow ?? ""}
+          onChange={(e) => onChange({ ...section, eyebrow: e.target.value || undefined })}
+          className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
+          placeholder="Get Started"
+        />
+      </div>
+      <div>
+        <label className="mb-1 block text-xs font-medium text-slate-400">Heading</label>
         <input
           value={section.heading}
           onChange={(e) => onChange({ ...section, heading: e.target.value })}
           className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
-          placeholder="Get Started Today"
+          placeholder="Ready to transform your business?"
         />
       </div>
       <div>
@@ -320,39 +582,52 @@ function CTASectionEditor({
         <textarea
           rows={2}
           value={section.subheading ?? ""}
-          onChange={(e) =>
-            onChange({ ...section, subheading: e.target.value })
-          }
+          onChange={(e) => onChange({ ...section, subheading: e.target.value || undefined })}
           className="w-full resize-none rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
-          placeholder="Short supporting copy"
+          placeholder="Short supporting copy that reinforces the heading"
         />
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-400">
-            Button Label
-          </label>
+          <label className="mb-1 block text-xs font-medium text-slate-400">Primary Button Label</label>
           <input
             value={section.buttonLabel}
-            onChange={(e) =>
-              onChange({ ...section, buttonLabel: e.target.value })
-            }
+            onChange={(e) => onChange({ ...section, buttonLabel: e.target.value })}
             className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
-            placeholder="Contact Us"
+            placeholder="Get a Free Quote"
           />
         </div>
         <div>
-          <label className="mb-1 block text-xs font-medium text-slate-400">
-            Button Link
-          </label>
+          <label className="mb-1 block text-xs font-medium text-slate-400">Primary Button Link</label>
           <input
             value={section.buttonHref}
-            onChange={(e) =>
-              onChange({ ...section, buttonHref: e.target.value })
-            }
+            onChange={(e) => onChange({ ...section, buttonHref: e.target.value })}
             className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
             placeholder="/#contact"
           />
+        </div>
+      </div>
+      <div className="rounded-lg border border-dashed border-slate-700 p-3">
+        <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500">Secondary Button (optional)</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <label className="mb-1 block text-xs font-medium text-slate-400">Label</label>
+            <input
+              value={section.secondaryLabel ?? ""}
+              onChange={(e) => onChange({ ...section, secondaryLabel: e.target.value || undefined })}
+              className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
+              placeholder="Learn More"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-medium text-slate-400">Link</label>
+            <input
+              value={section.secondaryHref ?? ""}
+              onChange={(e) => onChange({ ...section, secondaryHref: e.target.value || undefined })}
+              className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
+              placeholder="/about"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -367,6 +642,11 @@ const SECTION_LABELS: Record<SectionType, string> = {
   features: "Features Grid",
   image: "Image",
   cta: "Call to Action",
+  "hero-cta": "Hero CTA Buttons",
+  stats: "Stats",
+  faq: "FAQ",
+  process: "Process Steps",
+  "image-text": "Image + Text",
 };
 
 const SECTION_COLORS: Record<SectionType, string> = {
@@ -374,6 +654,11 @@ const SECTION_COLORS: Record<SectionType, string> = {
   features: "border-l-purple-500",
   image: "border-l-teal-500",
   cta: "border-l-orange-500",
+  "hero-cta": "border-l-cyan-500",
+  stats: "border-l-emerald-500",
+  faq: "border-l-amber-500",
+  process: "border-l-pink-500",
+  "image-text": "border-l-indigo-500",
 };
 
 function SectionCard({
@@ -439,28 +724,31 @@ function SectionCard({
       {open && (
         <div className="border-t border-slate-800 px-4 pb-4">
           {section.type === "text" && (
-            <TextSectionEditor
-              section={section}
-              onChange={(s) => onChange(s)}
-            />
+            <TextSectionEditor section={section} onChange={(s) => onChange(s)} />
           )}
           {section.type === "features" && (
-            <FeaturesSectionEditor
-              section={section}
-              onChange={(s) => onChange(s)}
-            />
+            <FeaturesSectionEditor section={section} onChange={(s) => onChange(s)} />
           )}
           {section.type === "image" && (
-            <ImageSectionEditor
-              section={section}
-              onChange={(s) => onChange(s)}
-            />
+            <ImageSectionEditor section={section} onChange={(s) => onChange(s)} />
           )}
           {section.type === "cta" && (
-            <CTASectionEditor
-              section={section}
-              onChange={(s) => onChange(s)}
-            />
+            <CTASectionEditor section={section} onChange={(s) => onChange(s)} />
+          )}
+          {section.type === "hero-cta" && (
+            <HeroCtaSectionEditor section={section} onChange={(s) => onChange(s)} />
+          )}
+          {section.type === "stats" && (
+            <StatsSectionEditor section={section} onChange={(s) => onChange(s)} />
+          )}
+          {section.type === "faq" && (
+            <FaqSectionEditor section={section} onChange={(s) => onChange(s)} />
+          )}
+          {section.type === "process" && (
+            <ProcessSectionEditor section={section} onChange={(s) => onChange(s)} />
+          )}
+          {section.type === "image-text" && (
+            <ImageTextSectionEditor section={section} onChange={(s) => onChange(s)} />
           )}
         </div>
       )}
@@ -770,8 +1058,13 @@ export function IndustryEditorModal({
                     <div className="absolute right-0 top-full z-10 mt-2 w-48 overflow-hidden rounded-xl border border-slate-700 bg-[hsl(0,0%,9%)] shadow-xl">
                       {(
                         [
-                          ["text", "📝 Text Block"],
+                          ["hero-cta", "🎯 Hero CTA Buttons"],
+                          ["stats", "📊 Stats"],
+                          ["image-text", "🖼 Image + Text"],
+                          ["process", "🔢 Process Steps"],
+                          ["faq", "❓ FAQ"],
                           ["features", "✦ Features Grid"],
+                          ["text", "📝 Text Block"],
                           ["image", "🖼 Image"],
                           ["cta", "🚀 Call to Action"],
                         ] as [SectionType, string][]
@@ -908,13 +1201,15 @@ export function IndustryEditorModal({
                       </span>
                       <span
                         className={`mt-px h-1.5 w-1.5 shrink-0 rounded-full ${
-                          s.type === "text"
-                            ? "bg-blue-500"
-                            : s.type === "features"
-                            ? "bg-purple-500"
-                            : s.type === "image"
-                            ? "bg-teal-500"
-                            : "bg-orange-500"
+                          s.type === "text" ? "bg-blue-500"
+                            : s.type === "features" ? "bg-purple-500"
+                            : s.type === "image" ? "bg-teal-500"
+                            : s.type === "cta" ? "bg-orange-500"
+                            : s.type === "hero-cta" ? "bg-cyan-500"
+                            : s.type === "stats" ? "bg-emerald-500"
+                            : s.type === "faq" ? "bg-amber-500"
+                            : s.type === "process" ? "bg-pink-500"
+                            : "bg-indigo-500"
                         }`}
                       />
                       <span className="truncate">

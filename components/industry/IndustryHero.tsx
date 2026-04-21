@@ -107,8 +107,8 @@ export function IndustryHero({
             </p>
           )}
 
-          {/* CTA buttons — solutions only */}
-          {isSolution && (primaryCTA || secondaryCTA) && (
+          {/* CTA buttons */}
+          {(primaryCTA || secondaryCTA) && (
             <div className="mt-10 flex flex-wrap items-center gap-4">
               {primaryCTA && (
                 <a
@@ -130,7 +130,7 @@ export function IndustryHero({
           )}
 
           {/* Accent divider */}
-          <div className={`${isSolution && (primaryCTA || secondaryCTA) ? "mt-8" : "mt-10"} flex items-center gap-4`}>
+          <div className={`${(primaryCTA || secondaryCTA) ? "mt-8" : "mt-10"} flex items-center gap-4`}>
             <div className={`h-px w-16 ${isSolution ? "bg-indigo-500" : "bg-blue-500"}`} />
             <div className={`h-px w-8 ${isSolution ? "bg-indigo-500/40" : "bg-blue-500/40"}`} />
             <div className={`h-px w-4 ${isSolution ? "bg-indigo-500/20" : "bg-blue-500/20"}`} />

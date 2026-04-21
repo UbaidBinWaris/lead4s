@@ -24,12 +24,15 @@ export async function generateMetadata({
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
+  const metaTitle = solution.metaTitle ?? `${solution.title} | Lead4s Solutions`;
+  const metaDescription = solution.metaDescription ?? solution.description ?? undefined;
+
   return {
-    title: `${solution.title} | Lead4s Solutions`,
-    description: solution.description ?? undefined,
+    title: metaTitle,
+    description: metaDescription,
     openGraph: {
-      title: solution.title,
-      description: solution.description ?? undefined,
+      title: metaTitle,
+      description: metaDescription,
       type: "website",
       url: `${siteUrl}/solutions/${solution.slug}`,
       images: solution.coverImage
@@ -38,8 +41,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: solution.title,
-      description: solution.description ?? undefined,
+      title: metaTitle,
+      description: metaDescription,
       images: solution.coverImage ? [solution.coverImage] : [],
     },
     alternates: {

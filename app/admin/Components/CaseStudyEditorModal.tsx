@@ -32,7 +32,7 @@ import type {
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
-type SectionType = IndustrySection["type"];
+type SectionType = "text" | "features" | "image" | "cta";
 
 type Props = {
   readonly initialCaseStudy?: CaseStudy | null;
@@ -278,13 +278,13 @@ function SectionCard({
   const [open, setOpen] = useState(true);
 
   return (
-    <div draggable onDragStart={onDragStart} onDragOver={onDragOver} onDrop={onDrop} className={`rounded-xl border-l-4 border border-slate-700/60 bg-[hsl(0,0%,7%)] ${SECTION_COLORS[section.type]}`}>
+    <div draggable onDragStart={onDragStart} onDragOver={onDragOver} onDrop={onDrop} className={`rounded-xl border-l-4 border border-slate-700/60 bg-[hsl(0,0%,7%)] ${SECTION_COLORS[section.type as SectionType] ?? "border-l-slate-600"}`}>
       <div className="flex items-center gap-2 px-4 py-3">
         <span title="Drag to reorder" className="cursor-grab text-slate-600 hover:text-slate-400 active:cursor-grabbing">
           <FiMove className="h-3.5 w-3.5" />
         </span>
         <span className="text-[10px] font-semibold uppercase tracking-widest text-slate-500">
-          {index + 1} / {total} — {SECTION_LABELS[section.type]}
+          {index + 1} / {total} — {SECTION_LABELS[section.type as SectionType] ?? section.type}
         </span>
         <div className="ml-auto flex items-center gap-1.5">
           <button type="button" onClick={() => setOpen((o) => !o)} className="rounded px-2 py-0.5 text-xs text-slate-500 hover:text-slate-300">

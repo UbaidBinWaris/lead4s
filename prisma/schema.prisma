@@ -41,36 +41,55 @@ model CaseStudy {
 }
 
 model Blog {
-  id         String   @id @default(uuid())
-  title      String
-  slug       String   @unique
-  excerpt    String
-  content    String   // markdown content
-  coverImage String?
-  author     String   @default("Admin")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id              String   @id @default(uuid())
+  title           String
+  slug            String   @unique
+  excerpt         String
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  content         String   // markdown content
+  coverImage      String?  @map("cover_image")
+  author          String   @default("Lead4s Editorial Team")
+  isPublished     Boolean  @default(true) @map("is_published")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   @@map("blogs")
 }
 
+model Page {
+  id              String   @id @default(uuid())
+  slug            String   @unique
+  title           String
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  content         Json     @default("[]")
+  isPublished     Boolean  @default(true) @map("is_published")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@map("pages")
+}
+
 model Industry {
-  id           String   @id @default(uuid())
-  title        String
-  slug         String   @unique
-  type         String   @default("industry") // "industry" | "solution"
-  description  String?
-  cardColor    String?  @map("card_color")
-  cardTags     Json?    @map("card_tags")
-  cardMetricValue String? @map("card_metric_value")
-  cardMetricLabel String? @map("card_metric_label")
-  cardBenefit  String?  @map("card_benefit")
-  content      Json     // structured sections array
-  coverImage   String?  @map("cover_image")
-  isPublished  Boolean  @default(true) @map("is_published")
-  displayOrder Int      @default(0) @map("display_order")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  id              String   @id @default(uuid())
+  title           String
+  slug            String   @unique
+  type            String   @default("industry") // "industry" | "solution"
+  description     String?
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  cardColor       String?  @map("card_color")
+  cardTags        Json?    @map("card_tags")
+  cardMetricValue String?  @map("card_metric_value")
+  cardMetricLabel String?  @map("card_metric_label")
+  cardBenefit     String?  @map("card_benefit")
+  content         Json     // structured sections array
+  coverImage      String?  @map("cover_image")
+  isPublished     Boolean  @default(true) @map("is_published")
+  displayOrder    Int      @default(0) @map("display_order")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   @@map("industries")
 }

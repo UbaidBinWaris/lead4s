@@ -22,29 +22,25 @@ export async function generateMetadata({
     return { title: "Blog Post Not Found" };
   }
 
+  const metaTitle = blog.metaTitle ?? `${blog.title} | Lead4s Blog`;
+  const metaDescription = blog.metaDescription ?? blog.excerpt;
+
   return {
-    title: `${blog.title} | Lead4s Blog`,
-    description: blog.excerpt,
+    title: metaTitle,
+    description: metaDescription,
     openGraph: {
-      title: blog.title,
-      description: blog.excerpt,
+      title: metaTitle,
+      description: metaDescription,
       type: "article",
       url: `${SITE_URL}/blog/${blog.slug}`,
       images: blog.coverImage
-        ? [
-            {
-              url: blog.coverImage,
-              width: 1200,
-              height: 630,
-              alt: blog.title,
-            },
-          ]
+        ? [{ url: blog.coverImage, width: 1200, height: 630, alt: blog.title }]
         : [],
     },
     twitter: {
       card: "summary_large_image",
-      title: blog.title,
-      description: blog.excerpt,
+      title: metaTitle,
+      description: metaDescription,
       images: blog.coverImage ? [blog.coverImage] : [],
     },
     alternates: {
