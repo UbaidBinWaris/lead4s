@@ -35,9 +35,10 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-screen flex flex-col antialiased">
+      <body suppressHydrationWarning className="min-h-screen flex flex-col antialiased">
         <SiteChrome>{children}</SiteChrome>
       </body>
     </html>

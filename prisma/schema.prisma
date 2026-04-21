@@ -111,3 +111,17 @@ model TeamMember {
   @@index([position])
   @@map("team_members")
 }
+
+model MediaImage {
+  id          String   @id @default(uuid())
+  path        String   @unique // public path, e.g. /wp-content/uploads/2024/01/image.jpg
+  altText     String?  @map("alt_text")
+  mimeType    String?  @map("mime_type")
+  fileSize    Int?     @map("file_size") // bytes
+  width       Int?
+  height      Int?
+  originUrl   String?  @map("origin_url") // original https://lead4s.com/... URL
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("media_images")
+}

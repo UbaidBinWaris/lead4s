@@ -4,6 +4,22 @@ const nextConfig: NextConfig = {
   // Don't reveal the stack in "X-Powered-By" header.
   poweredByHeader: false,
 
+  // Allow next/image to optimise images stored under public/wp-content/...
+  // and the one external host captured during the lead4s.com image scrape.
+  images: {
+    remotePatterns: [
+      // External: Wikimedia Commons (world-map SVG captured from lead4s.com)
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+        pathname: "/wikipedia/**",
+      },
+    ],
+    // Unoptimised SVGs must be handled via <img>, not next/image.
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+
   // Enforce React strict mode for catching side-effects early.
   reactStrictMode: true,
 
