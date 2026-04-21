@@ -4,6 +4,8 @@ import {
   FaClipboardList,
   FaCog,
   FaEnvelope,
+  FaHandshake,
+  FaInbox,
   FaLightbulb,
   FaPenNib,
   FaShieldAlt,
@@ -40,7 +42,9 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
         <NavButton icon={FaUserTie} label="Team Members" active={activeView === "team-members"} onClick={() => onNavigate("team-members")} />
         <NavButton icon={FaClipboardList} label="Case Studies" active={activeView === "case-studies"} onClick={() => onNavigate("case-studies")} />
         <NavButton icon={FaUserTie} label="Applications" active={activeView === "jobs"} onClick={() => onNavigate("jobs")} />
-        <NavButton icon={FaEnvelope} label="Subscribers" active={activeView === "subscribers"} onClick={() => onNavigate("subscribers")} />
+        <NavButton icon={FaEnvelope}   label="Subscribers"   active={activeView === "subscribers"}     onClick={() => onNavigate("subscribers")} />
+        <NavButton icon={FaHandshake}  label="Partnerships"  active={activeView === "partnership"}     onClick={() => onNavigate("partnership")} />
+        <NavButton icon={FaInbox}      label="Contact Msgs"  active={activeView === "contact-messages"} onClick={() => onNavigate("contact-messages")} />
       </nav>
 
       {/* Coming soon */}

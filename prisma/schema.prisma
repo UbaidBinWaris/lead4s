@@ -137,3 +137,34 @@ model NewsletterSubscriber {
 
   @@map("newsletter_subscribers")
 }
+
+model PartnershipApplication {
+  id          String   @id @default(uuid())
+  companyName String   @map("company_name")
+  contactName String   @map("contact_name")
+  email       String
+  phone       String?
+  website     String?
+  vertical    String   // solar, roofing, hvac, etc.
+  monthlyVolume String? @map("monthly_volume")
+  message     String?
+  ipAddress   String?  @map("ip_address")
+  userAgent   String?  @map("user_agent")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("partnership_applications")
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_messages")
+}

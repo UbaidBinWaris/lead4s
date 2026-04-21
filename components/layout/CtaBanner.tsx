@@ -47,7 +47,7 @@ export function CtaBanner() {
   const glowOp     = useTransform(scrollYProgress, [0, 0.5, 1], [0.3, 0.65, 0.35]);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden py-12 sm:py-16 max-h-screen flex flex-col justify-center">
+    <section ref={sectionRef} className="relative overflow-hidden py-12 sm:py-16 lg:max-h-screen flex flex-col justify-center">
 
       {/* ── Background layer ─────────────────────────────────────────────── */}
       <div className="pointer-events-none absolute inset-0">
