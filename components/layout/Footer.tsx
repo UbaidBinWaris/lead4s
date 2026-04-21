@@ -3,7 +3,6 @@ import Image from "next/image";
 import {
   FaChevronRight,
   FaEnvelope,
-  FaEnvelopeOpenText,
   FaFacebookF,
   FaInstagram,
   FaLinkedinIn,
@@ -11,6 +10,7 @@ import {
   FaPhone,
 } from "react-icons/fa";
 import { footerContent } from "@/data/footer";
+import { NewsletterForm } from "@/components/layout/NewsletterForm";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -121,21 +121,7 @@ export function Footer() {
             <p className="text-sm text-slate-400 leading-relaxed mb-4">
               {footerContent.newsletter.description}
             </p>
-            <form className="flex items-stretch gap-2">
-              <input
-                type="email"
-                required
-                placeholder={footerContent.newsletter.placeholder}
-                className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-sm text-slate-200 placeholder:text-slate-500 outline-none transition-colors focus:border-white/30"
-              />
-              <button
-                type="submit"
-                aria-label={footerContent.newsletter.buttonLabel}
-                className="inline-flex items-center justify-center rounded-lg bg-brand-600 px-3 text-white hover:bg-brand-500 transition-colors"
-              >
-                <FaEnvelopeOpenText size={14} aria-hidden="true" />
-              </button>
-            </form>
+            <NewsletterForm />
           </div>
         </div>
       </div>

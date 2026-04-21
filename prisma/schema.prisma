@@ -125,3 +125,15 @@ model MediaImage {
 
   @@map("media_images")
 }
+
+model NewsletterSubscriber {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  source    String   @default("footer")
+  ipAddress String?  @map("ip_address")
+  userAgent String?  @map("user_agent")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("newsletter_subscribers")
+}
