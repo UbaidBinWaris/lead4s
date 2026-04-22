@@ -85,13 +85,13 @@ export function Navbar() {
               <li key={`${link.label}-${link.href}`} className="relative group">
                 {link.children?.length ? (
                   <>
-                    <button
-                      type="button"
+                    <Link
+                      href={link.href}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-base font-medium text-slate-200 hover:text-white hover:bg-white/10 transition-colors"
                     >
                       {link.label}
                       <ChevronDown />
-                    </button>
+                    </Link>
 
                     <div className="invisible absolute left-0 top-full mt-2 w-72 rounded-xl border border-white/10 bg-surface-900/98 p-2 opacity-0 shadow-xl shadow-black/35 transition-all duration-200 group-hover:visible group-hover:opacity-100">
                       {link.children.map((child) => (
@@ -192,21 +192,30 @@ export function Navbar() {
                   <li key={`${link.label}-${link.href}`}>
                     {link.children?.length ? (
                       <>
-                        <button
-                          type="button"
-                          onClick={() => toggleMobileSection(link.label)}
-                          className="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left text-lg font-medium text-slate-200 hover:bg-white/10 hover:text-white transition-colors"
-                        >
-                          <span>{link.label}</span>
-                          <ChevronDown
-                            className={cn(
-                              "transition-transform duration-200",
-                              openMobileSections.includes(link.label)
-                                ? "rotate-180"
-                                : "rotate-0"
-                            )}
-                          />
-                        </button>
+                        <div className="flex w-full items-center rounded-xl hover:bg-white/10 transition-colors">
+                          <Link
+                            href={link.href}
+                            onClick={closeMobileMenu}
+                            className="flex-1 px-3 py-3 text-left text-lg font-medium text-slate-200 hover:text-white transition-colors"
+                          >
+                            {link.label}
+                          </Link>
+                          <button
+                            type="button"
+                            aria-label={`Toggle ${link.label} submenu`}
+                            onClick={() => toggleMobileSection(link.label)}
+                            className="px-3 py-3 text-slate-200 hover:text-white transition-colors"
+                          >
+                            <ChevronDown
+                              className={cn(
+                                "transition-transform duration-200",
+                                openMobileSections.includes(link.label)
+                                  ? "rotate-180"
+                                  : "rotate-0"
+                              )}
+                            />
+                          </button>
+                        </div>
 
                         {openMobileSections.includes(link.label) ? (
                           <div className="mt-1 space-y-1 pl-3">

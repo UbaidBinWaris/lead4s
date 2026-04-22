@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { IconType } from "react-icons";
+import {
+  LuSun,
+  LuHammer,
+  LuShield,
+  LuCar,
+  LuScale,
+  LuHeartPulse,
+} from "react-icons/lu";
 import { db } from "@/lib/db";
 import { industriesPageData } from "@/data/industries";
 
@@ -39,36 +48,139 @@ export const metadata: Metadata = {
 // ---------------------------------------------------------------------------
 const ACCENT_MAP = {
   amber: {
-    border: "from-amber-500/60 to-amber-400/30",
+    // Top zone gradient fill
+    zoneBg: "from-amber-500/18 via-amber-400/6 to-transparent",
+    // Card outer border (idle / hover)
+    borderIdle: "border-amber-500/15",
+    borderHover: "hover:border-amber-400/55",
+    // Thin top shimmer bar
+    barFrom: "from-amber-400",
+    barVia: "via-amber-300/70",
+    // Text
     text: "text-amber-400",
-    tag: "border-amber-500/20 text-amber-500/70",
+    textLight: "text-amber-300",
+    // Tags
+    tagBg: "bg-amber-500/10",
+    tagBorder: "border-amber-500/25",
+    tagText: "text-amber-300",
+    // Stat highlight
+    statBg: "bg-amber-500/10",
+    statBorder: "border-amber-400/20",
+    // Glow (CSS var, used inline)
+    glow: "rgba(245,158,11,0.18)",
+    // Icon backdrop
+    iconBg: "bg-amber-500/12",
+    iconRing: "ring-amber-400/20",
+    // Arrow button
+    arrowBg: "bg-amber-500/12 hover:bg-amber-500/22",
+    arrowBorder: "border-amber-400/25",
   },
   emerald: {
-    border: "from-emerald-500/60 to-emerald-400/30",
+    zoneBg: "from-emerald-500/18 via-emerald-400/6 to-transparent",
+    borderIdle: "border-emerald-500/15",
+    borderHover: "hover:border-emerald-400/55",
+    barFrom: "from-emerald-400",
+    barVia: "via-emerald-300/70",
     text: "text-emerald-400",
-    tag: "border-emerald-500/20 text-emerald-500/70",
+    textLight: "text-emerald-300",
+    tagBg: "bg-emerald-500/10",
+    tagBorder: "border-emerald-500/25",
+    tagText: "text-emerald-300",
+    statBg: "bg-emerald-500/10",
+    statBorder: "border-emerald-400/20",
+    glow: "rgba(16,185,129,0.18)",
+    iconBg: "bg-emerald-500/12",
+    iconRing: "ring-emerald-400/20",
+    arrowBg: "bg-emerald-500/12 hover:bg-emerald-500/22",
+    arrowBorder: "border-emerald-400/25",
   },
   violet: {
-    border: "from-violet-500/60 to-violet-400/30",
+    zoneBg: "from-violet-500/18 via-violet-400/6 to-transparent",
+    borderIdle: "border-violet-500/15",
+    borderHover: "hover:border-violet-400/55",
+    barFrom: "from-violet-400",
+    barVia: "via-violet-300/70",
     text: "text-violet-400",
-    tag: "border-violet-500/20 text-violet-500/70",
+    textLight: "text-violet-300",
+    tagBg: "bg-violet-500/10",
+    tagBorder: "border-violet-500/25",
+    tagText: "text-violet-300",
+    statBg: "bg-violet-500/10",
+    statBorder: "border-violet-400/20",
+    glow: "rgba(139,92,246,0.18)",
+    iconBg: "bg-violet-500/12",
+    iconRing: "ring-violet-400/20",
+    arrowBg: "bg-violet-500/12 hover:bg-violet-500/22",
+    arrowBorder: "border-violet-400/25",
   },
   blue: {
-    border: "from-blue-500/60 to-blue-400/30",
+    zoneBg: "from-blue-500/18 via-blue-400/6 to-transparent",
+    borderIdle: "border-blue-500/15",
+    borderHover: "hover:border-blue-400/55",
+    barFrom: "from-blue-400",
+    barVia: "via-blue-300/70",
     text: "text-blue-400",
-    tag: "border-blue-500/20 text-blue-500/70",
+    textLight: "text-blue-300",
+    tagBg: "bg-blue-500/10",
+    tagBorder: "border-blue-500/25",
+    tagText: "text-blue-300",
+    statBg: "bg-blue-500/10",
+    statBorder: "border-blue-400/20",
+    glow: "rgba(37,99,235,0.18)",
+    iconBg: "bg-blue-500/12",
+    iconRing: "ring-blue-400/20",
+    arrowBg: "bg-blue-500/12 hover:bg-blue-500/22",
+    arrowBorder: "border-blue-400/25",
   },
   red: {
-    border: "from-red-500/60 to-red-400/30",
+    zoneBg: "from-red-500/18 via-red-400/6 to-transparent",
+    borderIdle: "border-red-500/15",
+    borderHover: "hover:border-red-400/55",
+    barFrom: "from-red-400",
+    barVia: "via-red-300/70",
     text: "text-red-400",
-    tag: "border-red-500/20 text-red-500/70",
+    textLight: "text-red-300",
+    tagBg: "bg-red-500/10",
+    tagBorder: "border-red-500/25",
+    tagText: "text-red-300",
+    statBg: "bg-red-500/10",
+    statBorder: "border-red-400/20",
+    glow: "rgba(239,68,68,0.18)",
+    iconBg: "bg-red-500/12",
+    iconRing: "ring-red-400/20",
+    arrowBg: "bg-red-500/12 hover:bg-red-500/22",
+    arrowBorder: "border-red-400/25",
   },
   teal: {
-    border: "from-teal-500/60 to-teal-400/30",
+    zoneBg: "from-teal-500/18 via-teal-400/6 to-transparent",
+    borderIdle: "border-teal-500/15",
+    borderHover: "hover:border-teal-400/55",
+    barFrom: "from-teal-400",
+    barVia: "via-teal-300/70",
     text: "text-teal-400",
-    tag: "border-teal-500/20 text-teal-500/70",
+    textLight: "text-teal-300",
+    tagBg: "bg-teal-500/10",
+    tagBorder: "border-teal-500/25",
+    tagText: "text-teal-300",
+    statBg: "bg-teal-500/10",
+    statBorder: "border-teal-400/20",
+    glow: "rgba(20,184,166,0.18)",
+    iconBg: "bg-teal-500/12",
+    iconRing: "ring-teal-400/20",
+    arrowBg: "bg-teal-500/12 hover:bg-teal-500/22",
+    arrowBorder: "border-teal-400/25",
   },
 } as const;
+
+// Industry icons per slug — react-icons (Lucide)
+const INDUSTRY_ICONS: Record<string, IconType> = {
+  "solar-leads":                LuSun,
+  "home-improvement-leads":     LuHammer,
+  "final-expense-lead":         LuShield,
+  "auto-insurance-leads":       LuCar,
+  "mva-personal-injury-leads":  LuScale,
+  "medicare-o65":               LuHeartPulse,
+};
 
 const COLOR_FALLBACK_BY_SLUG: Record<string, AccentColor> = {
   "solar-leads": "amber",
@@ -80,7 +192,14 @@ const COLOR_FALLBACK_BY_SLUG: Record<string, AccentColor> = {
 };
 
 function isAccentColor(value: string | null | undefined): value is AccentColor {
-  return value === "amber" || value === "emerald" || value === "violet" || value === "blue" || value === "red" || value === "teal";
+  return (
+    value === "amber" ||
+    value === "emerald" ||
+    value === "violet" ||
+    value === "blue" ||
+    value === "red" ||
+    value === "teal"
+  );
 }
 
 function toTags(value: unknown): string[] {
@@ -123,66 +242,126 @@ async function getIndustryCards(): Promise<IndustryCardData[]> {
 }
 
 // ---------------------------------------------------------------------------
-// Industry card
+// IndustryCard — next-level premium card
 // ---------------------------------------------------------------------------
-function IndustryCard({ industry }: { readonly industry: IndustryCardData }) {
+function IndustryCard({
+  industry,
+  index,
+}: {
+  readonly industry: IndustryCardData;
+  readonly index: number;
+}) {
   const accent = ACCENT_MAP[industry.color];
+  const IconComponent = INDUSTRY_ICONS[industry.slug] ?? LuScale;
+  const num = String(index + 1).padStart(2, "0");
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-800 bg-[hsl(0,0%,6%)] transition-all duration-300 hover:border-slate-700 hover:bg-[hsl(0,0%,8%)] hover:shadow-xl hover:shadow-black/30">
-      {/* Top gradient accent line */}
-      <div className={`absolute inset-x-0 top-0 h-0.5 bg-linear-to-r ${accent.border}`} />
+    <Link
+      href={`/industries/${industry.slug}`}
+      aria-label={`Explore ${industry.title}`}
+      className={`group relative flex flex-col overflow-hidden rounded-3xl border bg-[#0b0f1e]
+        transition-all duration-500 ease-out
+        ${accent.borderIdle} ${accent.borderHover}
+        hover:-translate-y-2 hover:shadow-[0_32px_64px_rgba(0,0,0,0.5)]`}
+      style={{ "--glow": accent.glow } as React.CSSProperties}
+    >
 
-      <div className="flex flex-1 flex-col p-6">
-        {/* Tags */}
-        <div className="mb-4 flex flex-wrap gap-1.5">
-          {industry.tags.map((tag) => (
-            <span
-              key={tag}
-              className={`rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${accent.tag}`}
-            >
-              {tag}
-            </span>
-          ))}
+      {/* ── Animated shimmer bar (top) ─────────────────────────── */}
+      <div className={`absolute inset-x-0 top-0 h-px bg-linear-to-r ${accent.barFrom} ${accent.barVia} to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500`} />
+
+      {/* ── Radial glow that blooms on hover ───────────────────── */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+        style={{ background: `radial-gradient(ellipse 90% 55% at 50% 0%, var(--glow), transparent 65%)` }}
+      />
+
+      {/* ── TOP ZONE — gradient icon plate ─────────────────────── */}
+      <div className={`relative flex items-end justify-between px-7 pt-7 pb-6 bg-linear-to-b ${accent.zoneBg}`}>
+
+        {/* Icon bubble */}
+        <div className={`
+          relative flex h-14 w-14 items-center justify-center rounded-2xl
+          ${accent.iconBg} ring-1 ${accent.iconRing}
+          shadow-lg shadow-black/30
+          transition-transform duration-300 group-hover:scale-110
+        `}>
+          <IconComponent className={`h-6 w-6 ${accent.text}`} aria-hidden="true" />
+          {/* Inner shine */}
+          <div className="pointer-events-none absolute inset-0 rounded-2xl bg-linear-to-b from-white/10 to-transparent" />
         </div>
 
+        {/* Card number */}
+        <span className="font-mono text-5xl font-black leading-none select-none tabular-nums text-white/[0.04] group-hover:text-white/[0.07] transition-colors duration-500">
+          {num}
+        </span>
+      </div>
+
+      {/* ── BODY ───────────────────────────────────────────────── */}
+      <div className="relative flex flex-1 flex-col px-7 pt-5 pb-7">
+
+        {/* Tags row */}
+        {industry.tags.length > 0 && (
+          <div className="mb-4 flex flex-wrap gap-1.5">
+            {industry.tags.slice(0, 3).map((tag) => (
+              <span
+                key={tag}
+                className={`rounded-full border px-2.5 py-[3px] text-[9px] font-extrabold uppercase tracking-[0.14em]
+                  ${accent.tagBg} ${accent.tagBorder} ${accent.tagText}`}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
         {/* Title */}
-        <h2 className="text-base font-semibold leading-snug text-white">
+        <h2 className={`text-[1.1rem] font-bold leading-snug text-white transition-colors duration-300 group-hover:${accent.textLight}`}>
           {industry.title}
         </h2>
 
         {/* Description */}
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-slate-400 line-clamp-3">
+        <p className="mt-3 flex-1 text-[13.5px] leading-relaxed text-slate-400/90 line-clamp-3">
           {industry.description}
         </p>
 
-        {/* Footer */}
-        <div className="mt-6 flex items-end justify-between border-t border-slate-800/80 pt-5">
-          <div>
-            {industry.metric.label ? (
-              <p className="text-[10px] font-medium uppercase tracking-wider text-slate-600">
-                {industry.metric.label}
-              </p>
-            ) : null}
-            {industry.metric.value ? (
-              <p className={`mt-0.5 text-sm font-semibold ${accent.text}`}>
+        {/* Stat block */}
+        {industry.metric.value && (
+          <div className={`mt-5 flex items-center gap-3 rounded-xl border px-4 py-3 ${accent.statBg} ${accent.statBorder}`}>
+            <div className={`h-7 w-[3px] rounded-full ${accent.text} bg-current opacity-70`} />
+            <div>
+              <p className={`text-base font-black leading-none ${accent.text}`}>
                 {industry.metric.value}
               </p>
-            ) : null}
+              {industry.metric.label && (
+                <p className="mt-0.5 text-[11px] font-medium text-slate-500 uppercase tracking-wide">
+                  {industry.metric.label}
+                </p>
+              )}
+            </div>
           </div>
-          <Link
-            href={`/industries/${industry.slug}`}
-            className={`inline-flex items-center gap-1.5 text-sm font-medium transition-all duration-200 group-hover:gap-2.5 ${accent.text}`}
-            aria-label={`Explore ${industry.title}`}
-          >
-            Explore
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+        )}
+
+        {/* Footer */}
+        <div className="mt-6 flex items-center justify-between border-t border-white/[0.05] pt-5">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-600">
+            View program
+          </span>
+
+          {/* Arrow circle */}
+          <span className={`
+            flex h-8 w-8 items-center justify-center rounded-full border
+            ${accent.arrowBg} ${accent.arrowBorder}
+            transition-all duration-300
+            group-hover:scale-110 group-hover:ring-2 group-hover:ring-current/10
+            ${accent.text}
+          `}>
+            <svg className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 8h10M9 4l4 4-4 4" />
             </svg>
-          </Link>
+          </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 
@@ -190,110 +369,127 @@ function IndustryCard({ industry }: { readonly industry: IndustryCardData }) {
 // Page
 // ---------------------------------------------------------------------------
 export default async function IndustriesPage() {
-  const { hero, cta } = industriesPageData;
+  const { hero } = industriesPageData;
   const industries = await getIndustryCards();
 
   return (
-    <main className="min-h-screen">
-      {/* ── Hero ──────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-28">
-        <div className="absolute inset-0 bg-grid opacity-20" />
-        <div className="pointer-events-none absolute inset-0 flex items-start justify-center">
-          <div className="mt-16 h-125 w-225 rounded-full bg-blue-600/6 blur-[140px]" />
+    <main className="min-h-screen bg-surface-950 text-white">
+
+      {/* ── Hero ─────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden pt-32 pb-24 lg:pt-44 lg:pb-32">
+        {/* Dot grid */}
+        <div className="absolute inset-0 bg-grid opacity-[0.15]" />
+
+        {/* Multi-blob glow */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-1/2 top-0 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-brand-600/8 blur-[160px]" />
+          <div className="absolute left-0 top-1/2 h-[300px] w-[400px] -translate-y-1/2 rounded-full bg-accent-500/6 blur-[120px]" />
+          <div className="absolute right-0 top-1/3 h-[250px] w-[350px] rounded-full bg-brand-400/5 blur-[100px]" />
         </div>
 
+        {/* Vignette */}
+        <div className="pointer-events-none absolute inset-0 vignette" />
+
         <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+
           {/* Eyebrow badge */}
           <div className="flex justify-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/8 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-blue-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-400" aria-hidden="true" />
+            <span className="inline-flex items-center gap-2.5 rounded-full border border-brand-500/25 bg-brand-500/8 px-5 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-brand-400 shadow-lg shadow-brand-500/5">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-400 opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-400" />
+              </span>
               {hero.eyebrow}
             </span>
           </div>
 
           {/* H1 */}
-          <h1 className="mx-auto mt-6 max-w-4xl text-center text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mx-auto mt-8 max-w-4xl text-center text-5xl font-black leading-[1.06] tracking-tight text-white sm:text-6xl lg:text-7xl">
             {hero.heading}{" "}
-            <span className="bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              {hero.headingHighlight}
-            </span>
+            <span className="gradient-brand-text">{hero.headingHighlight}</span>
           </h1>
 
           {/* Subheading */}
-          <p className="mx-auto mt-6 max-w-2xl text-center text-base leading-relaxed text-slate-400 sm:text-lg">
+          <p className="mx-auto mt-7 max-w-2xl text-center text-base leading-relaxed text-slate-400 sm:text-lg">
             {hero.subheading}
           </p>
 
+          {/* CTA buttons */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-brand-500/25 transition-all hover:bg-brand-500 hover:shadow-brand-500/40 glow-blue"
+            >
+              Get Qualified Leads
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 16 16" stroke="currentColor" strokeWidth={2.2} aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8h10M9 4l4 4-4 4" />
+              </svg>
+            </Link>
+            <Link
+              href="/partnership"
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/4 px-7 py-3.5 text-sm font-bold text-slate-300 backdrop-blur-sm transition-all hover:border-white/20 hover:text-white hover:bg-white/8"
+            >
+              Apply for Partnership
+            </Link>
+          </div>
+
           {/* Stats strip */}
-          <div className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-slate-800 bg-slate-800 sm:grid-cols-4">
+          <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/8 bg-white/5 sm:grid-cols-4 shadow-xl shadow-black/30">
             {hero.stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center bg-[hsl(0,0%,6%)] px-6 py-5 text-center">
-                <span className="text-2xl font-bold text-white sm:text-3xl">{stat.value}</span>
-                <span className="mt-1 text-xs text-slate-500">{stat.label}</span>
+              <div
+                key={stat.label}
+                className="flex flex-col items-center bg-surface-950 px-6 py-6 text-center transition-colors hover:bg-surface-900"
+              >
+                <span className="text-3xl font-black text-white sm:text-4xl">
+                  {stat.value}
+                </span>
+                <span className="mt-1.5 text-[11px] font-medium uppercase tracking-wider text-slate-500">
+                  {stat.label}
+                </span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="h-px w-full bg-linear-to-r from-transparent via-slate-700/50 to-transparent" />
+      {/* Gradient divider */}
+      <div className="h-px w-full bg-linear-to-r from-transparent via-white/8 to-transparent" />
 
-      {/* ── Industry cards ────────────────────────────────────────── */}
+      {/* ── Section header ───────────────────────────────────────── */}
+      <section className="relative mx-auto max-w-6xl px-4 pt-20 pb-4 text-center sm:px-6 lg:px-8">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent-400">
+          Proven Verticals
+        </p>
+        <h2 className="mx-auto mt-3 max-w-2xl text-3xl font-black tracking-tight text-white sm:text-4xl">
+          Every vertical is built{" "}
+          <span className="gradient-text">differently</span>
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-slate-400 sm:text-base">
+          Compliance rules, buyer intent signals, and conversion benchmarks
+          vary by industry. We build each program from scratch to match.
+        </p>
+      </section>
+
+      {/* ── Industry cards ───────────────────────────────────────── */}
       <section
-        className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24"
+        className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 lg:pb-24"
         aria-label="Industries we serve"
       >
         {industries.length > 0 ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {industries.map((industry) => (
-              <IndustryCard key={industry.slug} industry={industry} />
+            {industries.map((industry, i) => (
+              <IndustryCard key={industry.slug} industry={industry} index={i} />
             ))}
           </div>
         ) : (
-          <div className="rounded-2xl border border-slate-800 bg-[hsl(0,0%,6%)] p-6 text-center text-sm text-slate-400">
-            No industries are published yet.
+          <div className="glass rounded-2xl p-12 text-center">
+            <p className="text-sm text-slate-400">
+              No industries published yet. Check back soon.
+            </p>
           </div>
         )}
       </section>
 
-      {/* Divider */}
-      <div className="h-px w-full bg-linear-to-r from-transparent via-slate-700/50 to-transparent" />
-
-      {/* ── CTA ───────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden py-20 lg:py-28">
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="h-100 w-175 rounded-full bg-blue-600/5 blur-[120px]" />
-        </div>
-
-        <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
-            {cta.heading}{" "}
-            <span className="bg-linear-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              {cta.headingHighlight}
-            </span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-slate-400">
-            {cta.subheading}
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href={cta.primaryHref}
-              className="inline-flex min-h-12 items-center rounded-xl bg-blue-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-            >
-              {cta.primaryLabel}
-            </Link>
-            <a
-              href={cta.secondaryHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex min-h-12 items-center rounded-xl border border-slate-700 px-7 py-3 text-sm font-semibold text-slate-300 transition-colors hover:border-slate-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-            >
-              {cta.secondaryLabel}
-            </a>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

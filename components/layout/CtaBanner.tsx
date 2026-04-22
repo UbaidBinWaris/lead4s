@@ -86,13 +86,26 @@ export function CtaBanner() {
       </div>
 
       {/* ── Stats ticker bar ─────────────────────────────────────────────── */}
+      {/* CSS keyframe marquee — crash-proof, GPU-composited, seamless loop */}
+      <style>{`
+        @keyframes ticker-scroll {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .ticker-track {
+          display: flex;
+          width: max-content;
+          animation: ticker-scroll 28s linear infinite;
+          will-change: transform;
+        }
+        .ticker-track:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
       <div className="relative mb-6 overflow-hidden border-y border-white/6 bg-white/[0.025] py-2 backdrop-blur-sm">
-        <motion.div
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
-          className="flex w-max gap-0"
-        >
-          {[...STATS, ...STATS].map((s, i) => (
+        <div className="ticker-track">
+          {/* Duplicate the list so the loop is gapless */}
+          {[...STATS, ...STATS, ...STATS, ...STATS].map((s, i) => (
             // biome-ignore lint/suspicious/noArrayIndexKey: marquee duplicate
             <span key={i} className="flex items-center gap-4 px-6">
               <span className="flex items-baseline gap-1.5">
@@ -102,7 +115,7 @@ export function CtaBanner() {
               <span className="h-3 w-px bg-slate-700" />
             </span>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* ── Main card ────────────────────────────────────────────────────── */}
