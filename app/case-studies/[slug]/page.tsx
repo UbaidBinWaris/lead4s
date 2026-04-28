@@ -9,6 +9,7 @@ import { SectionRenderer } from "@/components/industry/SectionRenderer";
 import type { CaseStudyResult } from "@/types/case-study";
 import type { IndustrySection } from "@/types/industry";
 import { getSiteUrl } from "@/lib/site";
+import { DEFAULT_PAGE_IMAGE } from "@/lib/media";
 
 
 const SITE_URL = getSiteUrl();
@@ -23,6 +24,8 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
 
   if (!cs) return { title: "Case Study Not Found" };
 
+  const imageUrl = cs.coverImage ?? DEFAULT_PAGE_IMAGE;
+
   return {
     title: `${cs.title} | Lead4s Case Studies`,
     description: cs.summary,
@@ -31,15 +34,13 @@ export async function generateMetadata({ params }: CaseStudyPageProps): Promise<
       description: cs.summary,
       type: "article",
       url: `${SITE_URL}/case-studies/${cs.slug}`,
-      images: cs.coverImage
-        ? [{ url: cs.coverImage, width: 1200, height: 630, alt: cs.title }]
-        : [],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: cs.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: cs.title,
       description: cs.summary,
-      images: cs.coverImage ? [cs.coverImage] : [],
+      images: [imageUrl],
     },
     alternates: { canonical: `${SITE_URL}/case-studies/${cs.slug}` },
   };

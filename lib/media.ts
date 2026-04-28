@@ -1,0 +1,1 @@
+export const DEFAULT_PAGE_IMAGE = "/images/senior-engineer-working-on-solar-panel-farm-the-c-2026-01-09-07-16-05-utc11-scaled.webp";

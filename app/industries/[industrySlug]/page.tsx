@@ -6,6 +6,7 @@ import { IndustryHero } from "@/components/industry/IndustryHero";
 import { SectionRenderer } from "@/components/industry/SectionRenderer";
 import type { FaqSection, HeroCtaSection, IndustrySection } from "@/types/industry";
 import { getSiteUrl } from "@/lib/site";
+import { DEFAULT_PAGE_IMAGE } from "@/lib/media";
 
 interface IndustryPageProps {
   readonly params: Promise<{ industrySlug: string }>;
@@ -27,6 +28,7 @@ export async function generateMetadata({
 
   const metaTitle = industry.metaTitle ?? `${industry.title} | Lead4s`;
   const metaDescription = industry.metaDescription ?? industry.description ?? undefined;
+  const imageUrl = industry.coverImage ?? DEFAULT_PAGE_IMAGE;
 
   return {
     title: metaTitle,
@@ -36,15 +38,13 @@ export async function generateMetadata({
       description: metaDescription,
       type: "website",
       url: `${siteUrl}/industries/${industry.slug}`,
-      images: industry.coverImage
-        ? [{ url: industry.coverImage, width: 1200, height: 630, alt: industry.title }]
-        : [],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: industry.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: metaTitle,
       description: metaDescription,
-      images: industry.coverImage ? [industry.coverImage] : [],
+      images: [imageUrl],
     },
     alternates: {
       canonical: `${siteUrl}/industries/${industry.slug}`,

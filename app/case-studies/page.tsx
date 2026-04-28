@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/db";
 import { getSiteUrl } from "@/lib/site";
+import { DEFAULT_PAGE_IMAGE } from "@/lib/media";
 import type { CaseStudyResult } from "@/types/case-study";
 
 const SITE_URL = getSiteUrl();
@@ -101,18 +102,16 @@ export default async function CaseStudiesPage() {
                   {/* Top accent line */}
                   <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-violet-500/60 to-blue-400/30" aria-hidden="true" />
 
-                  {cs.coverImage && (
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={cs.coverImage}
-                        alt={cs.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[hsl(0,0%,6%)] via-transparent to-transparent" />
-                    </div>
-                  )}
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={cs.coverImage ?? DEFAULT_PAGE_IMAGE}
+                      alt={cs.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[hsl(0,0%,6%)] via-transparent to-transparent" />
+                  </div>
 
                   <div className="flex flex-1 flex-col p-6">
                     <div className="mb-4 flex items-center justify-between gap-3">

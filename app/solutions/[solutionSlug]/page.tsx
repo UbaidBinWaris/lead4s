@@ -5,6 +5,7 @@ import { IndustryHero } from "@/components/industry/IndustryHero";
 import { SectionRenderer } from "@/components/industry/SectionRenderer";
 import type { IndustrySection } from "@/types/industry";
 import { getSiteUrl } from "@/lib/site";
+import { DEFAULT_PAGE_IMAGE } from "@/lib/media";
 
 
 interface SolutionPageProps {
@@ -27,6 +28,7 @@ export async function generateMetadata({
 
   const metaTitle = solution.metaTitle ?? `${solution.title} | Lead4s Solutions`;
   const metaDescription = solution.metaDescription ?? solution.description ?? undefined;
+  const imageUrl = solution.coverImage ?? DEFAULT_PAGE_IMAGE;
 
   return {
     title: metaTitle,
@@ -36,15 +38,13 @@ export async function generateMetadata({
       description: metaDescription,
       type: "website",
       url: `${siteUrl}/solutions/${solution.slug}`,
-      images: solution.coverImage
-        ? [{ url: solution.coverImage, width: 1200, height: 630, alt: solution.title }]
-        : [],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: solution.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: metaTitle,
       description: metaDescription,
-      images: solution.coverImage ? [solution.coverImage] : [],
+      images: [imageUrl],
     },
     alternates: {
       canonical: `${siteUrl}/solutions/${solution.slug}`,

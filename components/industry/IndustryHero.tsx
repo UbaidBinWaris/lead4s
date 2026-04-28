@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { DEFAULT_PAGE_IMAGE } from "@/lib/media";
 
 interface CTAButton {
   readonly label: string;
@@ -24,6 +25,8 @@ export function IndustryHero({
   primaryCTA,
   secondaryCTA,
 }: Props) {
+  const imageSrc = coverImage ?? DEFAULT_PAGE_IMAGE;
+
   const label = slug
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -37,37 +40,17 @@ export function IndustryHero({
   return (
     <header className="relative flex min-h-[60vh] flex-col overflow-hidden sm:min-h-[70vh] lg:min-h-screen">
       {/* Cover image */}
-      {coverImage && (
-        <div className="absolute inset-0 z-0">
-          <Image
-            src={coverImage}
-            alt={title}
-            fill
-            className="object-cover opacity-70"
-            priority
-          />
-          <div className="absolute inset-0 bg-slate-950/50" />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950" />
-        </div>
-      )}
-
-      {/* No cover: dot-grid texture */}
-      {!coverImage && (
-        <>
-          <div className="absolute inset-0 z-0 bg-grid opacity-30" />
-          <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
-            {isSolution ? (
-              /* Warmer, more energetic glow for solutions */
-              <>
-                <div className="h-[700px] w-[700px] rounded-full bg-blue-600/10 blur-[140px]" />
-                <div className="absolute h-[400px] w-[400px] rounded-full bg-indigo-500/8 blur-[100px]" />
-              </>
-            ) : (
-              <div className="h-[600px] w-[600px] rounded-full bg-blue-600/8 blur-[120px]" />
-            )}
-          </div>
-        </>
-      )}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={imageSrc}
+          alt={title}
+          fill
+          className="object-cover opacity-70"
+          priority
+        />
+        <div className="absolute inset-0 bg-slate-950/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-slate-950" />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 flex flex-1 flex-col justify-center">

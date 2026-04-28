@@ -60,7 +60,6 @@ export default async function BlogPage() {
             {blogs.map((blog) => (
               <BlogCard
                 key={blog.id}
-                id={blog.id}
                 title={blog.title}
                 slug={blog.slug}
                 excerpt={blog.excerpt}

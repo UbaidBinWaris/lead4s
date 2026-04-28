@@ -105,9 +105,9 @@ export type HeroContent = {
 
 export const heroContent: HeroContent = {
   id: "hero",
-  headlineStart: "Scalable Lead Generation",
-  headlineAccent: "Infrastructure for",
-  headlineEnd: "High-Growth Businesses",
+  headlineStart: "The Force",
+  headlineAccent: "Behind Your",
+  headlineEnd: "Success",
   description:
     "Lead4s delivers exclusive leads, live transfer calls, and booked appointments across solar, home improvement, insurance, legal, and Medicare verticals for buyers that need consistent, compliant, and high-intent customer acquisition.",
   ctaPrimary: {

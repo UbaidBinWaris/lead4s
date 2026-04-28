@@ -4,9 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { formatDate } from "@/lib/blog";
+import { DEFAULT_PAGE_IMAGE } from "@/lib/media";
 
 export type BlogCardProps = {
-  readonly id: string;
   readonly title: string;
   readonly slug: string;
   readonly excerpt: string;
@@ -23,6 +23,8 @@ export function BlogCard({
   author,
   createdAt,
 }: BlogCardProps) {
+  const imageSrc = coverImage ?? DEFAULT_PAGE_IMAGE;
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -31,16 +33,14 @@ export function BlogCard({
       className="group rounded-xl border border-slate-800 bg-surface-800/40 overflow-hidden backdrop-blur-sm transition-all duration-300 hover:border-brand-700/50 hover:bg-surface-800/70"
     >
       {/* Image */}
-      {coverImage && (
-        <Link href={`/blog/${slug}`} className="block relative h-48 overflow-hidden">
-          <Image
-            src={coverImage}
-            alt={title}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        </Link>
-      )}
+      <Link href={`/blog/${slug}`} className="block relative h-48 overflow-hidden">
+        <Image
+          src={imageSrc}
+          alt={title}
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      </Link>
 
       {/* Content */}
       <div className="p-6">

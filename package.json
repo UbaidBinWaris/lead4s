@@ -17,6 +17,7 @@
     "prisma:seed:industry-cards": "node scripts/seed-industry-cards.mjs",
     "prisma:seed:solution-cards": "node scripts/seed-solution-cards.mjs",
     "prisma:seed:team-members": "node scripts/seed-team-members.mjs",
+    "prisma:seed:seo-content": "node scripts/seed-seo-content.mjs",
     "wp:import": "node scripts/wp-import.mjs"
   },
   "dependencies": {

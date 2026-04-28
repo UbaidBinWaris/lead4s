@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { formatDate } from "@/lib/blog";
 import { BlogContent } from "@/components/blog/BlogContent";
 import { getSiteUrl } from "@/lib/site";
+import { DEFAULT_PAGE_IMAGE } from "@/lib/media";
 
 
 const SITE_URL = getSiteUrl();
@@ -25,6 +26,7 @@ export async function generateMetadata({
 
   const metaTitle = blog.metaTitle ?? `${blog.title} | Lead4s Blog`;
   const metaDescription = blog.metaDescription ?? blog.excerpt;
+  const imageUrl = blog.coverImage ?? DEFAULT_PAGE_IMAGE;
 
   return {
     title: metaTitle,
@@ -34,15 +36,13 @@ export async function generateMetadata({
       description: metaDescription,
       type: "article",
       url: `${SITE_URL}/blog/${blog.slug}`,
-      images: blog.coverImage
-        ? [{ url: blog.coverImage, width: 1200, height: 630, alt: blog.title }]
-        : [],
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: blog.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: metaTitle,
       description: metaDescription,
-      images: blog.coverImage ? [blog.coverImage] : [],
+      images: [imageUrl],
     },
     alternates: {
       canonical: `${SITE_URL}/blog/${blog.slug}`,
@@ -60,22 +60,22 @@ export default async function BlogDetailPage({
     notFound();
   }
 
+  const imageSrc = blog.coverImage ?? DEFAULT_PAGE_IMAGE;
+
   return (
     <main className="min-h-full py-12">
       <article className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         {/* Hero Image */}
-        {blog.coverImage && (
-          <div className="mb-10 h-96 overflow-hidden rounded-2xl">
-            <Image
-              src={blog.coverImage}
-              alt={blog.title}
-              width={800}
-              height={400}
-              className="h-full w-full object-cover"
-              priority
-            />
-          </div>
-        )}
+        <div className="mb-10 h-96 overflow-hidden rounded-2xl">
+          <Image
+            src={imageSrc}
+            alt={blog.title}
+            width={800}
+            height={400}
+            className="h-full w-full object-cover"
+            priority
+          />
+        </div>
 
         {/* Title & Meta */}
         <div className="mb-8">
