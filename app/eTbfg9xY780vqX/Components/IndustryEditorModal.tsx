@@ -31,6 +31,8 @@ import type {
   Industry,
   IndustryInput,
   IndustrySection,
+  LinkListItem,
+  LinkListSection,
   ProcessSection,
   ProcessStep,
   StatItem,
@@ -275,6 +277,88 @@ function ImageTextSectionEditor({ section, onChange }: { section: ImageTextSecti
   );
 }
 
+function LinkListSectionEditor({ section, onChange }: { section: LinkListSection; onChange: (s: LinkListSection) => void }) {
+  return (
+    <div className="space-y-3 pt-2">
+      <div>
+        <label className="mb-1 block text-xs font-medium text-slate-400">Section Title <span className="text-slate-600">(optional)</span></label>
+        <input
+          value={section.title ?? ""}
+          onChange={(e) => onChange({ ...section, title: e.target.value || undefined })}
+          className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
+          placeholder="Related Resources"
+        />
+      </div>
+
+      <div className="space-y-2">
+        {section.items.map((item, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: positional editor rows
+          <div key={i} className="relative rounded-lg border border-slate-700/60 bg-slate-900/60 p-3">
+            <button
+              type="button"
+              onClick={() => onChange({ ...section, items: section.items.filter((_, idx) => idx !== i) })}
+              className="absolute right-2 top-2 rounded p-0.5 text-slate-600 hover:text-red-400"
+              aria-label={`Remove link ${i + 1}`}
+            >
+              <FiMinus className="h-3.5 w-3.5" />
+            </button>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-[10px] font-medium text-slate-500">Label</label>
+                <input
+                  value={item.label}
+                  onChange={(e) => {
+                    const items = [...section.items];
+                    items[i] = { ...item, label: e.target.value };
+                    onChange({ ...section, items });
+                  }}
+                  className="w-full rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none"
+                  placeholder="Solar Lead Program"
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] font-medium text-slate-500">Href</label>
+                <input
+                  value={item.href}
+                  onChange={(e) => {
+                    const items = [...section.items];
+                    items[i] = { ...item, href: e.target.value };
+                    onChange({ ...section, items });
+                  }}
+                  className="w-full rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none"
+                  placeholder="/industries/solar-leads"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="mb-1 block text-[10px] font-medium text-slate-500">Description <span className="text-slate-600">(optional)</span></label>
+                <textarea
+                  rows={2}
+                  value={item.description ?? ""}
+                  onChange={(e) => {
+                    const items = [...section.items];
+                    items[i] = { ...item, description: e.target.value || undefined };
+                    onChange({ ...section, items });
+                  }}
+                  className="w-full resize-none rounded border border-slate-700 bg-slate-800 px-2 py-1.5 text-xs text-white focus-visible:border-blue-500 focus-visible:outline-none"
+                  placeholder="Short context for this internal resource."
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={() => onChange({ ...section, items: [...section.items, { label: "", href: "" } as LinkListItem] })}
+          className="flex items-center gap-1.5 rounded-lg border border-dashed border-slate-700 px-3 py-2 text-xs text-slate-500 hover:border-blue-500/50 hover:text-blue-400"
+        >
+          <FiPlus className="h-3 w-3" /> Add Link
+        </button>
+      </div>
+    </div>
+  );
+}
+
 type Props = {
   readonly initialIndustry?: Industry | null;
   readonly isSaving: boolean;
@@ -319,7 +403,11 @@ function defaultSection(type: SectionType): IndustrySection {
       return { type: "process", title: "How It Works", items: [{ title: "", description: "" }] };
     case "image-text":
       return { type: "image-text", content: "", image: "", imagePosition: "left" };
+    case "link-list":
+      return { type: "link-list", title: "Related Resources", items: [{ label: "", href: "" }] };
   }
+
+  throw new Error(`Unsupported section type: ${type}`);
 }
 
 function CopiedToast({ show }: { show: boolean }) {
@@ -647,6 +735,7 @@ const SECTION_LABELS: Record<SectionType, string> = {
   faq: "FAQ",
   process: "Process Steps",
   "image-text": "Image + Text",
+  "link-list": "Internal Links",
 };
 
 const SECTION_COLORS: Record<SectionType, string> = {
@@ -659,6 +748,7 @@ const SECTION_COLORS: Record<SectionType, string> = {
   faq: "border-l-amber-500",
   process: "border-l-pink-500",
   "image-text": "border-l-indigo-500",
+  "link-list": "border-l-sky-500",
 };
 
 function SectionCard({
@@ -749,6 +839,9 @@ function SectionCard({
           )}
           {section.type === "image-text" && (
             <ImageTextSectionEditor section={section} onChange={(s) => onChange(s)} />
+          )}
+          {section.type === "link-list" && (
+            <LinkListSectionEditor section={section} onChange={(s) => onChange(s)} />
           )}
         </div>
       )}
@@ -1062,6 +1155,7 @@ export function IndustryEditorModal({
                           ["stats", "📊 Stats"],
                           ["image-text", "🖼 Image + Text"],
                           ["process", "🔢 Process Steps"],
+                          ["link-list", "🔗 Internal Links"],
                           ["faq", "❓ FAQ"],
                           ["features", "✦ Features Grid"],
                           ["text", "📝 Text Block"],
