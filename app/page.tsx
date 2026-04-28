@@ -4,6 +4,9 @@ import { ProblemSolution } from "@/components/sections/ProblemSolution";
 import { Services } from "@/components/sections/Services";
 import { Industries } from "@/components/sections/Industries";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { CampaignMix } from "@/components/sections/CampaignMix";
+import { TcpaCompliance } from "@/components/sections/TcpaCompliance";
+import { HomeFaq } from "@/components/sections/HomeFaq";
 import { getSiteUrl } from "@/lib/site";
 import { toJsonLd } from "@/lib/utils";
 
@@ -19,6 +22,9 @@ export const metadata: Metadata = {
     "insurance leads",
     "legal leads",
     "solar leads",
+    "TCPA compliant lead generation",
+    "TrustedForm lead verification",
+    "real-time lead delivery",
     "high-intent leads",
     "live transfer calls",
     "appointment setting",
@@ -81,6 +87,36 @@ const homeJsonLd = toJsonLd({
         ],
       },
     },
+    {
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/#faq`,
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What industries does Lead4s prioritize right now?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Our top-performing campaign mix is Home Improvement (40%), Insurance (25%), Legal (20%), and Solar (15%).",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Are Lead4s leads TCPA compliant?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Lead4s campaigns are run with consent-first workflows, verification checkpoints, and audit-ready tracking infrastructure.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How are leads delivered to our team?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Leads can be delivered through API posting, CRM integration, and live transfer call routing depending on your operating model.",
+          },
+        },
+      ],
+    },
   ],
 });
 
@@ -92,8 +128,11 @@ export default function HomePage() {
       <Hero />
       <ProblemSolution />
       <Services />
+      <CampaignMix />
+      <TcpaCompliance />
       <Industries />
       <Testimonials />
+      <HomeFaq />
     </>
   );
 }
