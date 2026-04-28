@@ -12,9 +12,13 @@ const siteUrl = getSiteUrl();
 export const metadata: Metadata = {
   title: "Scalable Lead Generation Infrastructure for High-Growth Businesses",
   description:
-    "Lead4s helps serious buyers scale customer acquisition with exclusive leads, live transfer calls, and appointment setting across core revenue verticals.",
+    "Lead4s helps serious buyers scale customer acquisition with exclusive leads, live transfer calls, and appointment setting across Home Improvement, Insurance, Legal, and Solar campaigns.",
   keywords: [
     "lead generation infrastructure",
+    "home improvement leads",
+    "insurance leads",
+    "legal leads",
+    "solar leads",
     "high-intent leads",
     "live transfer calls",
     "appointment setting",
@@ -25,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Scalable Lead Generation Infrastructure for High-Growth Businesses",
     description:
-      "Exclusive lead and call supply across solar, home improvement, insurance, legal, and Medicare verticals.",
+      "Exclusive lead and call supply focused on Home Improvement (40%), Insurance (25%), Legal (20%), and Solar (15%) campaigns.",
     type: "website",
     url: siteUrl,
     images: [
@@ -55,7 +59,7 @@ const homeJsonLd = toJsonLd({
       url: siteUrl,
       name: "Scalable Lead Generation Infrastructure for High-Growth Businesses",
       description:
-        "Lead4s delivers exclusive leads, live transfer calls, and booked appointments with compliance-first operations.",
+        "Lead4s delivers exclusive leads, live transfer calls, and booked appointments with campaign focus in Home Improvement, Insurance, Legal, and Solar.",
       isPartOf: { "@id": `${siteUrl}/#website` },
       about: { "@id": `${siteUrl}/#organization` },
     },

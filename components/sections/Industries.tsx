@@ -5,52 +5,28 @@ import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 const INDUSTRIES = [
   {
-    emoji: "🏠",
-    title: "Real Estate",
-    description: "Buyer & seller lead pipelines on autopilot",
-    count: "340+ agencies",
-  },
-  {
-    emoji: "🏥",
-    title: "Healthcare",
-    description: "HIPAA-aware patient acquisition funnels",
-    count: "180+ practices",
-  },
-  {
-    emoji: "💼",
-    title: "Financial Services",
-    description: "Compliant B2C & B2B financial lead gen",
-    count: "220+ firms",
-  },
-  {
-    emoji: "🚀",
-    title: "SaaS & Tech",
-    description: "Demo requests & trial sign-ups at scale",
-    count: "500+ startups",
-  },
-  {
-    emoji: "🛒",
-    title: "E-Commerce",
-    description: "High-LTV buyer acquisition & retargeting",
-    count: "410+ stores",
-  },
-  {
-    emoji: "⚖️",
-    title: "Legal",
-    description: "Practice-area specific case intake funnels",
-    count: "95+ law firms",
+    emoji: "🛠️",
+    title: "Home Improvement",
+    description: "Roofing, HVAC, windows, remodeling, and contractor lead programs.",
+    count: "40% campaign share",
   },
   {
     emoji: "🛡️",
     title: "Insurance",
-    description: "Policy-specific quote leads for every line",
-    count: "160+ brokers",
+    description: "High-intent quote and policy acquisition for core insurance lines.",
+    count: "25% campaign share",
   },
   {
-    emoji: "📣",
-    title: "Agencies",
-    description: "White-label lead gen for your clients",
-    count: "130+ agencies",
+    emoji: "⚖️",
+    title: "Legal",
+    description: "MVA and personal injury intake campaigns for legal teams.",
+    count: "20% campaign share",
+  },
+  {
+    emoji: "☀️",
+    title: "Solar",
+    description: "Exclusive solar leads and live transfer call campaigns.",
+    count: "15% campaign share",
   },
 ];
 
@@ -59,7 +35,7 @@ export function Industries() {
     <section id="industries" className="relative overflow-hidden py-28">
       {/* Background accent */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute bottom-0 left-1/2 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-brand-600/8 blur-[100px]" />
+        <div className="absolute bottom-0 left-1/2 h-125 w-200 -translate-x-1/2 rounded-full bg-brand-600/8 blur-[100px]" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -89,8 +65,8 @@ export function Industries() {
             variants={fadeInUp}
             className="mx-auto max-w-xl text-base text-slate-400"
           >
-            Pre-built playbooks and data sources tailored to the compliance
-            requirements and buyer behaviour of your vertical.
+            Our highest-performing campaign mix is built around Home Improvement,
+            Insurance, Legal, and Solar verticals with compliance-first execution.
           </motion.p>
         </motion.div>
 
@@ -100,7 +76,7 @@ export function Industries() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-2 gap-3 sm:grid-cols-4"
+          className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4"
         >
           {INDUSTRIES.map((ind) => (
             <IndustryCard key={ind.title} {...ind} />
@@ -134,13 +110,13 @@ function IndustryCard({
   title,
   description,
   count,
-}: (typeof INDUSTRIES)[number]) {
+}: Readonly<(typeof INDUSTRIES)[number]>) {
   return (
     <motion.div
       variants={fadeInUp}
       whileHover={{ y: -3, scale: 1.01 }}
       transition={{ duration: 0.2 }}
-      className="group relative cursor-default overflow-hidden rounded-2xl border border-white/8 bg-white/[0.03] p-5 transition-colors hover:border-brand-500/25 hover:bg-white/[0.05]"
+      className="group relative cursor-default overflow-hidden rounded-2xl border border-white/8 bg-white/3 p-5 transition-colors hover:border-brand-500/25 hover:bg-white/5"
     >
       {/* Top row */}
       <div className="mb-3 flex items-start justify-between">

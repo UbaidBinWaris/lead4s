@@ -23,13 +23,14 @@ export const metadata: Metadata = {
     template: "%s | Lead4s",
   },
   description:
-    "Lead4s delivers exclusive leads, live transfer calls, and booked appointments across solar, home improvement, insurance, legal, and Medicare verticals.",
+    "Lead4s delivers exclusive leads, live transfer calls, and booked appointments with strongest campaign performance in Home Improvement, Insurance, Legal, and Solar.",
   keywords: [
     "lead generation",
     "exclusive leads",
     "live transfer calls",
     "appointment setting",
     "TCPA compliant leads",
+    "home improvement leads",
     "solar leads",
     "insurance leads",
     "legal leads",
@@ -54,7 +55,7 @@ export const metadata: Metadata = {
     siteName: "Lead4s",
     title: "Lead4s - Scalable Lead Generation Infrastructure",
     description:
-      "High-intent lead and call supply with compliance-first acquisition, real-time delivery, and performance optimization.",
+      "High-intent lead and call supply with campaign focus across Home Improvement (40%), Insurance (25%), Legal (20%), and Solar (15%).",
     url: "/",
     images: [
       {
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Lead4s - Scalable Lead Generation Infrastructure",
     description:
-      "Exclusive leads, live transfer calls, and booked appointments for high-growth businesses.",
+      "Exclusive leads, live transfer calls, and booked appointments focused on Home Improvement, Insurance, Legal, and Solar campaigns.",
     images: ["/og.png"],
   },
   category: "business",
