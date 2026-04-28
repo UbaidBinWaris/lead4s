@@ -5,118 +5,306 @@ const prisma = new PrismaClient();
 const caseStudySeedData = [
   {
     slug: "solar-qualified-live-transfers",
-    title: "Scaling Qualified Solar Live Transfers",
+    title: "Solar Lead Generation Case Study: +44% Qualified Live Transfer Conversations",
     industry: "Solar",
     summary:
-      "Lead4s helped a regional installer scale high-intent solar calls while maintaining qualification quality.",
+      "See how a regional installer scaled high-intent solar lead generation and live transfer performance while maintaining qualification quality and compliance-safe routing.",
     challenge:
-      "A regional installer needed consistent, high-intent call volume without sacrificing qualification quality.",
+      "The sales team needed more solar appointments from paid channels, but inconsistent intent and delayed call routing were suppressing conversion rates and rep productivity.",
     solution:
-      "Lead4s deployed intent-based funnels, compliance-aware qualification, and schedule-optimized transfer routing.",
+      "Lead4s deployed intent-first acquisition funnels, homeowner fit checks, TCPA-aware consent checkpoints, and schedule-aligned live transfer routing optimized for speed-to-conversation.",
     results: [
-      { label: "Leads Generated", value: "3,200+" },
-      { label: "Response Time", value: "< 30s" },
-      { label: "Qualified Stability", value: "92%" },
+      { label: "Qualified Conversation Lift", value: "+44%" },
+      { label: "Average Transfer Speed", value: "<30s" },
+      { label: "Weekly Quality Stability", value: "92%" },
     ],
     displayOrder: 1,
     content: [
       {
         type: "text",
-        title: "Process / Strategy",
+        title: "SEO Campaign Context",
         content:
-          "Lead4s used intent-based acquisition plus compliance-aware qualification and routing to maximize close-ready conversations.",
+          "This solar lead generation case study demonstrates how conversion quality improves when media targeting, qualification logic, and routing speed are managed as one system. The buyer was running multi-geo campaigns and needed scale without adding compliance risk or sales-floor waste.",
+      },
+      {
+        type: "features",
+        title: "What Was Implemented",
+        items: [
+          {
+            icon: "target",
+            title: "Intent Segmentation",
+            description:
+              "Campaign audiences were rebuilt around homeowner intent signals and service-area fit.",
+          },
+          {
+            icon: "check",
+            title: "Qualification Controls",
+            description:
+              "Pre-transfer validation reduced low-fit calls before they reached closers.",
+          },
+          {
+            icon: "shield",
+            title: "Compliance Workflow",
+            description:
+              "Consent and source checkpoints were embedded to support governance and traceability.",
+          },
+        ],
+      },
+      {
+        type: "faq",
+        title: "Solar Program FAQ",
+        items: [
+          {
+            question: "Why did transfer speed matter so much?",
+            answer:
+              "Faster handoff preserved buyer intent and increased the chance of meaningful sales conversations.",
+          },
+          {
+            question: "How was quality kept stable during scale?",
+            answer:
+              "Lead4s used pacing controls, source-level quality reviews, and weekly optimization against sales feedback.",
+          },
+        ],
       },
     ],
   },
   {
     slug: "home-improvement-exclusive-leads",
-    title: "Home Improvement Exclusive Lead Quality Lift",
+    title: "Home Improvement Leads Case Study: +36% Estimate Booking Efficiency",
     industry: "Home Improvement",
     summary:
-      "Lead4s improved lead quality for home improvement partners by shifting campaigns to exclusive acquisition flows.",
+      "A contractor network improved home improvement lead generation outcomes by moving to exclusive CPL delivery and tighter trade-level qualification rules.",
     challenge:
-      "Contractor partners were dealing with mixed-quality leads, duplicate competition, and wasted sales effort.",
+      "Shared lead sources caused duplicate competition, low contact quality, and inconsistent booking rates across roofing, HVAC, and remodeling teams.",
     solution:
-      "Lead4s restructured campaigns around exclusive CPL delivery, stronger pre-qualification, and source-level optimization.",
+      "Lead4s launched exclusive lead routing, geography-by-trade segmentation, and qualification filters aligned to each location's install capacity.",
     results: [
-      { label: "Match Rate", value: "2.1x" },
-      { label: "Duplicate Reduction", value: "High" },
-      { label: "Booking Efficiency", value: "Improved" },
+      { label: "Estimate Booking Efficiency", value: "+36%" },
+      { label: "Duplicate Lead Exposure", value: "Reduced" },
+      { label: "Sales Team Throughput", value: "Higher" },
     ],
     displayOrder: 2,
-    content: [],
+    content: [
+      {
+        type: "text",
+        title: "Challenge Overview",
+        content:
+          "The business needed qualified contractor leads, not generic homeowner form fills. Existing channels produced volatile quality and poor booking predictability, making weekly planning difficult.",
+      },
+      {
+        type: "process",
+        title: "Optimization Sequence",
+        items: [
+          {
+            title: "Trade-Level Segmentation",
+            description:
+              "Lead flows were separated by roofing, HVAC, windows, and remodeling objectives.",
+          },
+          {
+            title: "Territory Alignment",
+            description:
+              "Geo filters were tuned to local dispatch and sales coverage realities.",
+          },
+          {
+            title: "Booking Feedback Loop",
+            description:
+              "Campaign and source decisions were tuned using appointment outcome data.",
+          },
+        ],
+      },
+    ],
   },
   {
     slug: "final-expense-compliance-focused-growth",
-    title: "Final Expense Growth With Compliance Controls",
+    title: "Final Expense Leads Case Study: +31% Volume Growth With Consent Controls",
     industry: "Final Expense",
     summary:
-      "Lead4s helped a final expense partner scale demand while preserving consent traceability and documentation quality.",
+      "A final expense insurance partner scaled lead volume while preserving consent traceability, compliance documentation quality, and close-ready lead standards.",
     challenge:
-      "The partner needed more volume but could not compromise on documentation quality or outreach governance.",
+      "Growth goals required higher lead flow, but the compliance team needed stronger governance around consent evidence and data provenance.",
     solution:
-      "Lead4s deployed compliant acquisition paths, verification checkpoints, and documentation-ready lead records.",
+      "Lead4s deployed consent-first acquisition logic, source verification checkpoints, and operational QA to strengthen legal defensibility and campaign reliability.",
     results: [
-      { label: "Consent Coverage", value: ">95%" },
+      { label: "Lead Volume Growth", value: "+31%" },
+      { label: "Consent Record Coverage", value: ">95%" },
       { label: "Audit Readiness", value: "Improved" },
-      { label: "Partner Trust", value: "Higher" },
     ],
     displayOrder: 3,
-    content: [],
+    content: [
+      {
+        type: "text",
+        title: "Compliance-First Strategy",
+        content:
+          "This insurance lead generation case study shows how volume expansion and compliance discipline can coexist when consent, verification, and quality controls are embedded early in campaign design.",
+      },
+      {
+        type: "stats",
+        title: "Program KPIs",
+        items: [
+          {
+            value: "+31%",
+            label: "Monthly Qualified Leads",
+            description: "Measured after launch stabilization period.",
+          },
+          {
+            value: ">95%",
+            label: "Documented Consent Coverage",
+            description: "Source and timestamp records retained for governance.",
+          },
+          {
+            value: "Weekly",
+            label: "QA Review Cadence",
+            description: "Cross-functional review between operations and compliance.",
+          },
+        ],
+      },
+      {
+        type: "cta",
+        eyebrow: "Insurance Growth",
+        heading: "Need compliant final expense lead generation?",
+        subheading:
+          "Lead4s can build a consent-aware acquisition pipeline designed for policy growth and audit readiness.",
+        buttonLabel: "Talk to Sales",
+        buttonHref: "/contact",
+        secondaryLabel: "View Compliance",
+        secondaryHref: "/compliance",
+      },
+    ],
   },
   {
     slug: "auto-insurance-high-intent-inquiries",
-    title: "Auto Insurance Inquiry Quality Optimization",
+    title: "Auto Insurance Leads Case Study: +47% Qualified Inquiry Lift",
     industry: "Auto Insurance",
     summary:
-      "Lead4s improved inquiry quality for auto insurance buyers by filtering lower-fit traffic and raising conversion-ready submission share.",
+      "Auto insurance lead generation performance improved through intent filtering, state-level targeting controls, and faster lead routing to licensed teams.",
     challenge:
-      "Low-intent submissions were reducing sales efficiency and making CPL performance inconsistent.",
+      "Low-intent submissions were inflating CPL volatility and reducing quote-ready conversation rates across call center teams.",
     solution:
-      "Lead4s refined audience targeting, intent gating, and landing flow friction controls.",
+      "Lead4s refined audience and creative intent signals, introduced policy-fit gating, and aligned routing to state licensing and buyer capacity.",
     results: [
       { label: "Qualified Inquiry Lift", value: "+47%" },
-      { label: "Sales Efficiency", value: "Improved" },
-      { label: "CPL Predictability", value: "Higher" },
+      { label: "Contact Success Rate", value: "Higher" },
+      { label: "CPL Stability", value: "Improved" },
     ],
     displayOrder: 4,
-    content: [],
+    content: [
+      {
+        type: "features",
+        title: "Program Improvements",
+        items: [
+          {
+            icon: "target",
+            title: "Intent-Fit Targeting",
+            description:
+              "Campaign targeting was rebuilt around quote-intent indicators and policy relevance.",
+          },
+          {
+            icon: "clock",
+            title: "Faster Handoff",
+            description:
+              "Speed-to-lead standards reduced decay between form completion and first contact.",
+          },
+          {
+            icon: "chart",
+            title: "Source Optimization",
+            description:
+              "Weekly source-level adjustments improved conversion consistency and spend efficiency.",
+          },
+        ],
+      },
+    ],
   },
   {
     slug: "personal-injury-case-intake-improvement",
-    title: "Personal Injury Intake Pipeline Improvement",
+    title: "Personal Injury Leads Case Study: +39% Consultation Readiness",
     industry: "MVA & Personal Injury",
     summary:
-      "Lead4s helped a legal intake operation improve consultation readiness and reduce non-qualified burden.",
+      "A legal intake operation improved personal injury lead generation quality and increased consultation-ready submissions with case-fit qualification.",
     challenge:
-      "The intake team needed stronger lead intent signals to improve consultation scheduling and reduce wasted reviews.",
+      "Intake staff spent excessive time triaging low-fit submissions that did not meet the firm's case-type and jurisdiction criteria.",
     solution:
-      "Lead4s aligned ad messaging with intake criteria, tightened form logic, and improved handoff data context.",
+      "Lead4s aligned acquisition messaging with case-fit logic, improved form qualification depth, and delivered richer intake context for faster screening.",
     results: [
       { label: "Consultation Readiness", value: "+39%" },
       { label: "Triage Speed", value: "Faster" },
-      { label: "Waste Reduction", value: "Improved" },
+      { label: "Non-Fit Intake Waste", value: "Reduced" },
     ],
     displayOrder: 5,
-    content: [],
+    content: [
+      {
+        type: "text",
+        title: "Legal Intake Performance",
+        content:
+          "This personal injury lead generation case study highlights how legal growth depends on consultation readiness, not form quantity. Better pre-intake signals helped attorneys focus on high-value opportunities.",
+      },
+      {
+        type: "faq",
+        title: "Legal Campaign FAQ",
+        items: [
+          {
+            question: "What drove the readiness increase?",
+            answer:
+              "Case-type filtering, improved lead context, and tighter targeting reduced low-fit submissions before intake review.",
+          },
+          {
+            question: "Can this approach support multi-office firms?",
+            answer:
+              "Yes. Routing logic can be configured by jurisdiction, case priority, and office capacity.",
+          },
+        ],
+      },
+    ],
   },
   {
     slug: "medicare-o65-predictable-volume",
-    title: "Medicare O65 Volume Stabilization",
+    title: "Medicare O65 Lead Generation Case Study: 88% Weekly Delivery Stability",
     industry: "Medicare O65",
     summary:
-      "Lead4s stabilized weekly Medicare O65 delivery with pacing controls and continuous quality calibration.",
+      "A Medicare buyer improved O65 lead generation consistency through source balancing, pacing automation, and continuous quality calibration.",
     challenge:
-      "Lead supply volatility and inconsistent intent quality made planning difficult for the buyer.",
+      "Enrollment-cycle volatility created uneven lead flow, making staffing forecasts and downstream conversion planning unreliable.",
     solution:
-      "Lead4s introduced source balancing, pacing controls, and ongoing quality calibration loops.",
+      "Lead4s implemented pacing controls, source mix balancing, and conversion-feedback loops to stabilize weekly volume and improve campaign reliability.",
     results: [
       { label: "Weekly Stability", value: "88%" },
       { label: "Capacity Alignment", value: "Improved" },
       { label: "Conversion Consistency", value: "Higher" },
     ],
     displayOrder: 6,
-    content: [],
+    content: [
+      {
+        type: "process",
+        title: "Stabilization Framework",
+        items: [
+          {
+            title: "Source Balancing",
+            description:
+              "Weekly allocation logic reduced over-reliance on volatile channels.",
+          },
+          {
+            title: "Pacing Automation",
+            description:
+              "Volume thresholds were matched to licensed team capacity and schedule windows.",
+          },
+          {
+            title: "Quality Calibration",
+            description:
+              "Conversion outcomes informed iterative optimization across source partners.",
+          },
+        ],
+      },
+      {
+        type: "cta",
+        eyebrow: "Medicare Growth",
+        heading: "Scale O65 programs with stable weekly delivery",
+        subheading:
+          "Lead4s helps Medicare teams manage enrollment demand with predictable, quality-controlled lead flow.",
+        buttonLabel: "Start a Conversation",
+        buttonHref: "/contact",
+        secondaryLabel: "Apply for Partnership",
+        secondaryHref: "/partnership",
+      },
+    ],
   },
 ];
 

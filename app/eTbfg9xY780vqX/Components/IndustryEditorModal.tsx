@@ -72,7 +72,7 @@ function HeroCtaSectionEditor({
             value={section.primaryHref}
             onChange={(e) => onChange({ ...section, primaryHref: e.target.value })}
             className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
-            placeholder="/#contact"
+            placeholder="/contact"
           />
         </div>
         <div>
@@ -305,12 +305,12 @@ function defaultSection(type: SectionType): IndustrySection {
         heading: "Ready to Transform Your Business?",
         subheading: "Contact us today and let's discuss how we can help you achieve your goals.",
         buttonLabel: "Get a Free Quote",
-        buttonHref: "/#contact",
+        buttonHref: "/contact",
         secondaryLabel: "",
         secondaryHref: "",
       };
     case "hero-cta":
-      return { type: "hero-cta", primaryLabel: "Get Free Leads", primaryHref: "/#contact" };
+      return { type: "hero-cta", primaryLabel: "Get Free Leads", primaryHref: "/contact" };
     case "stats":
       return { type: "stats", title: "Proven Results", items: [{ value: "", label: "" }] };
     case "faq":
@@ -603,7 +603,7 @@ function CTASectionEditor({
             value={section.buttonHref}
             onChange={(e) => onChange({ ...section, buttonHref: e.target.value })}
             className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-blue-500 focus-visible:outline-none"
-            placeholder="/#contact"
+            placeholder="/contact"
           />
         </div>
       </div>

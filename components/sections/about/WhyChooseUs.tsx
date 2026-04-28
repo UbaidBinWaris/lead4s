@@ -106,7 +106,7 @@ export function WhyChooseUs() {
             {/* CTA */}
             <motion.div variants={fadeInUp} className="mt-8">
               <a
-                href="/#contact"
+                href="/contact"
                 className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-600/20 transition-all duration-200 hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-925"
               >
                 Get Started Today

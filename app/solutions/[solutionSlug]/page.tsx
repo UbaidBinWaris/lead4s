@@ -73,7 +73,7 @@ export default async function SolutionPage({ params }: SolutionPageProps) {
         coverImage={solution.coverImage}
         slug={solution.slug}
         variant="solution"
-        primaryCTA={{ label: "Get Started Today", href: "/#contact" }}
+        primaryCTA={{ label: "Get Started Today", href: "/contact" }}
         secondaryCTA={{ label: "View Case Studies", href: "/case-studies" }}
       />
 

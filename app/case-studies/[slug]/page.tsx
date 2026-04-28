@@ -104,7 +104,7 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <a
-              href="/#contact"
+              href="/contact"
               className="inline-flex min-h-[48px] items-center rounded-xl bg-violet-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all hover:bg-violet-500"
             >
               Work With Us

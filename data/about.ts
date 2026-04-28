@@ -203,7 +203,7 @@ export const aboutData: AboutData = {
       },
       {
         label: "Schedule a Call",
-        href: "/#contact",
+        href: "/contact",
         variant: "secondary",
         icon: "calendar",
       },

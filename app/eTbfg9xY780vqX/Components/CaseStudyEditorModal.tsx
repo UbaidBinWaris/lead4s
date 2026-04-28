@@ -62,7 +62,7 @@ function defaultSection(type: SectionType): IndustrySection {
         heading: "Work With Us",
         subheading: "Ready to achieve similar results?",
         buttonLabel: "Get Started",
-        buttonHref: "/#contact",
+        buttonHref: "/contact",
       };
   }
 }
@@ -224,7 +224,7 @@ function CTASectionEditor({ section, onChange }: { section: CTASection; onChange
         </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-slate-400">Button Link</label>
-          <input value={section.buttonHref} onChange={(e) => onChange({ ...section, buttonHref: e.target.value })} className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-violet-500 focus-visible:outline-none" placeholder="/#contact" />
+          <input value={section.buttonHref} onChange={(e) => onChange({ ...section, buttonHref: e.target.value })} className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white focus-visible:border-violet-500 focus-visible:outline-none" placeholder="/contact" />
         </div>
       </div>
     </div>

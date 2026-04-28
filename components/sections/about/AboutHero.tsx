@@ -84,7 +84,7 @@ export function AboutHero() {
               />
             </Link>
             <Link
-              href="/#contact"
+              href="/contact"
               className="group inline-flex min-h-12 items-center gap-2 rounded-lg border border-slate-700 bg-surface-800/60 px-6 py-3 text-sm font-semibold text-slate-200 backdrop-blur-sm transition-all duration-200 hover:border-slate-500 hover:bg-surface-800 hover:text-white focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-900 focus-visible:outline-none"
             >
               <FaCalendarAlt className="h-4 w-4" aria-hidden="true" />

@@ -77,7 +77,7 @@ const industries = [
         subheading:
           "Get exclusive, verified solar leads delivered directly to your sales team. No contracts, no minimums.",
         buttonLabel: "Get Solar Leads Now",
-        buttonHref: "/#contact",
+        buttonHref: "/contact",
       },
     ],
   },
@@ -148,7 +148,7 @@ const industries = [
         subheading:
           "Exclusive home improvement leads for your exact trade and territory. Start your trial today.",
         buttonLabel: "Get Contractor Leads",
-        buttonHref: "/#contact",
+        buttonHref: "/contact",
       },
     ],
   },
@@ -219,7 +219,7 @@ const industries = [
         subheading:
           "Warm, pre-qualified seniors delivered live to your agents. TCPA compliant, exclusive, and ready to buy.",
         buttonLabel: "Get Final Expense Leads",
-        buttonHref: "/#contact",
+        buttonHref: "/contact",
       },
     ],
   },
@@ -290,7 +290,7 @@ const industries = [
         subheading:
           "Real-time leads and live transfers from drivers actively shopping for better rates.",
         buttonLabel: "Get Auto Insurance Leads",
-        buttonHref: "/#contact",
+        buttonHref: "/contact",
       },
     ],
   },
@@ -361,7 +361,7 @@ const industries = [
         subheading:
           "Exclusive, pre-screened personal injury claimants ready to retain. Live transfers available.",
         buttonLabel: "Get MVA Leads",
-        buttonHref: "/#contact",
+        buttonHref: "/contact",
       },
     ],
   },
@@ -432,7 +432,7 @@ const industries = [
         subheading:
           "CMS-compliant Medicare leads and live transfers for agents and FMOs. Scale through AEP and beyond.",
         buttonLabel: "Get Medicare Leads",
-        buttonHref: "/#contact",
+        buttonHref: "/contact",
       },
     ],
   },

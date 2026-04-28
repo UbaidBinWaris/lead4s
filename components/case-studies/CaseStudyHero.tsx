@@ -55,7 +55,7 @@ export function CaseStudyHero({ title, industry, summary, coverImage, slug }: Ca
 
             <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href="/#contact"
+                href="/contact"
                 className="inline-flex min-h-[48px] items-center rounded-xl bg-violet-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all hover:bg-violet-500"
               >
                 Work With Us
