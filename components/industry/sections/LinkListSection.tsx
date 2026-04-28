@@ -14,9 +14,8 @@ export function LinkListSectionComponent({ section }: Props) {
             {section.title ?? "Related Resources"}
           </h2>
           <ul className="mt-5 space-y-3">
-            {section.items.map((item, i) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: static seeded content
-              <li key={i} className="rounded-lg border border-slate-800 bg-slate-900/50 p-4 transition-colors hover:border-blue-500/30">
+            {section.items.map((item) => (
+              <li key={`${item.href}-${item.label}`} className="rounded-lg border border-slate-800 bg-slate-900/50 p-4 transition-colors hover:border-blue-500/30">
                 <Link
                   href={item.href}
                   className="text-sm font-semibold text-blue-300 underline decoration-blue-500/40 underline-offset-4 hover:text-blue-200"

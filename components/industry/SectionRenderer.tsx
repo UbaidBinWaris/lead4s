@@ -16,35 +16,34 @@ interface Props {
 export function SectionRenderer({ sections }: Props) {
   return (
     <>
-      {sections.map((section, index) => {
+      {sections.map((section) => {
+        let sectionKey = `${section.type}-${JSON.stringify(section).slice(0, 40)}`;
+
+        if ("title" in section && section.title) {
+          sectionKey = `${section.type}-${section.title}`;
+        } else if ("heading" in section && section.heading) {
+          sectionKey = `${section.type}-${section.heading}`;
+        }
+
         switch (section.type) {
           case "text":
-            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
-            return <TextSection key={index} section={section} />;
+            return <TextSection key={sectionKey} section={section} />;
           case "features":
-            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
-            return <FeaturesSection key={index} section={section} />;
+            return <FeaturesSection key={sectionKey} section={section} />;
           case "image":
-            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
-            return <ImageSection key={index} section={section} />;
+            return <ImageSection key={sectionKey} section={section} />;
           case "cta":
-            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
-            return <CTASection key={index} section={section} />;
+            return <CTASection key={sectionKey} section={section} />;
           case "stats":
-            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
-            return <StatsSectionComponent key={index} section={section} />;
+            return <StatsSectionComponent key={sectionKey} section={section} />;
           case "faq":
-            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
-            return <FaqSectionComponent key={index} section={section} />;
+            return <FaqSectionComponent key={sectionKey} section={section} />;
           case "process":
-            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
-            return <ProcessSectionComponent key={index} section={section} />;
+            return <ProcessSectionComponent key={sectionKey} section={section} />;
           case "image-text":
-            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
-            return <ImageTextSectionComponent key={index} section={section} />;
+            return <ImageTextSectionComponent key={sectionKey} section={section} />;
           case "link-list":
-            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
-            return <LinkListSectionComponent key={index} section={section} />;
+            return <LinkListSectionComponent key={sectionKey} section={section} />;
           case "hero-cta":
             return null; // consumed by IndustryHero, not rendered inline
           default:

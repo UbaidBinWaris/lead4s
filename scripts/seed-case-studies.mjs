@@ -94,6 +94,27 @@ const caseStudySeedData = [
         ],
       },
       {
+        type: "link-list",
+        title: "Related Resources for Solar Growth Teams",
+        items: [
+          {
+            label: "Solar Leads and Live Transfers",
+            href: "/industries/solar-leads",
+            description: "Explore the full industry page for targeting, delivery, and compliance details.",
+          },
+          {
+            label: "Live Transfer Call Solution",
+            href: "/solutions/live-transfer-calls",
+            description: "See how real-time call handoff models are structured for conversion speed.",
+          },
+          {
+            label: "Solar Lead Generation Guide",
+            href: "/blog/solar-lead-generation-guide-for-installers",
+            description: "Read the tactical playbook for improving lead quality and pipeline consistency.",
+          },
+        ],
+      },
+      {
         type: "cta",
         eyebrow: "Solar Growth",
         heading: "Want a solar pipeline with predictable conversation volume?",
@@ -174,6 +195,27 @@ const caseStudySeedData = [
             value: "Reduced",
             label: "Duplicate Competition",
             description: "Exclusive delivery reduced overlap across buyer channels.",
+          },
+        ],
+      },
+      {
+        type: "link-list",
+        title: "Related Resources for Contractor Acquisition",
+        items: [
+          {
+            label: "Home Improvement Lead Program",
+            href: "/industries/home-improvement-leads",
+            description: "Review the vertical program architecture for contractor-focused demand generation.",
+          },
+          {
+            label: "Exclusive CPL Model",
+            href: "/solutions/exclusive-leads-cpl-model",
+            description: "Understand how exclusive delivery protects conversion ownership and booking quality.",
+          },
+          {
+            label: "Home Improvement Leads for Contractors",
+            href: "/blog/home-improvement-leads-for-contractors",
+            description: "Read the growth framework for estimate-ready lead flow.",
           },
         ],
       },
@@ -268,6 +310,27 @@ const caseStudySeedData = [
             question: "Was this only a legal improvement?",
             answer:
               "No. Compliance structure also improved operational confidence, enabling sustained volume growth.",
+          },
+        ],
+      },
+      {
+        type: "link-list",
+        title: "Related Resources for Final Expense Teams",
+        items: [
+          {
+            label: "Final Expense Lead Program",
+            href: "/industries/final-expense-lead",
+            description: "See campaign structure, compliance priorities, and qualification controls.",
+          },
+          {
+            label: "TCPA Compliance Checklist",
+            href: "/blog/tcpa-compliance-checklist-for-lead-generation",
+            description: "Use this checklist to strengthen consent governance at scale.",
+          },
+          {
+            label: "Live Transfer Calls Solution",
+            href: "/solutions/live-transfer-calls",
+            description: "Explore speed-to-conversation workflows for high-intent opportunities.",
           },
         ],
       },
@@ -369,6 +432,27 @@ const caseStudySeedData = [
         ],
       },
       {
+        type: "link-list",
+        title: "Related Resources for Auto Insurance Growth",
+        items: [
+          {
+            label: "Auto Insurance Lead Program",
+            href: "/industries/auto-insurance-leads",
+            description: "Review targeting logic and delivery controls for policy-ready inquiries.",
+          },
+          {
+            label: "PPC Campaign Management",
+            href: "/solutions/ppc-campaign-management",
+            description: "Understand paid channel optimization focused on qualified outcomes.",
+          },
+          {
+            label: "Auto Insurance CPL Optimization Guide",
+            href: "/blog/auto-insurance-lead-generation-cpl-optimization",
+            description: "Learn how to improve inquiry quality while controlling acquisition economics.",
+          },
+        ],
+      },
+      {
         type: "cta",
         eyebrow: "Insurance Acquisition",
         heading: "Ready to improve quote-ready auto insurance inquiries?",
@@ -444,6 +528,27 @@ const caseStudySeedData = [
             question: "Can this approach support multi-office firms?",
             answer:
               "Yes. Routing logic can be configured by jurisdiction, case priority, and office capacity.",
+          },
+        ],
+      },
+      {
+        type: "link-list",
+        title: "Related Resources for Legal Intake Teams",
+        items: [
+          {
+            label: "MVA and Personal Injury Program",
+            href: "/industries/mva-personal-injury-leads",
+            description: "Explore the legal intake acquisition framework and fit qualification controls.",
+          },
+          {
+            label: "Personal Injury Lead Generation Guide",
+            href: "/blog/personal-injury-lead-generation-for-law-firms",
+            description: "Read tactical guidance for consultation-ready intake growth.",
+          },
+          {
+            label: "All Case Studies",
+            href: "/case-studies",
+            description: "Compare outcomes across legal, insurance, and contractor verticals.",
           },
         ],
       },
@@ -538,6 +643,27 @@ const caseStudySeedData = [
             question: "Can this approach support AEP pressure periods?",
             answer:
               "Yes. Capacity-aware controls help teams protect quality when demand spikes during enrollment windows.",
+          },
+        ],
+      },
+      {
+        type: "link-list",
+        title: "Related Resources for Medicare Teams",
+        items: [
+          {
+            label: "Medicare O65 Industry Program",
+            href: "/industries/medicare-o65",
+            description: "See enrollment-cycle delivery controls and compliance-aware program setup.",
+          },
+          {
+            label: "Medicare O65 Strategy Guide",
+            href: "/blog/medicare-o65-lead-generation-strategy",
+            description: "Review pacing and source-balancing methods for stable weekly intake.",
+          },
+          {
+            label: "Appointment Setting Solution",
+            href: "/solutions/appointment-setting",
+            description: "Connect lead flow with qualified meeting outcomes.",
           },
         ],
       },

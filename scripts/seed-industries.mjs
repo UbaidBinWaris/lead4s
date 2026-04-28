@@ -77,7 +77,7 @@ const industries = [
         subheading:
           "Get exclusive, verified solar leads delivered directly to your sales team. No contracts, no minimums.",
         buttonLabel: "Get Solar Leads Now",
-        buttonHref: "/contact",
+v        buttonHref: "/contact",
       },
     ],
   },
