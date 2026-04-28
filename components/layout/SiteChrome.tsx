@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
 
 export function SiteChrome({ children }: { readonly children: ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname.startsWith("/admin");
+  const isAdmin = pathname.startsWith("/admin") || pathname.startsWith("/eTbfg9xY780vqX");
 
   if (isAdmin) return <>{children}</>;
 
