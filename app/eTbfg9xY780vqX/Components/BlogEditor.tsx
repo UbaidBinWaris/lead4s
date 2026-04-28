@@ -4,7 +4,7 @@ import { type SyntheticEvent, useEffect, useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { slugify } from "@/lib/slugify";
-import { ImageUploader } from "@/app/admin/Components/ImageUploader";
+import { ImageUploader } from "@/app/eTbfg9xY780vqX/Components/ImageUploader";
 import type { Blog, BlogInput } from "@/types/blog";
 
 type BlogEditorProps = {

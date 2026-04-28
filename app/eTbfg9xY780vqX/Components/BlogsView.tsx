@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { BlogEditorModal } from "@/app/admin/Components/BlogEditorModal";
-import { BlogTable } from "@/app/admin/Components/BlogTable";
+import { BlogEditorModal } from "@/app/eTbfg9xY780vqX/Components/BlogEditorModal";
+import { BlogTable } from "@/app/eTbfg9xY780vqX/Components/BlogTable";
 import { createBlog, deleteBlog, getBlogs, updateBlog } from "@/lib/api";
 import type { Blog, BlogInput } from "@/types/blog";
 import { FiRefreshCw } from "react-icons/fi";

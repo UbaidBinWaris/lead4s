@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import { Sidebar } from "@/app/admin/Components/Sidebar";
-import type { View } from "@/app/admin/Components/AdminDashboard";
+import { Sidebar } from "@/app/eTbfg9xY780vqX/Components/Sidebar";
+import type { View } from "@/app/eTbfg9xY780vqX/Components/AdminDashboard";
 
 type DashboardLayoutProps = {
   readonly activeView: View;

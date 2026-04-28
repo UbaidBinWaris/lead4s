@@ -2,17 +2,17 @@
 
 import { useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { DashboardLayout } from "@/app/admin/Components/DashboardLayout";
-import { OverviewDashboard } from "@/app/admin/Components/OverviewDashboard";
-import { BlogsView } from "@/app/admin/Components/BlogsView";
-import { JobApplicationsView } from "@/app/admin/Components/JobApplicationsView";
-import { IndustriesView } from "@/app/admin/Components/IndustriesView";
-import { SolutionsView } from "@/app/admin/Components/SolutionsView";
-import { CaseStudiesView } from "@/app/admin/Components/CaseStudiesView";
-import { TeamMembersView } from "@/app/admin/Components/TeamMembersView";
-import { SubscribersView } from "@/app/admin/Components/SubscribersView";
-import { PartnershipApplicationsView } from "@/app/admin/Components/PartnershipApplicationsView";
-import { ContactMessagesView } from "@/app/admin/Components/ContactMessagesView";
+import { DashboardLayout } from "@/app/eTbfg9xY780vqX/Components/DashboardLayout";
+import { OverviewDashboard } from "@/app/eTbfg9xY780vqX/Components/OverviewDashboard";
+import { BlogsView } from "@/app/eTbfg9xY780vqX/Components/BlogsView";
+import { JobApplicationsView } from "@/app/eTbfg9xY780vqX/Components/JobApplicationsView";
+import { IndustriesView } from "@/app/eTbfg9xY780vqX/Components/IndustriesView";
+import { SolutionsView } from "@/app/eTbfg9xY780vqX/Components/SolutionsView";
+import { CaseStudiesView } from "@/app/eTbfg9xY780vqX/Components/CaseStudiesView";
+import { TeamMembersView } from "@/app/eTbfg9xY780vqX/Components/TeamMembersView";
+import { SubscribersView } from "@/app/eTbfg9xY780vqX/Components/SubscribersView";
+import { PartnershipApplicationsView } from "@/app/eTbfg9xY780vqX/Components/PartnershipApplicationsView";
+import { ContactMessagesView } from "@/app/eTbfg9xY780vqX/Components/ContactMessagesView";
 
 export type View = "overview" | "blogs" | "jobs" | "industries" | "solutions" | "case-studies" | "team-members" | "subscribers" | "partnership" | "contact-messages";
 

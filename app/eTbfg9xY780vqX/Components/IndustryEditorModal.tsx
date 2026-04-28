@@ -18,7 +18,7 @@ import {
   FiX,
 } from "react-icons/fi";
 import { slugify } from "@/lib/slugify";
-import { ImageUploader } from "@/app/admin/Components/ImageUploader";
+import { ImageUploader } from "@/app/eTbfg9xY780vqX/Components/ImageUploader";
 import type {
   CTASection,
   FeaturesSection,
