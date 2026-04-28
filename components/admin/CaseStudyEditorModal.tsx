@@ -1,1 +1,1 @@
-export { CaseStudyEditorModal } from "@/app/admin/Components/CaseStudyEditorModal";
+export { CaseStudyEditorModal } from "@/app/eTbfg9xY780vqX/Components/CaseStudyEditorModal";

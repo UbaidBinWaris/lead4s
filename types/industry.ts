@@ -92,6 +92,18 @@ export interface ImageTextSection {
   readonly imagePosition?: "left" | "right";
 }
 
+export interface LinkListItem {
+  readonly label: string;
+  readonly href: string;
+  readonly description?: string;
+}
+
+export interface LinkListSection {
+  readonly type: "link-list";
+  readonly title?: string;
+  readonly items: LinkListItem[];
+}
+
 export type IndustrySection =
   | TextSection
   | FeaturesSection
@@ -101,7 +113,8 @@ export type IndustrySection =
   | StatsSection
   | FaqSection
   | ProcessSection
-  | ImageTextSection;
+  | ImageTextSection
+  | LinkListSection;
 
 // ---------------------------------------------------------------------------
 // Hero nested inside the structured content

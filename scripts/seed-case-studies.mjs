@@ -27,6 +27,12 @@ const caseStudySeedData = [
           "This solar lead generation case study demonstrates how conversion quality improves when media targeting, qualification logic, and routing speed are managed as one system. The buyer was running multi-geo campaigns and needed scale without adding compliance risk or sales-floor waste.",
       },
       {
+        type: "text",
+        title: "Story: From Volatile Week-to-Week Volume to Predictable Conversations",
+        content:
+          "Before working with Lead4s, the sales floor had no reliable rhythm. Some days produced call spikes that overwhelmed closers, while others were too quiet to hit appointment targets. After launch, the team moved to stable, trackable call windows supported by better intent filtering and transfer readiness logic.",
+      },
+      {
         type: "features",
         title: "What Was Implemented",
         items: [
@@ -51,6 +57,27 @@ const caseStudySeedData = [
         ],
       },
       {
+        type: "process",
+        title: "Execution Timeline",
+        items: [
+          {
+            title: "Week 1-2: Baseline Audit",
+            description:
+              "Channel quality, transfer latency, and call outcomes were mapped to isolate conversion bottlenecks.",
+          },
+          {
+            title: "Week 3-4: Funnel Rebuild",
+            description:
+              "Intent segmentation and qualification checkpoints were implemented across active geographies.",
+          },
+          {
+            title: "Week 5+: Scale and Stabilize",
+            description:
+              "Budget and routing windows were expanded with weekly quality guardrails and source feedback loops.",
+          },
+        ],
+      },
+      {
         type: "faq",
         title: "Solar Program FAQ",
         items: [
@@ -65,6 +92,17 @@ const caseStudySeedData = [
               "Lead4s used pacing controls, source-level quality reviews, and weekly optimization against sales feedback.",
           },
         ],
+      },
+      {
+        type: "cta",
+        eyebrow: "Solar Growth",
+        heading: "Want a solar pipeline with predictable conversation volume?",
+        subheading:
+          "Lead4s can build a compliance-first transfer program aligned to your sales capacity and close goals.",
+        buttonLabel: "Get Started",
+        buttonHref: "/contact",
+        secondaryLabel: "View Solar Program",
+        secondaryHref: "/industries/solar-leads",
       },
     ],
   },
@@ -92,6 +130,12 @@ const caseStudySeedData = [
           "The business needed qualified contractor leads, not generic homeowner form fills. Existing channels produced volatile quality and poor booking predictability, making weekly planning difficult.",
       },
       {
+        type: "text",
+        title: "Story: Rebuilding Trust Across Local Sales Teams",
+        content:
+          "Field teams had lost confidence in lead quality because too many records lacked project readiness. The turning point came when campaign logic was rebuilt around project type and territory fit, giving each branch leads they could actually convert into estimates.",
+      },
+      {
         type: "process",
         title: "Optimization Sequence",
         items: [
@@ -111,6 +155,38 @@ const caseStudySeedData = [
               "Campaign and source decisions were tuned using appointment outcome data.",
           },
         ],
+      },
+      {
+        type: "stats",
+        title: "Outcome Snapshot",
+        items: [
+          {
+            value: "+36%",
+            label: "Estimate Booking Efficiency",
+            description: "Measured after implementing exclusive routing and trade-fit targeting.",
+          },
+          {
+            value: "Higher",
+            label: "Local Team Confidence",
+            description: "Sales reps reported fewer low-fit lead conversations.",
+          },
+          {
+            value: "Reduced",
+            label: "Duplicate Competition",
+            description: "Exclusive delivery reduced overlap across buyer channels.",
+          },
+        ],
+      },
+      {
+        type: "cta",
+        eyebrow: "Contractor Leads",
+        heading: "Need better estimate-ready homeowner leads?",
+        subheading:
+          "We help contractor networks turn inconsistent lead flow into a scalable booking engine.",
+        buttonLabel: "Talk to Sales",
+        buttonHref: "/contact",
+        secondaryLabel: "Explore Home Improvement",
+        secondaryHref: "/industries/home-improvement-leads",
       },
     ],
   },
@@ -159,6 +235,43 @@ const caseStudySeedData = [
         ],
       },
       {
+        type: "process",
+        title: "Story Arc: How Compliance Became a Growth Lever",
+        items: [
+          {
+            title: "Before",
+            description:
+              "Teams hesitated to scale because consent documentation quality was inconsistent across sources.",
+          },
+          {
+            title: "Turning Point",
+            description:
+              "Lead4s introduced verification checkpoints and governance-friendly source traceability.",
+          },
+          {
+            title: "After",
+            description:
+              "The buyer scaled with stronger confidence because growth and compliance controls were aligned.",
+          },
+        ],
+      },
+      {
+        type: "faq",
+        title: "Final Expense FAQ",
+        items: [
+          {
+            question: "How did compliance impact conversion performance?",
+            answer:
+              "Stronger qualification and documentation controls reduced low-fit leads and improved downstream close opportunities.",
+          },
+          {
+            question: "Was this only a legal improvement?",
+            answer:
+              "No. Compliance structure also improved operational confidence, enabling sustained volume growth.",
+          },
+        ],
+      },
+      {
         type: "cta",
         eyebrow: "Insurance Growth",
         heading: "Need compliant final expense lead generation?",
@@ -189,6 +302,12 @@ const caseStudySeedData = [
     displayOrder: 4,
     content: [
       {
+        type: "text",
+        title: "Story: Fixing Inquiry Quality at the Source",
+        content:
+          "The client had volume, but not enough quote-ready prospects. Sales managers flagged that reps spent too much time filtering weak inquiries. Lead4s rebuilt campaign logic around intent depth and policy fit to improve first-contact quality.",
+      },
+      {
         type: "features",
         title: "Program Improvements",
         items: [
@@ -211,6 +330,54 @@ const caseStudySeedData = [
               "Weekly source-level adjustments improved conversion consistency and spend efficiency.",
           },
         ],
+      },
+      {
+        type: "process",
+        title: "Auto Insurance Optimization Path",
+        items: [
+          {
+            title: "Audience and Creative Alignment",
+            description:
+              "Intent and offer relevance were improved before any budget expansion.",
+          },
+          {
+            title: "Policy-Fit Qualification",
+            description:
+              "Forms and routing controls reduced low-intent, low-eligibility submissions.",
+          },
+          {
+            title: "Weekly Conversion Calibration",
+            description:
+              "Source-level spend and quality were tuned against contact and quote outcomes.",
+          },
+        ],
+      },
+      {
+        type: "faq",
+        title: "Auto Insurance FAQ",
+        items: [
+          {
+            question: "What drove the +47% qualified inquiry lift?",
+            answer:
+              "A combination of better intent targeting, policy-fit filters, and faster sales handoff windows.",
+          },
+          {
+            question: "Can this model scale by state?",
+            answer:
+              "Yes. Routing rules can be configured by licensing constraints and local team capacity.",
+          },
+        ],
+      },
+      {
+        type: "cta",
+        eyebrow: "Insurance Acquisition",
+        heading: "Ready to improve quote-ready auto insurance inquiries?",
+        subheading:
+          "Lead4s helps teams reduce waste and increase quality with intent-first acquisition systems.",
+        buttonLabel: "Start Campaign Planning",
+        buttonHref: "/contact",
+        secondaryLabel: "See Related Case Studies",
+        secondaryHref: "/case-studies",
       },
     ],
   },
@@ -238,6 +405,33 @@ const caseStudySeedData = [
           "This personal injury lead generation case study highlights how legal growth depends on consultation readiness, not form quantity. Better pre-intake signals helped attorneys focus on high-value opportunities.",
       },
       {
+        type: "text",
+        title: "Story: From Intake Backlog to Better Case Prioritization",
+        content:
+          "Before optimization, intake specialists were buried in low-fit records. After introducing case-fit rules and richer handoff context, the team moved faster on viable claims and reduced non-billable review effort.",
+      },
+      {
+        type: "process",
+        title: "Legal Intake Transformation",
+        items: [
+          {
+            title: "Case-Type Filtering",
+            description:
+              "Campaign forms were aligned to practice focus and jurisdiction requirements.",
+          },
+          {
+            title: "Context-Rich Lead Handoff",
+            description:
+              "Intake teams received more relevant details to speed triage and scheduling decisions.",
+          },
+          {
+            title: "Consultation Feedback Loop",
+            description:
+              "Close-stage insights fed back into acquisition criteria for ongoing quality improvement.",
+          },
+        ],
+      },
+      {
         type: "faq",
         title: "Legal Campaign FAQ",
         items: [
@@ -252,6 +446,17 @@ const caseStudySeedData = [
               "Yes. Routing logic can be configured by jurisdiction, case priority, and office capacity.",
           },
         ],
+      },
+      {
+        type: "cta",
+        eyebrow: "Legal Intake",
+        heading: "Need more consultation-ready personal injury leads?",
+        subheading:
+          "We build lead programs that help legal teams prioritize fit, speed, and consultation outcomes.",
+        buttonLabel: "Book a Strategy Call",
+        buttonHref: "/contact",
+        secondaryLabel: "Apply for Partnership",
+        secondaryHref: "/partnership",
       },
     ],
   },
@@ -273,6 +478,12 @@ const caseStudySeedData = [
     displayOrder: 6,
     content: [
       {
+        type: "text",
+        title: "Story: Stabilizing Enrollment-Window Volatility",
+        content:
+          "The Medicare team had strong demand periods but inconsistent weekly intake quality. By balancing source mix and pacing delivery to operational capacity, Lead4s helped the client move from reactive staffing to predictable planning.",
+      },
+      {
         type: "process",
         title: "Stabilization Framework",
         items: [
@@ -290,6 +501,43 @@ const caseStudySeedData = [
             title: "Quality Calibration",
             description:
               "Conversion outcomes informed iterative optimization across source partners.",
+          },
+        ],
+      },
+      {
+        type: "stats",
+        title: "Delivery Reliability Metrics",
+        items: [
+          {
+            value: "88%",
+            label: "Weekly Stability",
+            description: "Lead flow consistency improved across enrollment demand cycles.",
+          },
+          {
+            value: "Higher",
+            label: "Conversion Consistency",
+            description: "Improved alignment between intake volume and agent capacity.",
+          },
+          {
+            value: "Lower",
+            label: "Planning Volatility",
+            description: "Forecasting confidence increased with controlled pacing and source balancing.",
+          },
+        ],
+      },
+      {
+        type: "faq",
+        title: "Medicare O65 FAQ",
+        items: [
+          {
+            question: "How did weekly delivery stability improve?",
+            answer:
+              "Lead4s used pacing thresholds, source balancing, and conversion-feedback optimization to smooth volume swings.",
+          },
+          {
+            question: "Can this approach support AEP pressure periods?",
+            answer:
+              "Yes. Capacity-aware controls help teams protect quality when demand spikes during enrollment windows.",
           },
         ],
       },

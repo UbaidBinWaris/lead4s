@@ -1,1 +1,1 @@
-export { CaseStudiesView } from "@/app/admin/Components/CaseStudiesView";
+export { CaseStudiesView } from "@/app/eTbfg9xY780vqX/Components/CaseStudiesView";

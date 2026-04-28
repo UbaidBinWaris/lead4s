@@ -7,6 +7,7 @@ import { StatsSectionComponent } from "./sections/StatsSection";
 import { FaqSectionComponent } from "./sections/FaqSection";
 import { ProcessSectionComponent } from "./sections/ProcessSection";
 import { ImageTextSectionComponent } from "./sections/ImageTextSection";
+import { LinkListSectionComponent } from "./sections/LinkListSection";
 
 interface Props {
   readonly sections: IndustrySection[];
@@ -41,6 +42,9 @@ export function SectionRenderer({ sections }: Props) {
           case "image-text":
             // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
             return <ImageTextSectionComponent key={index} section={section} />;
+          case "link-list":
+            // biome-ignore lint/suspicious/noArrayIndexKey: sections are positional
+            return <LinkListSectionComponent key={index} section={section} />;
           case "hero-cta":
             return null; // consumed by IndustryHero, not rendered inline
           default:
