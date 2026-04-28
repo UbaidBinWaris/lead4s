@@ -7,6 +7,9 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { CampaignMix } from "@/components/sections/CampaignMix";
 import { TcpaCompliance } from "@/components/sections/TcpaCompliance";
 import { HomeFaq } from "@/components/sections/HomeFaq";
+import { PerformanceSnapshot } from "@/components/sections/PerformanceSnapshot";
+import { PartnershipSteps } from "@/components/sections/PartnershipSteps";
+import { SeoInternalLinks } from "@/components/sections/SeoInternalLinks";
 import { getSiteUrl } from "@/lib/site";
 import { toJsonLd } from "@/lib/utils";
 
@@ -117,6 +120,49 @@ const homeJsonLd = toJsonLd({
         },
       ],
     },
+    {
+      "@type": "ItemList",
+      "@id": `${siteUrl}/#money-pages`,
+      name: "Lead4s Money Pages",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Lead Generation Solutions",
+          url: `${siteUrl}/solutions`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Industry Programs",
+          url: `${siteUrl}/industries`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Case Studies",
+          url: `${siteUrl}/case-studies`,
+        },
+        {
+          "@type": "ListItem",
+          position: 4,
+          name: "Blog",
+          url: `${siteUrl}/blog`,
+        },
+        {
+          "@type": "ListItem",
+          position: 5,
+          name: "Contact",
+          url: `${siteUrl}/contact`,
+        },
+        {
+          "@type": "ListItem",
+          position: 6,
+          name: "Partnership",
+          url: `${siteUrl}/partnership`,
+        },
+      ],
+    },
   ],
 });
 
@@ -128,9 +174,12 @@ export default function HomePage() {
       <Hero />
       <ProblemSolution />
       <Services />
+      <PerformanceSnapshot />
       <CampaignMix />
       <TcpaCompliance />
+      <PartnershipSteps />
       <Industries />
+      <SeoInternalLinks />
       <Testimonials />
       <HomeFaq />
     </>
