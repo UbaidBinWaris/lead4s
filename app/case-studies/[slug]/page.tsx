@@ -8,9 +8,10 @@ import { SolutionSection } from "@/components/case-studies/SolutionSection";
 import { SectionRenderer } from "@/components/industry/SectionRenderer";
 import type { CaseStudyResult } from "@/types/case-study";
 import type { IndustrySection } from "@/types/industry";
+import { getSiteUrl } from "@/lib/site";
 
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+const SITE_URL = getSiteUrl();
 
 interface CaseStudyPageProps {
   readonly params: Promise<{ slug: string }>;

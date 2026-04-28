@@ -4,9 +4,10 @@ import Image from "next/image";
 import { db } from "@/lib/db";
 import { formatDate } from "@/lib/blog";
 import { BlogContent } from "@/components/blog/BlogContent";
+import { getSiteUrl } from "@/lib/site";
 
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+const SITE_URL = getSiteUrl();
 
 interface BlogDetailPageProps {
   readonly params: Promise<{ slug: string }>;

@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { db } from "@/lib/db";
+import { getSiteUrl } from "@/lib/site";
 import type { CaseStudyResult } from "@/types/case-study";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+const SITE_URL = getSiteUrl();
 
 export const metadata: Metadata = {
   title: "Case Studies | Lead4s",

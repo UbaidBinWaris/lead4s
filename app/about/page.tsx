@@ -12,8 +12,9 @@ import { Team } from "@/components/about/Team";
 import { CtaBanner } from "@/components/layout/CtaBanner";
 import { aboutData } from "@/data/about";
 import { db } from "@/lib/db";
+import { getSiteUrl } from "@/lib/site";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+const SITE_URL = getSiteUrl();
 
 export const metadata: Metadata = {
   title: "About Lead4s | Performance Lead Generation Network",

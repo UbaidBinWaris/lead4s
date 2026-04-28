@@ -5,6 +5,7 @@ import { toJsonLd } from "@/lib/utils";
 import { IndustryHero } from "@/components/industry/IndustryHero";
 import { SectionRenderer } from "@/components/industry/SectionRenderer";
 import type { FaqSection, HeroCtaSection, IndustrySection } from "@/types/industry";
+import { getSiteUrl } from "@/lib/site";
 
 interface IndustryPageProps {
   readonly params: Promise<{ industrySlug: string }>;
@@ -22,7 +23,7 @@ export async function generateMetadata({
     return { title: "Industry Not Found" };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const siteUrl = getSiteUrl();
 
   const metaTitle = industry.metaTitle ?? `${industry.title} | Lead4s`;
   const metaDescription = industry.metaDescription ?? industry.description ?? undefined;
@@ -63,7 +64,7 @@ export default async function IndustryPage({ params }: IndustryPageProps) {
   }
 
   const sections = industry.content as unknown as IndustrySection[];
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const siteUrl = getSiteUrl();
 
   const heroCta = sections.find((s): s is HeroCtaSection => s.type === "hero-cta");
   const faqSection = sections.find((s): s is FaqSection => s.type === "faq");

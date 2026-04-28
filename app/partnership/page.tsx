@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { PartnershipForm } from "@/components/PartnershipForm";
+import { getSiteUrl } from "@/lib/site";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://lead4s.com";
+const SITE_URL = getSiteUrl();
 
 export const metadata: Metadata = {
   title: "Apply for Partnership — Lead4s",

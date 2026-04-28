@@ -22,11 +22,11 @@ type Service = {
 const SERVICES: Service[] = [
   {
     number: "01",
-    category: "Intelligence",
-    title: "AI Lead Scoring",
+    category: "Acquisition",
+    title: "Targeted Acquisition",
     description:
-      "Our model analyzes 200+ behavioral and firmographic signals to rank every prospect by purchase intent — so your reps only ever call leads that are actually ready to buy.",
-    detail: "200+ intent signals · Updated every 4 hrs",
+      "We run paid search, native, social, and affiliate campaigns built around real consumer intent in your exact vertical.",
+    detail: "Paid search · Native · Social · Affiliate",
     icon: <BrainIcon />,
     hue: "blue",
     glowColor: "59,130,246",
@@ -34,55 +34,55 @@ const SERVICES: Service[] = [
   },
   {
     number: "02",
-    category: "Data",
-    title: "Precision Targeting",
+    category: "Compliance",
+    title: "Qualification & Verification",
     description:
-      "Build hyper-specific ICP lists from 300M+ verified B2B contacts. Filter by role, company size, tech stack, funding stage, and dozens more signals.",
-    detail: "300M+ contacts · Real-time verification",
+      "Every lead is filtered and verified through consent and compliance checks including TrustedForm and TCPA-aware workflows.",
+    detail: "TrustedForm · TCPA-aware protocols",
     icon: <TargetIcon />,
     hue: "violet",
     glowColor: "139,92,246",
   },
   {
     number: "03",
-    category: "Automation",
-    title: "Multi-Channel Outreach",
+    category: "Delivery",
+    title: "Real-Time Lead Delivery",
     description:
-      "Launch personalised sequences across email, LinkedIn, and SMS that fire based on real-time prospect behaviour — not a fixed calendar.",
-    detail: "Email · LinkedIn · SMS",
+      "Leads and calls are delivered instantly via API, CRM posting, or live transfers so your team can respond while intent is high.",
+    detail: "API · CRM posting · Live transfers",
     icon: <ZapIcon />,
     hue: "amber",
     glowColor: "245,158,11",
   },
   {
     number: "04",
-    category: "Integration",
-    title: "CRM Sync",
+    category: "Operations",
+    title: "Optimization & Scaling",
     description:
-      "Enriched leads flow directly into Salesforce, HubSpot, or Pipedrive the moment they qualify — zero copy-paste, zero data lag.",
-    detail: "Salesforce · HubSpot · Pipedrive",
+      "Weekly optimization cycles and dedicated account oversight keep performance stable as your volume and budgets increase.",
+    detail: "Weekly reviews · ROI-focused tuning",
     icon: <PuzzleIcon />,
     hue: "emerald",
     glowColor: "16,185,129",
   },
   {
     number: "05",
-    category: "Insights",
-    title: "Real-Time Analytics",
+    category: "Vertical Programs",
+    title: "Industry-Specific Campaigns",
     description:
-      "Track pipeline velocity, conversion rates, and revenue attribution across every channel from one live command center.",
-    detail: "Live dashboard · Revenue attribution",
+      "Campaigns are built for your market: solar, home improvement, insurance, legal, Medicare, and related performance verticals.",
+    detail: "Solar · Insurance · Legal · Medicare",
     icon: <ChartIcon />,
     hue: "sky",
     glowColor: "14,165,233",
   },
   {
     number: "06",
-    category: "Retention",
-    title: "Smart Follow-Ups",
+    category: "Partnership",
+    title: "Dedicated Growth Partnership",
     description:
-      "AI detects when a cold lead re-engages and fires the right follow-up at exactly the right time — automatically, without any manual trigger.",
-    detail: "Behaviour-triggered · Zero cold leads",
+      "You get a dedicated account manager, transparent reporting, and direct collaboration focused on long-term acquisition performance.",
+    detail: "Account management · Weekly reporting",
     icon: <RefreshIcon />,
     hue: "rose",
     glowColor: "244,63,94",
@@ -125,17 +125,17 @@ export function Services() {
             variants={fadeInUp}
             className="mb-5 text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl"
           >
-            Everything your sales team
+            High-intent lead and call supply
             <br />
-            <span className="gradient-brand-text">needs to win more deals</span>
+            <span className="gradient-brand-text">across core revenue verticals</span>
           </motion.h2>
 
           <motion.p
             variants={fadeInUp}
             className="mx-auto max-w-2xl text-base leading-relaxed text-slate-400"
           >
-            One platform that replaces five point solutions — from prospecting to
-            close, powered by AI at every step.
+            Built for serious buyers that need reliable, compliant, and scalable
+            acquisition volume backed by real operational support.
           </motion.p>
         </motion.div>
 

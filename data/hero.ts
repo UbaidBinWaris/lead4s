@@ -105,11 +105,11 @@ export type HeroContent = {
 
 export const heroContent: HeroContent = {
   id: "hero",
-  headlineStart: "The Force",
-  headlineAccent: "Behind your",
-  headlineEnd: "Success",
+  headlineStart: "Scalable Lead Generation",
+  headlineAccent: "Infrastructure for",
+  headlineEnd: "High-Growth Businesses",
   description:
-    "Lead4s delivers exclusive leads, live transfer calls, and booked appointments across solar, home improvement, insurance, and legal industries built for businesses that require consistent, compliant, and high-intent customer acquisition.",
+    "Lead4s delivers exclusive leads, live transfer calls, and booked appointments across solar, home improvement, insurance, legal, and Medicare verticals for buyers that need consistent, compliant, and high-intent customer acquisition.",
   ctaPrimary: {
     href: "/partnership",
     text: "Apply for partnership",
@@ -118,14 +118,14 @@ export const heroContent: HeroContent = {
   },
   ctaSecondary: {
     href: "https://calendly.com/talatkhan/new-meeting",
-    text: "Schedule Strategic Call",
+    text: "Schedule Strategy Call",
     visible: true,
     iconName: "calendar",
   },
   stats: [
-    { value: "2,400+", label: "Active clients" },
-    { value: "94%", label: "Retention rate" },
-    { value: "3.8x", label: "Avg. ROI" },
+    { value: "1,200+", label: "Businesses served" },
+    { value: "98%", label: "Delivery reliability" },
+    { value: "3.8x", label: "Average ROI" },
   ],
   cardTitle: "Live Lead Pipeline",
   cardDateLabel: "Today",

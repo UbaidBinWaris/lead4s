@@ -8,8 +8,9 @@ import {
 } from "react-icons/lu";
 import { db } from "@/lib/db";
 import { solutionsPageData } from "@/data/solutions";
+import { getSiteUrl } from "@/lib/site";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+const SITE_URL = getSiteUrl();
 
 type AccentColor = "blue" | "emerald" | "violet" | "amber" | "indigo";
 

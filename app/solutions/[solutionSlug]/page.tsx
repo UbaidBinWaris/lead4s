@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { IndustryHero } from "@/components/industry/IndustryHero";
 import { SectionRenderer } from "@/components/industry/SectionRenderer";
 import type { IndustrySection } from "@/types/industry";
+import { getSiteUrl } from "@/lib/site";
 
 
 interface SolutionPageProps {
@@ -22,7 +23,7 @@ export async function generateMetadata({
     return { title: "Solution Not Found" };
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const siteUrl = getSiteUrl();
 
   const metaTitle = solution.metaTitle ?? `${solution.title} | Lead4s Solutions`;
   const metaDescription = solution.metaDescription ?? solution.description ?? undefined;

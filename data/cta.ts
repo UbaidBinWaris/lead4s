@@ -28,10 +28,10 @@ export type CtaContent = {
 
 export const ctaContent: CtaContent = {
   kicker: "Ready to scale with predictable lead flow?",
-  heading: "Built for serious buyers who need",
+  heading: "Built for serious buyers who demand",
   highlighted: "reliable, compliant, and scalable volume",
   description:
-    "Lead4s delivers exclusive leads, live transfer calls, and appointment setting across core growth verticals. Connect your team in minutes and scale with confidence.",
+    "If you need consistent lead and call volume across core revenue verticals, Lead4s is built to deliver with compliance-first systems and real-time handoff.",
   logos: [
     "Solar Providers",
     "Home Improvement",

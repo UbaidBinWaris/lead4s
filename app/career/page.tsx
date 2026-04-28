@@ -23,11 +23,28 @@ import {
   openPositions,
   whyJoinLead4s,
 } from "@/data/careers";
+import { getSiteUrl } from "@/lib/site";
+
+const SITE_URL = getSiteUrl();
 
 export const metadata: Metadata = {
   title: "Careers | Lead4s",
   description:
-    "Join Lead4s as a CSR, Self-Verification Executive, or Verification Specialist in Rawalpindi or remote roles.",
+    "Join Lead4s and build your career in lead operations, customer success, and performance-driven growth roles.",
+  keywords: ["lead4s careers", "customer support jobs", "lead generation careers", "remote roles"],
+  alternates: { canonical: `${SITE_URL}/career` },
+  openGraph: {
+    title: "Careers | Lead4s",
+    description:
+      "Explore current openings at Lead4s and grow with a performance-focused team.",
+    type: "website",
+    url: `${SITE_URL}/career`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Careers | Lead4s",
+    description: "Explore current openings and build your career with Lead4s.",
+  },
 };
 
 export default function CareerPage() {

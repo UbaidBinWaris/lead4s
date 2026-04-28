@@ -1,18 +1,26 @@
 import type { Metadata } from "next";
 import { db } from "@/lib/db";
 import { BlogCard } from "@/components/blog/BlogCard";
+import { getSiteUrl } from "@/lib/site";
 
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+const SITE_URL = getSiteUrl();
 
 export const metadata: Metadata = {
   title: "Blog | Lead4s",
-  description: "Read our latest insights on lead generation, sales, and growth strategies.",
+  description: "Read practical insights on lead generation, lead quality, conversion systems, and compliant customer acquisition.",
+  keywords: ["lead generation blog", "lead quality", "sales conversion", "performance marketing"],
   openGraph: {
     title: "Blog | Lead4s",
-    description: "Read our latest insights on lead generation, sales, and growth strategies.",
+    description: "Read practical insights on lead generation, lead quality, conversion systems, and compliant customer acquisition.",
     type: "website",
     url: `${SITE_URL}/blog`,
+  },
+  alternates: { canonical: `${SITE_URL}/blog` },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | Lead4s",
+    description: "Insights on lead generation systems, compliance, and scalable growth.",
   },
 };
 

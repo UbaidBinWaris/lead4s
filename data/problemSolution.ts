@@ -18,45 +18,45 @@ export type ProblemSolutionContent = {
 
 export const problemSolutionContent: ProblemSolutionContent = {
   id: "problem-solution",
-  kicker: "Problem + Solution",
-  heading: "Most buyers fail from weak lead",
-  headingAccent: "infrastructure, not weak sales",
+  kicker: "How We Deliver Consistent Performance",
+  heading: "Most growth teams do not need more leads",
+  headingAccent: "they need better lead infrastructure",
   intro:
-    "Lead4s helps growth teams replace inconsistent lead supply with a compliant system designed for predictable volume and retention.",
+    "Lead4s replaces inconsistent lead supply with a predictable, compliance-first acquisition engine built for scalable revenue growth.",
   problemsTitle: "What usually breaks",
   solutionsTitle: "How Lead4s fixes it",
   items: [
     {
-      problemTitle: "Lead quality is inconsistent",
+      problemTitle: "Acquisition is broad, expensive, and low intent",
       problemText:
-        "Volume looks good on paper, but intent is low and close rates collapse after the first week.",
-      solutionTitle: "Targeted acquisition channels",
+        "Campaigns may generate volume, but unqualified traffic creates low contact rates and weak downstream ROI.",
+      solutionTitle: "Targeted acquisition across high-intent channels",
       solutionText:
-        "We run multi-channel campaigns across paid search, social, native, and affiliate traffic to capture active, high-intent buyers.",
+        "We deploy paid search, native, social, and affiliate traffic programs tuned by vertical to capture prospects actively seeking services.",
     },
     {
-      problemTitle: "Compliance risk slows growth",
+      problemTitle: "Compliance gaps increase legal and operational risk",
       problemText:
-        "Unverified data and weak consent records expose teams to TCPA and trust issues with buyers.",
-      solutionTitle: "Qualification and compliance layer",
+        "Missing or weak consent records create TCPA risk and force buyers to reduce volume even when demand is high.",
+      solutionTitle: "Qualification and compliance on every lead",
       solutionText:
-        "Every lead is filtered and validated through compliance systems including TrustedForm and TCPA verification protocols.",
+        "Every lead is filtered, validated, and processed through TrustedForm and TCPA-aware protocols before delivery.",
     },
     {
-      problemTitle: "Slow handoff kills conversion",
+      problemTitle: "Slow handoff destroys speed-to-lead performance",
       problemText:
-        "By the time a lead reaches your sales floor, response windows are gone and CPL efficiency drops.",
-      solutionTitle: "Real-time delivery pipeline",
+        "When leads arrive late, contact windows close quickly and sales teams lose high-intent opportunities.",
+      solutionTitle: "Real-time delivery to your sales stack",
       solutionText:
-        "Leads and calls are delivered instantly via API, CRM posting, or live transfers directly to your intake team.",
+        "Leads and calls are delivered instantly through API, CRM posting, or live transfer routing to your intake operation.",
     },
     {
-      problemTitle: "Scale creates performance drift",
+      problemTitle: "Scaling volume often erodes quality and margin",
       problemText:
-        "Campaigns expand quickly, but ROI degrades without structured optimization and account oversight.",
-      solutionTitle: "Optimization and scaling engine",
+        "Many campaigns break after initial wins because optimization is reactive and reporting is delayed.",
+      solutionTitle: "Weekly optimization and account management",
       solutionText:
-        "Dedicated account management and weekly optimization cycles keep performance stable as volume grows.",
+        "Dedicated account management with weekly optimization cycles keeps ROI stable while delivery volume increases.",
     },
   ],
 };
