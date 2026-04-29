@@ -17,29 +17,32 @@ import ScrollAnimation from '@/components/scrol_animation'
 const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
-  title: "Scalable Lead Generation Infrastructure for High-Growth Businesses",
+  title: "Solar, Medicare & Home Improvement Lead Generation",
   description:
-    "Lead4s helps serious buyers scale customer acquisition with exclusive leads, live transfer calls, and appointment setting across Home Improvement, Insurance, Legal, and Solar campaigns.",
+    "Exclusive CPL leads, live transfers & booked appointments for Solar, Medicare, Home Improvement & Final Expense buyers. TCPA-compliant, real-time delivery.",
   keywords: [
-    "lead generation infrastructure",
-    "home improvement leads",
-    "insurance leads",
-    "legal leads",
     "solar leads",
+    "Medicare leads",
+    "Medicare supplement leads",
+    "home improvement leads",
+    "final expense leads",
+    "insurance leads",
+    "lead generation",
+    "live transfer calls",
+    "appointment setting",
     "TCPA compliant lead generation",
     "TrustedForm lead verification",
     "real-time lead delivery",
     "high-intent leads",
-    "live transfer calls",
-    "appointment setting",
     "compliance-first lead generation",
     "performance lead supply",
+    "legal leads",
   ],
   alternates: { canonical: siteUrl },
   openGraph: {
-    title: "Scalable Lead Generation Infrastructure for High-Growth Businesses",
+    title: "Lead4s — Solar, Medicare & Home Improvement Lead Generation",
     description:
-      "Exclusive lead and call supply focused on Home Improvement (40%), Insurance (25%), Legal (20%), and Solar (15%) campaigns.",
+      "Exclusive leads, live transfers & appointments across Solar, Medicare, Home Improvement & Final Expense. TCPA-compliant with real-time delivery.",
     type: "website",
     url: siteUrl,
     images: [
@@ -47,15 +50,15 @@ export const metadata: Metadata = {
         url: `${siteUrl}/og.png`,
         width: 1200,
         height: 630,
-        alt: "Lead4s scalable lead generation infrastructure",
+        alt: "Lead4s lead generation for Solar, Medicare, Home Improvement and Final Expense",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lead4s - Scalable Lead Generation Infrastructure",
+    title: "Lead4s — Solar, Medicare & Home Improvement Leads",
     description:
-      "Scale with predictable lead flow using compliance-first acquisition and real-time delivery.",
+      "Exclusive CPL leads, live transfers & appointments for Solar, Medicare, Home Improvement & Final Expense buyers. TCPA-compliant.",
     images: [`${siteUrl}/og.png`],
   },
 };
@@ -67,9 +70,9 @@ const homeJsonLd = toJsonLd({
       "@type": "WebPage",
       "@id": `${siteUrl}/#webpage`,
       url: siteUrl,
-      name: "Scalable Lead Generation Infrastructure for High-Growth Businesses",
+      name: "Solar, Medicare & Home Improvement Lead Generation | Lead4s",
       description:
-        "Lead4s delivers exclusive leads, live transfer calls, and booked appointments with campaign focus in Home Improvement, Insurance, Legal, and Solar.",
+        "Lead4s delivers exclusive CPL leads, live transfers & booked appointments for Solar, Medicare, Home Improvement & Final Expense buyers. TCPA-compliant, real-time delivery.",
       isPartOf: { "@id": `${siteUrl}/#website` },
       about: { "@id": `${siteUrl}/#organization` },
     },
@@ -83,6 +86,10 @@ const homeJsonLd = toJsonLd({
         "@type": "OfferCatalog",
         name: "Lead4s Solutions",
         itemListElement: [
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Solar Leads" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Medicare Leads" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Home Improvement Leads" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Final Expense Leads" } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Exclusive CPL Leads" } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Live Transfer Calls" } },
           { "@type": "Offer", itemOffered: { "@type": "Service", name: "Appointment Setting" } },
@@ -100,7 +107,31 @@ const homeJsonLd = toJsonLd({
           name: "What industries does Lead4s prioritize right now?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Our top-performing campaign mix is Home Improvement (40%), Insurance (25%), Legal (20%), and Solar (15%).",
+            text: "Our top-performing verticals are Solar, Medicare (AEP & supplement), Home Improvement (roofing, HVAC, windows), and Final Expense insurance.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do you supply Medicare leads?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. Lead4s supplies Medicare Advantage, Medicare Supplement (Medigap), and U65 leads through exclusive CPL programs with TCPA-compliant consent workflows.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What Home Improvement verticals do you cover?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "We cover roofing, HVAC replacement, window and door replacement, bathroom remodels, and solar installation under our Home Improvement programs.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Do you offer Final Expense leads?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. We run Final Expense campaigns via direct mail follow-up, outbound SDR, and paid social, delivering exclusive leads with verified opt-in consent.",
           },
         },
         {
@@ -108,7 +139,7 @@ const homeJsonLd = toJsonLd({
           name: "Are Lead4s leads TCPA compliant?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Lead4s campaigns are run with consent-first workflows, verification checkpoints, and audit-ready tracking infrastructure.",
+            text: "Lead4s campaigns are run with consent-first workflows, verification checkpoints, and audit-ready tracking infrastructure including TrustedForm certificates.",
           },
         },
         {

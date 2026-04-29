@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import {
   FaArrowRight,
@@ -12,9 +12,28 @@ import { fadeInUp, staggerContainer } from "@/lib/animations";
 import { cn } from "@/lib/utils";
 import { heroContent } from "@/data/hero";
 
-/* ── Hero ─────────────────────────────────────────────────────── */
+/* ── Count-up hook ────────────────────────────────────────────────── */
+function useCountUp(to: number, delayS = 0, duration = 1.4) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const start = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min((now - start) / (duration * 1000), 1);
+        setVal(Math.round(to * (1 - (1 - p) ** 3)));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, delayS * 1000);
+    return () => clearTimeout(t);
+  }, [to, delayS, duration]);
+  return val;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const resumeRef  = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -24,17 +43,17 @@ export function Hero() {
 
   const ctaIconMap = {
     handshake: FaHandshake,
-    calendar: FaCalendarAlt,
-    arrow: FaArrowRight,
+    calendar:  FaCalendarAlt,
+    arrow:     FaArrowRight,
   } as const;
-  const PrimaryCtaIcon = ctaIconMap[heroContent.ctaPrimary.iconName];
+  const PrimaryCtaIcon   = ctaIconMap[heroContent.ctaPrimary.iconName];
   const SecondaryCtaIcon = ctaIconMap[heroContent.ctaSecondary.iconName];
 
   const crmStages = [
-    { key: "new",       label: "New" },
+    { key: "new",       label: "New"       },
     { key: "qualified", label: "Qualified" },
-    { key: "proposal",  label: "Proposal" },
-    { key: "won",       label: "Won" },
+    { key: "proposal",  label: "Proposal"  },
+    { key: "won",       label: "Won"       },
   ] as const;
   type StageKey = (typeof crmStages)[number]["key"];
 
@@ -91,20 +110,83 @@ export function Hero() {
 
   const forecastPct = totalPipeline > 0 ? (weightedForecast / totalPipeline) * 100 : 0;
 
-  /* Stage style map — minimal monochrome, only Won gets a success tint */
   const stageStyle = {
-    new:       { bar: "from-slate-600 to-slate-500",     dot: "bg-slate-500",    badge: "bg-slate-800/70 border-slate-700/60 text-slate-400"     },
-    qualified: { bar: "from-slate-500 to-slate-400",     dot: "bg-slate-400",    badge: "bg-slate-800/70 border-slate-700/60 text-slate-400"     },
-    proposal:  { bar: "from-brand-700 to-brand-500",     dot: "bg-brand-400",    badge: "bg-slate-800/70 border-slate-700/60 text-slate-400"     },
-    won:       { bar: "from-emerald-700 to-emerald-500", dot: "bg-emerald-400",  badge: "bg-emerald-500/10 border-emerald-600/30 text-emerald-400" },
+    new:       { bar: "from-slate-600 to-slate-500",     dot: "bg-slate-500",   badge: "bg-slate-800/70 border-slate-700/60 text-slate-400"      },
+    qualified: { bar: "from-slate-500 to-slate-400",     dot: "bg-slate-400",   badge: "bg-slate-800/70 border-slate-700/60 text-slate-400"      },
+    proposal:  { bar: "from-brand-700 to-brand-500",     dot: "bg-brand-400",   badge: "bg-slate-800/70 border-slate-700/60 text-slate-400"      },
+    won:       { bar: "from-emerald-700 to-emerald-500", dot: "bg-emerald-400", badge: "bg-emerald-500/10 border-emerald-600/30 text-emerald-400" },
   } as const;
 
-  /* Probability ring — brand blue always; emerald only when Won (100%) */
   const selectedDeal = allDeals.find((d) => d.id === selectedDealId);
-  const prob = selectedDeal?.probability ?? 0;
-  const ringR    = 26;
-  const ringCirc = 2 * Math.PI * ringR;
+  const prob      = selectedDeal?.probability ?? 0;
+  const ringR     = 26;
+  const ringCirc  = 2 * Math.PI * ringR;
   const ringColor = prob === 100 ? "#10b981" : "#2563eb";
+
+  /* ── Auto-cycle deals ─────────────────────────────────────────── */
+  const [isPaused,      setIsPaused]      = useState(false);
+  const [cycleProgress, setCycleProgress] = useState(0);
+
+  useEffect(() => {
+    if (isPaused) return;
+    const INTERVAL = 3500;
+    const TICK     = 50;
+    let elapsed    = 0;
+    const id = setInterval(() => {
+      elapsed += TICK;
+      setCycleProgress(elapsed / INTERVAL);
+      if (elapsed >= INTERVAL) {
+        elapsed = 0;
+        setCycleProgress(0);
+        setSelectedDealId((prev) => {
+          const idx = allDeals.findIndex((d) => d.id === prev);
+          return allDeals[(idx + 1) % allDeals.length]?.id ?? prev;
+        });
+      }
+    }, TICK);
+    return () => clearInterval(id);
+  }, [isPaused, allDeals]);
+
+  const handleDealClick = (id: string) => {
+    setSelectedDealId(id);
+    setCycleProgress(0);
+    setIsPaused(true);
+    if (resumeRef.current) clearTimeout(resumeRef.current);
+    resumeRef.current = setTimeout(() => setIsPaused(false), 5000);
+  };
+
+  /* ── Live vertical ticker ─────────────────────────────────────── */
+  const liveLeads = [
+    { vertical: "Solar",            value: "$6,200" },
+    { vertical: "Medicare",         value: "$4,800" },
+    { vertical: "Home Improvement", value: "$5,500" },
+    { vertical: "Final Expense",    value: "$3,900" },
+  ] as const;
+  const [liveIdx,     setLiveIdx]     = useState(0);
+  const [liveVisible, setLiveVisible] = useState(true);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setLiveVisible(false);
+      setTimeout(() => {
+        setLiveIdx((p) => (p + 1) % liveLeads.length);
+        setLiveVisible(true);
+      }, 350);
+    }, 3800);
+    return () => clearInterval(id);
+  }, [liveLeads.length]);
+
+  /* ── KPI count-up ─────────────────────────────────────────────── */
+  const parseMetricNum = (v: string) => parseInt(v.replace(/[^0-9]/g, ""), 10) || 0;
+  const formatMetricVal = (original: string, counted: number) => {
+    if (original.startsWith("$") && original.endsWith("k")) return `$${counted}k`;
+    if (original.endsWith("%")) return `${counted}%`;
+    return `${counted}`;
+  };
+  const counted0 = useCountUp(parseMetricNum(heroContent.crm.metrics[0]?.value ?? "0"), 0.4);
+  const counted1 = useCountUp(parseMetricNum(heroContent.crm.metrics[1]?.value ?? "0"), 0.5);
+  const counted2 = useCountUp(parseMetricNum(heroContent.crm.metrics[2]?.value ?? "0"), 0.6);
+  const countedMetrics = [counted0, counted1, counted2];
 
   return (
     <section
@@ -203,29 +285,46 @@ export function Hero() {
             transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="relative hidden lg:flex lg:flex-col"
           >
-            {/* ── Subtle border shell ────────────────────────────── */}
             <div className="flex flex-1 flex-col rounded-2xl p-px bg-linear-to-br from-slate-600/50 via-slate-700/10 to-slate-600/30 shadow-[0_20px_60px_rgba(0,0,0,0.7)]">
               <div className="relative flex flex-1 flex-col overflow-hidden rounded-2xl bg-[#07090f] backdrop-blur-xl">
 
-                {/* Subtle ambient — blue only, very soft */}
                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_30%_at_50%_0%,rgba(37,99,235,0.08),transparent_70%)]" />
 
                 {/* ── Header ──────────────────────────────────────── */}
                 <div className="relative flex items-center justify-between border-b border-white/8 px-5 py-3.5">
                   <div className="flex items-center gap-2.5">
-
                     <h3 className="text-sm font-semibold pl-2 text-white">{heroContent.crm.title}</h3>
                   </div>
 
+                  {/* Live vertical ticker */}
+                  <AnimatePresence mode="wait">
+                    {liveVisible && (
+                      <motion.div
+                        key={liveIdx}
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.22 }}
+                        className="flex items-center gap-1.5"
+                      >
+                        <span className="relative flex h-1.5 w-1.5">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        </span>
+                        <span className="text-[9px] font-semibold text-emerald-400">New</span>
+                        <span className="text-[9px] text-slate-600">·</span>
+                        <span className="text-[9px] text-slate-300">{liveLeads[liveIdx].vertical}</span>
+                        <span className="text-[9px] font-bold text-white">{liveLeads[liveIdx].value}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* ── Pipeline hero metric + sparkline ────────────── */}
                 <div className="relative border-b border-white/8 px-5 py-4">
-                  {/* Soft blue bloom behind the number */}
                   <div className="pointer-events-none absolute left-0 top-0 h-28 w-56 bg-[radial-gradient(ellipse_at_20%_0%,rgba(37,99,235,0.15),transparent_70%)]" />
 
                   <div className="flex items-start justify-between gap-3">
-                    {/* Left: headline metric */}
                     <div>
                       <p className="text-[10px] uppercase tracking-widest text-slate-500">
                         Total Pipeline Value
@@ -234,7 +333,6 @@ export function Hero() {
                         ${totalPipeline.toLocaleString()}
                       </p>
                       <div className="mt-2 flex flex-wrap items-center gap-2">
-                        {/* MoM badge */}
                         <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/25 bg-emerald-500/12 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">
                           <svg className="h-2 w-2" viewBox="0 0 6 6" fill="currentColor">
                             <path d="M3 0L6 6H0Z" />
@@ -251,7 +349,6 @@ export function Hero() {
                       </div>
                     </div>
 
-                    {/* Right: mini sparkline (blue → orange gradient line) */}
                     <div className="mt-1 h-10 w-24 shrink-0">
                       <svg
                         viewBox="0 0 100 50"
@@ -281,7 +378,6 @@ export function Hero() {
                     </div>
                   </div>
 
-                  {/* Forecast progress bar with glow */}
                   <div className="mt-3">
                     <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800/90">
                       <motion.div
@@ -297,7 +393,7 @@ export function Hero() {
                   </div>
                 </div>
 
-                {/* ── KPI tiles ───────────────────────────────────── */}
+                {/* ── KPI tiles — count-up on mount ───────────────── */}
                 <div className="relative grid grid-cols-3 divide-x divide-white/8 border-b border-white/8">
                   {heroContent.crm.metrics.map((metric, i) => (
                     <motion.div
@@ -308,7 +404,9 @@ export function Hero() {
                       className="flex flex-col px-4 py-3"
                     >
                       <p className="text-[10px] text-slate-500">{metric.label}</p>
-                      <p className="mt-0.5 text-lg font-bold tabular-nums text-white">{metric.value}</p>
+                      <p className="mt-0.5 text-lg font-bold tabular-nums text-white">
+                        {formatMetricVal(metric.value, countedMetrics[i] ?? 0)}
+                      </p>
                       <div className="mt-0.5 flex items-center gap-1">
                         <svg className="h-2 w-2 text-emerald-500" viewBox="0 0 6 6" fill="currentColor">
                           <path d="M3 0L6 6H0Z" />
@@ -356,8 +454,12 @@ export function Hero() {
                 {/* ── Deal list + probability ring ─────────────────── */}
                 <div className="relative flex-1 grid grid-cols-[1fr_auto] divide-x divide-white/8 border-b border-white/8">
 
-                  {/* Deal cards */}
-                  <div className="flex flex-col justify-between px-4 py-3 gap-1.5">
+                  {/* Deal cards — auto-cycles, pauses on hover */}
+                  <div
+                    className="flex flex-col justify-between px-4 py-3 gap-1.5"
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                  >
                     {allDeals.map((deal) => {
                       const sty    = stageStyle[deal.stage];
                       const active = deal.id === selectedDealId;
@@ -365,7 +467,7 @@ export function Hero() {
                         <motion.button
                           key={deal.id}
                           type="button"
-                          onClick={() => setSelectedDealId(deal.id)}
+                          onClick={() => handleDealClick(deal.id)}
                           whileHover={{ x: 2 }}
                           whileTap={{ scale: 0.98 }}
                           className={cn(
@@ -384,6 +486,15 @@ export function Hero() {
                         </motion.button>
                       );
                     })}
+
+                    {/* Auto-cycle progress indicator */}
+                    <div className="h-px w-full overflow-hidden rounded-full bg-slate-800/60">
+                      <motion.div
+                        animate={{ width: `${cycleProgress * 100}%` }}
+                        transition={{ duration: 0.05, ease: "linear" }}
+                        className="h-full rounded-full bg-brand-500/50"
+                      />
+                    </div>
                   </div>
 
                   {/* Probability ring */}
@@ -395,14 +506,12 @@ export function Hero() {
                           <feComposite in="SourceGraphic" in2="blur" operator="over" />
                         </filter>
                       </defs>
-                      {/* Track */}
                       <circle
                         cx="34" cy="34" r={ringR}
                         fill="none"
                         stroke="rgba(255,255,255,0.07)"
                         strokeWidth="5"
                       />
-                      {/* Animated arc */}
                       <motion.circle
                         key={selectedDealId}
                         cx="34" cy="34" r={ringR}
