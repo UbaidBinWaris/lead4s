@@ -17,7 +17,7 @@ const IMAGES = [
 const IMAGE_ROTATIONS = [270, 0, 180, 90]
 
 /** Outer circle diameter in px */
-const OUTER_SIZE = 320 // px
+const OUTER_SIZE = 520 // px
 
 /** Inner (hole) circle diameter in px */
 const INNER_SIZE = 192 // px
@@ -25,71 +25,39 @@ const INNER_SIZE = 192 // px
 /** Divider line thickness in px */
 const DIVIDER_SIZE = 12 // px
 
-/** Total degrees the circle rotates across the full scroll zone */
-const ROTATION_DEGREES = 270
+/** Only these angles are visible while scrolling */
+const ROTATION_STEPS = [0, 90, 180, 270]
 
-/**
- * Degree marks where the rotation pauses.
- * At each angle the circle holds still for SNAP_PAUSE_VH of scrolling.
- */
-const SNAP_ANGLES = [90, 180, 270]
+/** Scroll distance (in vh) required to move one step */
+const STEP_SCROLL_VH = 0.85
 
-/**
- * How many viewport-heights of scroll are "consumed" as a pause at each snap angle.
- * Higher = longer pause. 0 = no pause.
- */
-const SNAP_PAUSE_VH = 1
+/** Small hold before first step starts */
+const ENTRY_DELAY_VH = 0.5
 
-/** Initial delay after section is fully visible, before rotation starts */
-const ENTRY_DELAY_VH = 0.8
+// ─── DERIVED (do not edit) ───────────ll switch the rotation to discrete snap steps (0°, 90°, 180°, 270° only) and add auto-jump behavior so small scrolls move directly to the next step instead of stopping between angles.
 
-/** Scroll budget for each rotation segment (0-90, 90-180, 180-270) */
-const ROTATION_SEGMENT_VH = [0.3, 0.85, 0.85]
-
-/** Viewport-heights of scroll dedicated to the actual spinning (excluding pauses) */
-const SCROLL_HEIGHT_VH = ROTATION_SEGMENT_VH.reduce((sum, value) => sum + value, 0)
-
-// ─── DERIVED (do not edit) ────────────────────────────────────────────────────
 
 /** Total scroll zone height including all pause zones */
-const TOTAL_VH = ENTRY_DELAY_VH + SCROLL_HEIGHT_VH + SNAP_ANGLES.length * SNAP_PAUSE_VH
+const TOTAL_VH = ENTRY_DELAY_VH + STEP_SCROLL_VH * (ROTATION_STEPS.length - 1)
 
 /**
- * Maps raw scroll progress (0–1) to rotation degrees,
- * inserting a dead zone at each SNAP_ANGLE.
+ * Maps raw scroll progress (0–1) to discrete rotation steps.
+ * Result is always one of: 0, 90, 180, 270.
  */
 function scrollToRotation(progress: number): number {
     const scrolledVh = progress * TOTAL_VH
-
-    let remaining = scrolledVh
-    let angle = 0
-    const prevAngle = [0, ...SNAP_ANGLES]
-
-    // Hold at 0deg until the section is fully in view for a short time.
-    if (remaining <= ENTRY_DELAY_VH) {
-        return 0
-    }
-    remaining -= ENTRY_DELAY_VH
-
-    for (let i = 0; i < SNAP_ANGLES.length; i++) {
-        const segDeg = SNAP_ANGLES[i] - prevAngle[i]
-        const segmentVh = ROTATION_SEGMENT_VH[i] ?? ROTATION_SEGMENT_VH.at(-1)
-
-        // Rotation segment
-        if (remaining <= segmentVh) {
-            return angle + (remaining / segmentVh) * segDeg
-        }
-        remaining -= segmentVh
-        angle = SNAP_ANGLES[i]
-
-        // Pause zone at this snap angle
-        if (remaining <= SNAP_PAUSE_VH) {
-            return SNAP_ANGLES[i]
-        }
-        remaining -= SNAP_PAUSE_VH
+    if (scrolledVh <= ENTRY_DELAY_VH) {
+        return ROTATION_STEPS[0]
     }
 
-    return ROTATION_DEGREES
+    const usableVh = scrolledVh - ENTRY_DELAY_VH
+    const rawStep = usableVh / STEP_SCROLL_VH
+    const stepIndex = Math.min(
+        ROTATION_STEPS.length - 1,
+        Math.max(0, Math.round(rawStep)),
+    )
+
+    return ROTATION_STEPS[stepIndex]
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -134,6 +102,7 @@ export default function TestPage() {
                             width: OUTER_SIZE,
                             height: OUTER_SIZE,
                             transform: `rotate(${rotation}deg)`,
+                            transition: 'transform 420ms ease-out',
                             willChange: 'transform',
                         }}
                     >
