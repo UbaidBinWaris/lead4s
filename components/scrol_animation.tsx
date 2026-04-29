@@ -30,7 +30,7 @@ const EXIT_DELAY_VH = 1
 const STEP_CONTENT = [
     {
         eyebrow: 'Home Improvement',
-        image: '/test-comp/home.webp',
+        image: '/test-comp/insurance.webp',
         imageRotation: 270,
         heading: 'Fill Your Installation Calendar — Every Week',
         body: 'Lead4s connects home improvement contractors with high-intent homeowners actively requesting quotes. Every contact is TCPA-verified, delivered to your CRM in real time, and exclusive to your business.',
@@ -59,7 +59,7 @@ const STEP_CONTENT = [
     },
     {
         eyebrow: 'Insurance',
-        image: '/test-comp/insurance.webp',
+        image: '/test-comp/home.webp',
         imageRotation: 0,
         heading: 'Policy-Ready Buyers. Delivered at 50ms.',
         body: 'Stop chasing cold lists. Lead4s routes verified insurance leads to the best matching agent or offer the moment intent is captured — with TrustForm consent documentation on every record.',

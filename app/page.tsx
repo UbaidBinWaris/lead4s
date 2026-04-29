@@ -12,6 +12,7 @@ import { PartnershipSteps } from "@/components/sections/PartnershipSteps";
 import { SeoInternalLinks } from "@/components/sections/SeoInternalLinks";
 import { getSiteUrl } from "@/lib/site";
 import { toJsonLd } from "@/lib/utils";
+import ScrollAnimation from '@/components/scrol_animation'
 
 const siteUrl = getSiteUrl();
 
@@ -173,6 +174,7 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: homeJsonLd }} />
       <Hero />
       <ProblemSolution />
+      <ScrollAnimation />
       <Services />
       <PerformanceSnapshot />
       <CampaignMix />
