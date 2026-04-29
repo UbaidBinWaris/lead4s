@@ -14,7 +14,7 @@ export type HeaderData = {
 
 export const headerData: HeaderData = {
   companyName: "Lead4s",
-  logoPath: "/icon.png",
+  logoPath: "/icon.webp",
   heading: "The Force behind your success",
   subheading: "",
   links: [

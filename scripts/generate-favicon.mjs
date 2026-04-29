@@ -4,7 +4,7 @@ import sharp from "sharp";
 import pngToIco from "png-to-ico";
 
 const root = process.cwd();
-const sourcePath = path.join(root, "public", "icon.png");
+const sourcePath = path.join(root, "public", "icon.webp");
 const outputDir = path.join(root, "app");
 const outputPath = path.join(outputDir, "favicon.ico");
 

@@ -39,7 +39,7 @@ export type FooterContent = {
 export const footerContent: FooterContent = {
   brandName: "Lead4s",
   tagline: "The Force Behind Your Success",
-  logoPath: "/icon.png",
+  logoPath: "/icon.webp",
   socials: [
     {
       label: "Facebook",
