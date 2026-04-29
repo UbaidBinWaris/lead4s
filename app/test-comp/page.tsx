@@ -2,25 +2,26 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import ScrollAnimation from '@/app/test-comp/scrol_animation'
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 
 /** Image paths for each quadrant: top-left, top-right, bottom-left, bottom-right */
 const IMAGES = [
-    '/test-comp/1.webp',
-    '/test-comp/2.webp',
-    '/test-comp/3.webp',
-    '/test-comp/4.avif',
+    '/test-comp/home.webp',
+    '/test-comp/insurance.webp',
+    '/test-comp/legal.webp',
+    '/test-comp/solar.webp',
 ]
 
 /** Per-image rotation in degrees (index matches IMAGES) */
 const IMAGE_ROTATIONS = [270, 0, 180, 90]
 
 /** Outer circle diameter in px */
-const OUTER_SIZE = 520 // px
+const OUTER_SIZE = 1720 // px
 
 /** Inner (hole) circle diameter in px */
-const INNER_SIZE = 192 // px
+const INNER_SIZE = 392 // px
 
 /** Divider line thickness in px */
 const DIVIDER_SIZE = 12 // px
@@ -29,16 +30,51 @@ const DIVIDER_SIZE = 12 // px
 const ROTATION_STEPS = [0, 90, 180, 270]
 
 /** Scroll distance (in vh) required to move one step */
-const STEP_SCROLL_VH = 0.85
+const STEP_SCROLL_VH = 1
 
 /** Small hold before first step starts */
-const ENTRY_DELAY_VH = 0.5
+const ENTRY_DELAY_VH = 1
 
-// ─── DERIVED (do not edit) ───────────ll switch the rotation to discrete snap steps (0°, 90°, 180°, 270° only) and add auto-jump behavior so small scrolls move directly to the next step instead of stopping between angles.
+/** Small hold after last step ends, before section releases */
+const EXIT_DELAY_VH = 1
+
+/** Content shown for each snapped angle (0, 90, 180, 270) */
+const STEP_CONTENT = [
+    {
+        eyebrow: 'Home Improvement',
+        heading: 'Fill Your Installation Calendar — Every Week',
+        body: 'Lead4s connects home improvement contractors with high-intent homeowners actively requesting quotes. Every contact is TCPA-verified, delivered to your CRM in real time, and exclusive to your business.',
+        stat: { value: '4.8×', label: 'Average contractor ROI' },
+        cta: { label: 'Get Home Improvement Leads', href: '/industries' },
+    },
+    {
+        eyebrow: 'Insurance',
+        heading: 'Policy-Ready Buyers. Delivered at 50ms.',
+        body: 'Stop chasing cold lists. Lead4s routes verified insurance leads to the best matching agent or offer the moment intent is captured — with TrustForm consent documentation on every record.',
+        stat: { value: '98%', label: 'Lead delivery rate' },
+        cta: { label: 'Scale Insurance Volume', href: '/industries' },
+    },
+    {
+        eyebrow: 'Legal',
+        heading: 'Verified Case Inquiries for High-Volume Firms',
+        body: 'Drive qualified legal intake with compliance-first funnels built for mass tort, personal injury, and consumer law. Real-time handoff means your intake team reaches every prospect first.',
+        stat: { value: '24h', label: 'Campaign go-live time' },
+        cta: { label: 'Start Legal Intake Campaigns', href: '/industries' },
+    },
+    {
+        eyebrow: 'Solar',
+        heading: 'Scale Qualified Solar Leads With Full Compliance',
+        body: 'Lead4s powers solar acquisition with exclusive, consent-verified leads from homeowners who match your install criteria. Reduce cost-per-acquisition and increase close rates with intent-matched volume.',
+        stat: { value: '100k+', label: 'Solar leads delivered monthly' },
+        cta: { label: 'Grow Your Solar Pipeline', href: '/industries' },
+    },
+]
+
+// ─── DERIVED (do not edit) ────────────────────────────────────────────────────
 
 
 /** Total scroll zone height including all pause zones */
-const TOTAL_VH = ENTRY_DELAY_VH + STEP_SCROLL_VH * (ROTATION_STEPS.length - 1)
+const TOTAL_VH = ENTRY_DELAY_VH + STEP_SCROLL_VH * (ROTATION_STEPS.length - 1) + EXIT_DELAY_VH
 
 /**
  * Maps raw scroll progress (0–1) to discrete rotation steps.
@@ -49,6 +85,7 @@ function scrollToRotation(progress: number): number {
     if (scrolledVh <= ENTRY_DELAY_VH) {
         return ROTATION_STEPS[0]
     }
+
 
     const usableVh = scrolledVh - ENTRY_DELAY_VH
     const rawStep = usableVh / STEP_SCROLL_VH
@@ -73,6 +110,9 @@ export default function TestPage() {
     const wrapperRef = useRef<HTMLDivElement>(null)
     const [rotation, setRotation] = useState(0)
 
+    const activeStepIndex = Math.max(0, ROTATION_STEPS.indexOf(rotation))
+    const activeContent = STEP_CONTENT[activeStepIndex] ?? STEP_CONTENT[0]
+
     useEffect(() => {
         const handleScroll = () => {
             const wrapper = wrapperRef.current
@@ -93,63 +133,9 @@ export default function TestPage() {
             <section className="flex h-screen w-full items-center justify-center bg-white/20">
                 <p className="text-2xl font-bold text-gray-800">Page continues here</p>
             </section>
-            {/* Scroll zone — sticky section stays pinned until full rotation completes */}
-            <div ref={wrapperRef} style={{ height: `${TOTAL_VH * 100}vh` }} className="relative">
-                <section className="sticky top-0 flex h-screen w-full items-center justify-center bg-white">
-                    <div
-                        className="relative overflow-hidden rounded-full"
-                        style={{
-                            width: OUTER_SIZE,
-                            height: OUTER_SIZE,
-                            transform: `rotate(${rotation}deg)`,
-                            transition: 'transform 420ms ease-out',
-                            willChange: 'transform',
-                        }}
-                    >
-                        {/* 4 image quadrants */}
-                        {IMAGES.map((src, i) => (
-                            <div key={src} style={{ ...quadrantStyles[i], overflow: 'hidden' }}>
-                                <Image
-                                    src={src}
-                                    alt={`image ${i + 1}`}
-                                    fill
-                                    className="object-cover"
-                                    sizes={`${OUTER_SIZE / 2}px`}
-                                    style={{ transform: `rotate(${IMAGE_ROTATIONS[i] ?? 0}deg)` }}
-                                />
-                            </div>
-                        ))}
 
-                        {/* Horizontal divider */}
-                        <div
-                            className="absolute left-0 z-10 w-full bg-white"
-                            style={{ top: '50%', height: DIVIDER_SIZE, transform: 'translateY(-50%)' }}
-                        />
-                        {/* Vertical divider */}
-                        <div
-                            className="absolute top-0 z-10 h-full bg-white"
-                            style={{ left: '50%', width: DIVIDER_SIZE, transform: 'translateX(-50%)' }}
-                        />
 
-                        {/* Inner hole */}
-                        <div
-                            className="absolute z-20 rounded-full bg-white"
-                            style={{
-                                width: INNER_SIZE,
-                                height: INNER_SIZE,
-                                top: '50%',
-                                left: '50%',
-                                transform: 'translate(-50%, -50%)',
-                            }}
-                        />
-                    </div>
-                </section>
-            </div>
-
-            {/* Normal page content — visible after full rotation */}
-            <section className="flex h-screen w-full items-center justify-center bg-white/20">
-                <p className="text-2xl font-bold text-gray-800">Page continues here</p>
-            </section>
+            <ScrollAnimation />
         </main>
     )
 }
