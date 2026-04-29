@@ -23,6 +23,38 @@ type IndustryCardData = {
   metric: { value: string; label: string };
 };
 
+type StorytellingSectionData = {
+  eyebrow: string;
+  heading: string;
+  headingHighlight: string;
+  subheading: string;
+  steps: Array<{
+    phase: string;
+    title: string;
+    body: string;
+    kpi: string;
+  }>;
+};
+
+type SeoLinkClustersData = {
+  eyebrow: string;
+  heading: string;
+  subheading: string;
+  groups: Array<{
+    title: string;
+    links: Array<{
+      label: string;
+      href: string;
+      description: string;
+    }>;
+  }>;
+};
+
+type IndustriesPageNarrative = {
+  storytellingSection?: StorytellingSectionData;
+  seoLinkClusters?: SeoLinkClustersData;
+};
+
 // ---------------------------------------------------------------------------
 // SEO metadata
 // ---------------------------------------------------------------------------
@@ -47,7 +79,7 @@ export const metadata: Metadata = {
 // ---------------------------------------------------------------------------
 // JSON-LD structured data (built from data file)
 // ---------------------------------------------------------------------------
-function JsonLd() {
+function JsonLd({ seoLinkClusters }: { readonly seoLinkClusters: SeoLinkClustersData }) {
   const { industryList, faqSection } = industriesPageData;
 
   const itemList = {
@@ -83,6 +115,21 @@ function JsonLd() {
     ],
   };
 
+  const resourceLinks = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Industries Resource Clusters",
+    description: "Internal resource pathways for evaluating Lead4s industries, solutions, and proof assets.",
+    itemListElement: seoLinkClusters.groups
+      .flatMap((group) => group.links)
+      .map((link, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: link.label,
+        url: `${SITE_URL}${link.href}`,
+      })),
+  };
+
   return (
     <>
       <script type="application/ld+json"
@@ -94,8 +141,30 @@ function JsonLd() {
       <script type="application/ld+json"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: structured data
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: structured data
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(resourceLinks) }} />
     </>
   );
+}
+
+function isIndustriesNarrative(value: unknown): value is IndustriesPageNarrative {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const candidate = value as Record<string, unknown>;
+  return "storytellingSection" in candidate || "seoLinkClusters" in candidate;
+}
+
+async function getIndustriesNarrative(): Promise<IndustriesPageNarrative | null> {
+  const row = await db.page.findUnique({
+    where: { slug: "industries" },
+    select: { content: true },
+  });
+
+  if (!row || !isIndustriesNarrative(row.content)) {
+    return null;
+  }
+
+  return row.content;
 }
 
 // ---------------------------------------------------------------------------
@@ -255,7 +324,7 @@ function IndustryCard({ industry, index }: { readonly industry: IndustryCardData
 // ---------------------------------------------------------------------------
 // FAQ item
 // ---------------------------------------------------------------------------
-function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
+function FaqItem({ q, a, index }: { readonly q: string; readonly a: string; readonly index: number }) {
   return (
     <details className="group border-b border-white/6 last:border-0" name="faq">
       <summary className="flex cursor-pointer select-none list-none items-start justify-between gap-4 py-5 text-sm font-semibold text-white marker:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-950" id={`faq-${index}`}>
@@ -275,13 +344,18 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 export default async function IndustriesPage() {
   const {
     hero, sectionHeader, whySection, complianceBadges,
-    industryList, faqSection, editorialCards,
+    industryList, faqSection, editorialCards, storytellingSection, seoLinkClusters,
   } = industriesPageData;
-  const industries = await getIndustryCards();
+  const [industries, narrative] = await Promise.all([
+    getIndustryCards(),
+    getIndustriesNarrative(),
+  ]);
+  const effectiveStorytelling = narrative?.storytellingSection ?? storytellingSection;
+  const effectiveSeoLinkClusters = narrative?.seoLinkClusters ?? seoLinkClusters;
 
   return (
     <>
-      <JsonLd />
+      <JsonLd seoLinkClusters={effectiveSeoLinkClusters} />
       <main className="min-h-screen bg-surface-950 text-white">
 
         {/* Breadcrumb */}
@@ -434,6 +508,65 @@ export default async function IndustriesPage() {
                 </Link>
               );
             })}
+          </div>
+        </section>
+
+        <div className="h-px w-full bg-linear-to-r from-transparent via-white/8 to-transparent" />
+
+        {/* Storytelling timeline */}
+        <section className="relative overflow-hidden py-20 lg:py-28" aria-labelledby="industries-storytelling">
+          <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.06]" />
+          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-500/6 blur-[140px]" />
+          <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-12 text-center">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent-400">{effectiveStorytelling.eyebrow}</p>
+              <h2 id="industries-storytelling" className="mx-auto mt-3 max-w-3xl text-3xl font-black tracking-tight text-white sm:text-4xl">
+                {effectiveStorytelling.heading} <span className="gradient-text">{effectiveStorytelling.headingHighlight}</span>
+              </h2>
+              <p className="mx-auto mt-4 max-w-3xl text-sm leading-relaxed text-slate-400 sm:text-base">{effectiveStorytelling.subheading}</p>
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {effectiveStorytelling.steps.map((step) => (
+                <article key={step.title} className="glass rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:border-white/15 hover:shadow-xl hover:shadow-black/25">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-400">{step.phase}</p>
+                  <h3 className="mt-2 text-base font-bold text-white leading-snug">{step.title}</h3>
+                  <p className="mt-3 text-[13px] leading-relaxed text-slate-400">{step.body}</p>
+                  <div className="mt-5 inline-flex items-center rounded-full border border-brand-500/20 bg-brand-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-brand-300">
+                    {step.kpi}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="h-px w-full bg-linear-to-r from-transparent via-white/8 to-transparent" />
+
+        {/* SEO internal links */}
+        <section className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8" aria-label="Industries resource clusters">
+          <div className="mb-10 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">{effectiveSeoLinkClusters.eyebrow}</p>
+            <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">{effectiveSeoLinkClusters.heading}</h2>
+            <p className="mx-auto mt-3 max-w-3xl text-sm leading-relaxed text-slate-400">{effectiveSeoLinkClusters.subheading}</p>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-3">
+            {effectiveSeoLinkClusters.groups.map((group) => (
+              <article key={group.title} className="glass rounded-2xl p-6">
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-300">{group.title}</h3>
+                <ul className="mt-4 space-y-4">
+                  {group.links.map((item) => (
+                    <li key={item.href} className="rounded-xl border border-white/6 bg-white/[0.02] p-3.5 transition-colors hover:border-brand-400/20 hover:bg-brand-500/5">
+                      <Link href={item.href} className="text-sm font-semibold text-brand-300 underline decoration-brand-500/35 underline-offset-4 hover:text-brand-200">
+                        {item.label}
+                      </Link>
+                      <p className="mt-1.5 text-xs leading-relaxed text-slate-400">{item.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
           </div>
         </section>
 

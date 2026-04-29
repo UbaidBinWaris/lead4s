@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { CaseStudyHero } from "@/components/case-studies/CaseStudyHero";
 import { ResultsSection } from "@/components/case-studies/ResultsSection";
@@ -56,6 +58,23 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
   const results = cs.results as unknown as CaseStudyResult[];
   const sections = cs.content as unknown as IndustrySection[];
   const imageUrl = cs.coverImage ?? DEFAULT_PAGE_IMAGE;
+
+  const relatedCaseStudies = await db.caseStudy.findMany({
+    where: {
+      isPublished: true,
+      industry: cs.industry,
+      slug: { not: cs.slug },
+    },
+    orderBy: [{ displayOrder: "asc" }, { updatedAt: "desc" }],
+    take: 3,
+    select: {
+      slug: true,
+      title: true,
+      summary: true,
+      coverImage: true,
+      updatedAt: true,
+    },
+  });
 
   const faqItems = sections
     .filter((section): section is Extract<IndustrySection, { type: "faq" }> => section.type === "faq")
@@ -129,6 +148,20 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
     });
   }
 
+  if (relatedCaseStudies.length > 0) {
+    jsonLdGraph.push({
+      "@type": "ItemList",
+      "@id": `${SITE_URL}/case-studies/${cs.slug}#related-case-studies`,
+      name: `Related ${cs.industry} Case Studies`,
+      itemListElement: relatedCaseStudies.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.title,
+        url: `${SITE_URL}/case-studies/${item.slug}`,
+      })),
+    });
+  }
+
   const caseStudyJsonLd = toJsonLd({
     "@context": "https://schema.org",
     "@graph": jsonLdGraph,
@@ -164,6 +197,51 @@ export default async function CaseStudyDetailPage({ params }: CaseStudyPageProps
         <>
           <div className="h-px w-full bg-linear-to-r from-transparent via-slate-700/50 to-transparent" />
           <SectionRenderer sections={sections} />
+        </>
+      )}
+
+      {relatedCaseStudies.length > 0 && (
+        <>
+          <div className="h-px w-full bg-linear-to-r from-transparent via-slate-700/50 to-transparent" />
+          <section className="py-16 sm:py-20">
+            <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+              <div className="mb-8">
+                <p className="text-xs font-semibold uppercase tracking-widest text-violet-400">Related Case Studies</p>
+                <h2 className="mt-2 text-2xl font-bold text-white sm:text-3xl">
+                  More {cs.industry} success stories
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm text-slate-400">
+                  Explore similar campaigns to see how Lead4s improves quality, conversion speed, and delivery stability in this vertical.
+                </p>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-3">
+                {relatedCaseStudies.map((related) => (
+                  <article key={related.slug} className="overflow-hidden rounded-2xl border border-slate-800 bg-[hsl(0,0%,6%)] transition-colors hover:border-violet-500/40">
+                    <div className="relative h-40">
+                      <Image
+                        src={related.coverImage ?? DEFAULT_PAGE_IMAGE}
+                        alt={related.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="line-clamp-2 text-sm font-semibold text-white">{related.title}</h3>
+                      <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-slate-400">{related.summary}</p>
+                      <Link
+                        href={`/case-studies/${related.slug}`}
+                        className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-violet-300 hover:text-violet-200"
+                      >
+                        Read related case study
+                      </Link>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
         </>
       )}
 

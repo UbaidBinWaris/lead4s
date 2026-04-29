@@ -63,7 +63,7 @@ export default async function BlogDetailPage({
   const imageSrc = blog.coverImage ?? DEFAULT_PAGE_IMAGE;
 
   return (
-    <main className="min-h-full py-12">
+    <main className="min-h-full py-22">
       <article className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         {/* Hero Image */}
         <div className="mb-10 h-96 overflow-hidden rounded-2xl">

@@ -37,6 +37,31 @@ export type SolutionsPageData = {
     headingHighlight: string;
     subheading: string;
   };
+  storytellingSection: {
+    eyebrow: string;
+    heading: string;
+    headingHighlight: string;
+    subheading: string;
+    steps: Array<{
+      phase: string;
+      title: string;
+      body: string;
+      kpi: string;
+    }>;
+  };
+  seoLinkClusters: {
+    eyebrow: string;
+    heading: string;
+    subheading: string;
+    groups: Array<{
+      title: string;
+      links: Array<{
+        label: string;
+        href: string;
+        description: string;
+      }>;
+    }>;
+  };
   howItWorks: {
     eyebrow: string;
     heading: string;
@@ -115,6 +140,113 @@ export const solutionsPageData: SolutionsPageData = {
     heading:          "Choose how you want",
     headingHighlight: "leads delivered",
     subheading:       "Five distinct delivery models, each built for a different sales operation. Mix and match — most clients use two or more.",
+  },
+
+  storytellingSection: {
+    eyebrow: "Story Behind The Solutions",
+    heading: "How teams turn scattered lead ops into",
+    headingHighlight: "a conversion system",
+    subheading:
+      "Most buyers do not need more channels. They need the right operating model. This is the framework Lead4s uses to move from unpredictable lead flow to measurable revenue velocity.",
+    steps: [
+      {
+        phase: "Phase 01",
+        title: "Map Revenue Constraints",
+        body:
+          "We identify where performance breaks: low-intent volume, delayed first response, weak qualification gates, and unclear compliance ownership.",
+        kpi: "Operational baseline",
+      },
+      {
+        phase: "Phase 02",
+        title: "Select Delivery Architecture",
+        body:
+          "We align your team to the right model mix: exclusive CPL, live transfers, appointment setting, BPO support, or paid media management.",
+        kpi: "Model-to-team fit",
+      },
+      {
+        phase: "Phase 03",
+        title: "Launch With Control Gates",
+        body:
+          "Programs launch in controlled bands with quality scoring, consent checks, and real-time routing rules to protect close rates while scaling.",
+        kpi: "Predictable quality",
+      },
+      {
+        phase: "Phase 04",
+        title: "Compound Weekly Performance",
+        body:
+          "We optimize source mix, qualification logic, and routing windows each week so acquisition costs stabilize while conversion output climbs.",
+        kpi: "Compounding ROI",
+      },
+    ],
+  },
+
+  seoLinkClusters: {
+    eyebrow: "Resource Clusters",
+    heading: "Compare models, proof, and execution paths",
+    subheading:
+      "Use these internal pathways to evaluate solution fit, industry alignment, and campaign outcomes before expanding spend.",
+    groups: [
+      {
+        title: "Solution Deep Dives",
+        links: [
+          {
+            label: "Exclusive CPL Lead Model",
+            href: "/solutions/exclusive-leads-cpl-model",
+            description: "Single-buyer delivery designed for conversion ownership and cleaner attribution.",
+          },
+          {
+            label: "Live Transfer Calls",
+            href: "/solutions/live-transfer-calls",
+            description: "Immediate handoff to agents while buyer intent is strongest.",
+          },
+          {
+            label: "Appointment Setting",
+            href: "/solutions/appointment-setting",
+            description: "Qualified meeting pipelines built to protect sales team capacity.",
+          },
+        ],
+      },
+      {
+        title: "Industry Alignment",
+        links: [
+          {
+            label: "Solar Lead Program",
+            href: "/industries/solar-leads",
+            description: "High-intent homeowner acquisition for installer and dealer teams.",
+          },
+          {
+            label: "Auto Insurance Leads",
+            href: "/industries/auto-insurance-leads",
+            description: "Quote-intent acquisition flows with strict compliance controls.",
+          },
+          {
+            label: "Medicare O65 Campaigns",
+            href: "/industries/medicare-o65",
+            description: "Lifecycle-aware senior acquisition with enrollment-season readiness.",
+          },
+        ],
+      },
+      {
+        title: "Proof and Planning",
+        links: [
+          {
+            label: "Lead Generation Case Studies",
+            href: "/case-studies",
+            description: "Production examples showing delivery volume, quality, and ROI lift.",
+          },
+          {
+            label: "Lead Generation Blog",
+            href: "/blog",
+            description: "Playbooks on CPL economics, compliance, and conversion operations.",
+          },
+          {
+            label: "Book Strategy Consultation",
+            href: "/contact",
+            description: "Review your current funnel and get a fit-based model recommendation.",
+          },
+        ],
+      },
+    ],
   },
 
   howItWorks: {
