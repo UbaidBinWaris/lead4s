@@ -41,21 +41,22 @@ export const footerContent: FooterContent = {
   tagline: "The Force Behind Your Success",
   logoPath: "/icon.webp",
   socials: [
-    {
-      label: "Facebook",
-      href: "https://www.facebook.com/lead.4s/?paipv=0",
-      platform: "facebook",
-    },
+    // {
+    //   label: "Facebook",
+    //   href: "https://www.facebook.com/lead.4s/?paipv=0",
+    //   platform: "facebook",
+    // },
     {
       label: "LinkedIn",
       href: "https://www.linkedin.com/company/lead4s/?originalSubdomain=pk",
       platform: "linkedin",
-    },
-    {
-      label: "Instagram",
-      href: "https://www.instagram.com/lead4s.llc/?locale=en-GB",
-      platform: "instagram",
-    },
+    }
+    // ,
+    // {
+    //   label: "Instagram",
+    //   href: "https://www.instagram.com/lead4s.llc/?locale=en-GB",
+    //   platform: "instagram",
+    // },
   ],
   contactTitle: "Contact Info",
   contactItems: [
