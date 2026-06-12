@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   FiRefreshCw, FiSearch, FiChevronDown, FiChevronUp,
@@ -424,7 +424,7 @@ export function BuyerLeadsView() {
                   const { browser, device } = parseUA(lead.userAgent);
                   const isOpen = expandedId === lead.id;
                   return (
-                    <React.Fragment key={lead.id}>
+                    <Fragment key={lead.id}>
                       <tr
                         className={`border-b border-slate-800/60 transition-colors ${isOpen ? "bg-slate-900/30" : "hover:bg-slate-900/20"}`}>
                         <td className="px-4 py-4 text-xs text-slate-600">{(page-1)*PAGE_SIZE+idx+1}</td>
@@ -463,7 +463,7 @@ export function BuyerLeadsView() {
                         </td>
                       </tr>
                       {isOpen && <ExpandedRow lead={lead} />}
-                    </React.Fragment>
+                    </Fragment>
                   );
                 })}
               </tbody>
