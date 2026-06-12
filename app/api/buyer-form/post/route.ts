@@ -7,66 +7,16 @@ function mapToTrackdrivePayload(lead: any): Record<string, any> {
     trackdriveNumber: "trackdrive_number",
     trafficSourceId: "traffic_source_id",
     callerId: "caller_id",
-    firstName: "first_name",
-    lastName: "last_name",
-    maritalStatus: "marital_status",
-    agedData: "aged_data",
-    originalLeadSubmitDate: "original_lead_submit_date",
-    trafficSourceAgentId: "traffic_source_agent_id",
-    trafficSourceAgentRecordingUrl: "traffic_source_agent_recording_url",
-    nicotineFrequency: "nicotine_frequency",
-    monthsInsuredContinuously: "months_insured_continuously",
-    dobYyyy: "dob_yyyy",
-    spokenLanguage: "spoken_language",
-    bestTimeToContact: "best_time_to_contact",
-    tcpaOptinConsentLanguage: "tcpa_optin_consent_language",
-    trafficSourceDataListId: "traffic_source_data_list_id",
-    dobDd: "dob_dd",
-    jornayaLeadid: "jornaya_leadid",
-    trustedFormCertUrl: "trusted_form_cert_url",
-    paymentMethodAvailable: "payment_method_available",
-    trustedFormCertUrlAgent: "trusted_form_cert_url_agent",
-    trafficSourcePlatform: "traffic_source_platform",
-    jornayaLeadIdAgent: "jornaya_lead_id_agent",
-    monthlyAffordablePaymentAmount: "monthly_affordable_payment_amount",
-    eaDisposition: "ea_disposition",
-    employmentStatus: "employment_status",
-    insuranceAmountRequested: "insurance_amount_requested",
-    currentlyInsured: "currently_insured",
-    expirationDate: "expiration_date",
-    childrenAges: "children_ages",
-    heightInInches: "height_in_inches",
-    annualIncome: "annual_income",
-    insuranceCompany: "insurance_company",
-    mediaType: "media_type",
-    blueinkSecuredLeadsToken: "blueink_secured_leads_token",
-    desiredPolicyType: "desired_policy_type",
-    leadType: "lead_type",
-    sourceUrl: "source_url",
-    yearsInsured: "years_insured",
-    permissiontrustToken: "permissiontrust_token",
-    smokeOption: "smoke_option",
-    monthsInsured: "months_insured",
-    yearsInsuredContinuously: "years_insured_continuously",
-    trafficSourceAgentName: "traffic_source_agent_name",
-    medicalConditions: "medical_conditions",
-    coverageType: "coverage_type",
-    dobMm: "dob_mm",
-    alternatePhone: "alternate_phone",
-    tcpaOptIn: "tcpa_opt_in",
-    voluumCid: "voluum_cid",
-    retreaverCallKey: "retreaver_call_key",
-    retreaverCallUuid: "retreaver_call_uuid",
-    ringbaCallUuid: "ringba_call_uuid",
-    trafficSourceLeadId: "traffic_source_lead_id",
     pingId: "ping_id",
   };
 
   const payload: Record<string, any> = {};
   for (const [key, value] of Object.entries(lead)) {
     if (value === undefined || value === null || value === "") continue;
-    const targetKey = mapping[key] || key;
-    payload[targetKey] = value;
+    const targetKey = mapping[key];
+    if (targetKey) {
+      payload[targetKey] = value;
+    }
   }
   return payload;
 }
