@@ -45,6 +45,7 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
         <NavButton icon={FaEnvelope}   label="Subscribers"   active={activeView === "subscribers"}     onClick={() => onNavigate("subscribers")} />
         <NavButton icon={FaHandshake}  label="Partnerships"  active={activeView === "partnership"}     onClick={() => onNavigate("partnership")} />
         <NavButton icon={FaInbox}      label="Contact Msgs"  active={activeView === "contact-messages"} onClick={() => onNavigate("contact-messages")} />
+        <NavButton icon={FaClipboardList} label="Buyer Leads"   active={activeView === "buyer-leads"}      onClick={() => onNavigate("buyer-leads")} />
       </nav>
 
       {/* Coming soon */}

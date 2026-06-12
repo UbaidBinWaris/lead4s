@@ -13,8 +13,9 @@ import { TeamMembersView } from "@/app/eTbfg9xY780vqX/Components/TeamMembersView
 import { SubscribersView } from "@/app/eTbfg9xY780vqX/Components/SubscribersView";
 import { PartnershipApplicationsView } from "@/app/eTbfg9xY780vqX/Components/PartnershipApplicationsView";
 import { ContactMessagesView } from "@/app/eTbfg9xY780vqX/Components/ContactMessagesView";
+import { BuyerLeadsView } from "@/app/eTbfg9xY780vqX/Components/BuyerLeadsView";
 
-export type View = "overview" | "blogs" | "jobs" | "industries" | "solutions" | "case-studies" | "team-members" | "subscribers" | "partnership" | "contact-messages";
+export type View = "overview" | "blogs" | "jobs" | "industries" | "solutions" | "case-studies" | "team-members" | "subscribers" | "partnership" | "contact-messages" | "buyer-leads";
 
 function AdminDashboardInner() {
   const [activeView, setActiveView] = useState<View>("overview");
@@ -33,6 +34,7 @@ function AdminDashboardInner() {
       {activeView === "subscribers"  && <SubscribersView />}
       {activeView === "partnership"   && <PartnershipApplicationsView />}
       {activeView === "contact-messages" && <ContactMessagesView />}
+      {activeView === "buyer-leads" && <BuyerLeadsView />}
     </DashboardLayout>
   );
 }

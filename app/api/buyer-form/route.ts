@@ -256,3 +256,49 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+export async function GET(req: NextRequest) {
+  try {
+    const { searchParams } = req.nextUrl;
+    const page  = Math.max(1, parseInt(searchParams.get("page")  ?? "1"));
+    const limit = Math.min(200, parseInt(searchParams.get("limit") ?? "50"));
+    const from  = searchParams.get("from");
+    const to    = searchParams.get("to");
+    const q     = searchParams.get("q")?.toLowerCase();
+
+    const where = {
+      ...(from || to ? {
+        createdAt: {
+          ...(from ? { gte: new Date(from) } : {}),
+          ...(to   ? { lte: new Date(`${to}T23:59:59.999Z`) } : {}),
+        },
+      } : {}),
+      ...(q ? {
+        OR: [
+          { firstName: { contains: q, mode: "insensitive" } },
+          { lastName: { contains: q, mode: "insensitive" } },
+          { email: { contains: q, mode: "insensitive" } },
+          { callerId: { contains: q, mode: "insensitive" } },
+          { trackdriveNumber: { contains: q, mode: "insensitive" } },
+          { status: { contains: q, mode: "insensitive" } },
+        ],
+      } : {}),
+    } as any;
+
+    const [leads, total] = await Promise.all([
+      db.buyerLead.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        take: limit,
+        skip: (page - 1) * limit,
+      }),
+      db.buyerLead.count({ where }),
+    ]);
+
+    return NextResponse.json({ leads, total, page, limit });
+  } catch (err) {
+    console.error("[buyer-form] GET handler error:", err);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+  }
+}
+
