@@ -289,23 +289,19 @@ export function BuyerForm() {
           >
             {/* Form Box */}
             <div className="rounded-3xl border border-slate-800/80 bg-slate-900/40 p-8 backdrop-blur-xl shadow-2xl">
-              <div className="mb-6 flex items-center justify-between border-b border-slate-800 pb-4">
-                <div>
-                  <h2 className="text-lg font-bold text-white">Buyer Query Parameters</h2>
-                  <p className="text-xs text-slate-400 mt-1">
-                    Fill out the fields to test Trackdrive agent routing.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={loadSampleData}
-                  className="text-xs font-semibold text-blue-400 hover:text-blue-300 transition shrink-0 hover:underline"
-                >
-                  Load Mockup Lead
-                </button>
+              <div className="mb-6 border-b border-slate-800 pb-4">
+                <h2 className="text-lg font-bold text-white">Buyer Query</h2>
+                <p className="text-xs text-slate-400 mt-1">
+                  Enter the phone number to test Trackdrive agent routing.
+                </p>
               </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                {/* Hidden Static Inputs */}
+                <input type="hidden" {...register("trackdriveNumber")} />
+                <input type="hidden" {...register("trafficSourceId")} />
+                <input type="hidden" {...register("pingId")} />
+
                 {/* Caller ID */}
                 <div className="space-y-1.5">
                   <label className={labelCls}>
@@ -322,58 +318,6 @@ export function BuyerForm() {
                       <span>⚠️</span> {errors.callerId.message}
                     </p>
                   )}
-                </div>
-
-                {/* Trackdrive Number */}
-                <div className="space-y-1.5">
-                  <label className={labelCls}>
-                    Trackdrive Number <span className="text-cyan-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="+18449890773"
-                    className={inputCls(!!errors.trackdriveNumber)}
-                    {...register("trackdriveNumber")}
-                  />
-                  {errors.trackdriveNumber && (
-                    <p className={errorMsgCls}>
-                      <span>⚠️</span> {errors.trackdriveNumber.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* Traffic Source ID */}
-                <div className="space-y-1.5">
-                  <label className={labelCls}>
-                    Traffic Source ID <span className="text-cyan-400">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="1002"
-                    className={inputCls(!!errors.trafficSourceId)}
-                    {...register("trafficSourceId")}
-                  />
-                  {errors.trafficSourceId && (
-                    <p className={errorMsgCls}>
-                      <span>⚠️</span> {errors.trafficSourceId.message}
-                    </p>
-                  )}
-                </div>
-
-                {/* Trackdrive Ping ID */}
-                <div className="space-y-1.5">
-                  <label className={labelCls}>
-                    Trackdrive Ping ID (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. f832edec-ad2a-42c9-9c3b-4a95d5a35051"
-                    className={inputCls(false)}
-                    {...register("pingId")}
-                  />
-                  <p className="text-[10px] text-slate-500 mt-1">
-                    If left blank, a PING check is run automatically to acquire a Ping ID before routing the lead.
-                  </p>
                 </div>
 
                 {/* Submit Button */}
