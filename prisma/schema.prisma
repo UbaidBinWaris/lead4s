@@ -168,3 +168,96 @@ model ContactMessage {
 
   @@map("contact_messages")
 }
+
+model BuyerLead {
+  id                               String   @id @default(uuid())
+  trackdriveNumber                 String   @map("trackdrive_number")
+  trafficSourceId                  String   @map("traffic_source_id")
+  callerId                         String   @map("caller_id")
+  pingId                           String?  @map("ping_id")
+  s1                               String?
+  s2                               String?
+  s3                               String?
+  s4                               String?
+  s5                               String?
+  subId                            String?  @map("sub_id")
+  trafficSourceLeadId              String?  @map("traffic_source_lead_id")
+  maritalStatus                    String?  @map("marital_status")
+  weight                           Int?
+  gclid                            String?
+  agedData                         Boolean? @map("aged_data")
+  originalLeadSubmitDate           DateTime? @map("original_lead_submit_date")
+  email                            String?
+  trafficSourceAgentId             String?  @map("traffic_source_agent_id")
+  trafficSourceAgentRecordingUrl   String?  @map("traffic_source_agent_recording_url")
+  smoker                           Boolean?
+  nicotineFrequency                String?  @map("nicotine_frequency")
+  monthsInsuredContinuously        String?  @map("months_insured_continuously")
+  lastName                         String?  @map("last_name")
+  address                          String?
+  address2                         String?
+  city                             String?
+  zip                              String?
+  dobYyyy                          Int?     @map("dob_yyyy")
+  spokenLanguage                   String?  @map("spoken_language")
+  bestTimeToContact                String?  @map("best_time_to_contact")
+  tcpaOptinConsentLanguage         String?  @map("tcpa_optin_consent_language")
+  trafficSourceDataListId          String?  @map("traffic_source_data_list_id")
+  dobDd                            Int?     @map("dob_dd")
+  gender                           String?
+  jornayaLeadid                    String?  @map("jornaya_leadid")
+  trustedFormCertUrl               String?  @map("trusted_form_cert_url")
+  paymentMethodAvailable           Boolean? @map("payment_method_available")
+  trustedFormCertUrlAgent          String?  @map("trusted_form_cert_url_agent")
+  trafficSourcePlatform            String?  @map("traffic_source_platform")
+  jornayaLeadIdAgent               String?  @map("jornaya_lead_id_agent")
+  monthlyAffordablePaymentAmount   Int?     @map("monthly_affordable_payment_amount")
+  eaDisposition                    String?  @map("ea_disposition")
+  userAgent                        String?  @map("user_agent")
+  employmentStatus                 String?  @map("employment_status")
+  insuranceAmountRequested         String?  @map("insurance_amount_requested")
+  currentlyInsured                 Boolean? @map("currently_insured")
+  expirationDate                   String?  @map("expiration_date")
+  msclkid                          String?
+  childrenAges                     String?  @map("children_ages")
+  heightInInches                   Int?     @map("height_in_inches")
+  annualIncome                     Int?     @map("annual_income")
+  insuranceCompany                 String?  @map("insurance_company")
+  dob                              String?  @map("dob")
+  mediaType                        String?  @map("media_type")
+  blueinkSecuredLeadsToken         String?  @map("blueink_secured_leads_token")
+  desiredPolicyType                String?  @map("desired_policy_type")
+  leadType                         String?  @map("lead_type")
+  ipAddress                        String?  @map("ip_address")
+  sourceUrl                        String?  @map("source_url")
+  yearsInsured                     Int?     @map("years_insured")
+  permissiontrustToken             String?  @map("permissiontrust_token")
+  smokeOption                      String?  @map("smoke_option")
+  monthsInsured                    Int?     @map("months_insured")
+  yearsInsuredContinuously         Int?     @map("years_insured_continuously")
+  trafficSourceAgentName           String?  @map("traffic_source_agent_name")
+  children                         Int?
+  medicalConditions                String?  @map("medical_conditions")
+  coverageType                     String?  @map("coverage_type")
+  state                            String?
+  firstName                        String?  @map("first_name")
+  dobMm                            Int?     @map("dob_mm")
+  alternatePhone                   String?  @map("alternate_phone")
+  tcpaOptIn                        Boolean? @map("tcpa_opt_in")
+  voluumCid                        String?  @map("voluum_cid")
+  fbeventid                        String?  @map("fbeventid")
+  retreaverCallKey                 String?  @map("retreaver_call_key")
+  retreaverCallUuid                String?  @map("retreaver_call_uuid")
+  ringbaCallUuid                   String?  @map("ringba_call_uuid")
+
+  // Request & API Logs
+  status                           String   @default("pending") // pending, ping_success, ping_failed, post_success, post_failed
+  pingResponse                     Json?    @map("ping_response")
+  postResponse                     Json?    @map("post_response")
+
+  createdAt                        DateTime @default(now()) @map("created_at")
+  updatedAt                        DateTime @updatedAt @map("updated_at")
+
+  @@map("buyer_leads")
+}
+
