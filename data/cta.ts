@@ -48,7 +48,7 @@ export const ctaContent: CtaContent = {
     },
     {
       label: "Schedule strategy call",
-      href: "https://calendly.com/talatkhan/new-meeting",
+      href: "https://calendly.com/safiabbasi-lead4s/30min",
       variant: "secondary",
       external: true,
     },
