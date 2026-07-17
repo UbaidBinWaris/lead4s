@@ -238,17 +238,31 @@ export function PartnershipForm() {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <InputField label="Primary Vertical" id="vertical" required>
-                  <select id="vertical" name="vertical" required
-                    className={`${inputCls} cursor-pointer`}>
-                    <option value="" disabled selected>Select a vertical…</option>
-                    {VERTICALS.map((v) => <option key={v} value={v}>{v}</option>)}
-                  </select>
+                  <div className="relative">
+                    <select id="vertical" name="vertical" required defaultValue=""
+                      className={`${inputCls} cursor-pointer appearance-none pr-10`}>
+                      <option value="" disabled className="bg-slate-900 text-slate-500">Select a vertical…</option>
+                      {VERTICALS.map((v) => <option key={v} value={v} className="bg-slate-900 text-slate-200">{v}</option>)}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
                 </InputField>
                 <InputField label="Monthly Lead Volume" id="monthlyVolume">
-                  <select id="monthlyVolume" name="monthlyVolume" className={`${inputCls} cursor-pointer`}>
-                    <option value="">Select volume…</option>
-                    {VOLUMES.map((v) => <option key={v} value={v}>{v}</option>)}
-                  </select>
+                  <div className="relative">
+                    <select id="monthlyVolume" name="monthlyVolume" defaultValue="" className={`${inputCls} cursor-pointer appearance-none pr-10`}>
+                      <option value="" className="bg-slate-900 text-slate-500">Select volume…</option>
+                      {VOLUMES.map((v) => <option key={v} value={v} className="bg-slate-900 text-slate-200">{v}</option>)}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-slate-400">
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
                 </InputField>
               </div>
 
