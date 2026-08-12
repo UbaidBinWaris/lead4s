@@ -72,7 +72,7 @@ const CONTACT_INFO = [
     ),
     label: "Strategy Call",
     value: "Book on Calendly",
-    href: "https://calendly.com/safiabbasi-lead4s/30min",
+    href: "https://calendly.com/talatrazeeqlead4s/new-meeting",
     sub: "30-min free consultation",
   },
 ];

@@ -162,5 +162,5 @@ export const complianceContact = {
   email: "info@lead4s.com",
   emailHref: "mailto:info@lead4s.com",
   partnershipHref: "/partnership",
-  strategyCallHref: "https://calendly.com/safiabbasi-lead4s/30min",
+  strategyCallHref: "https://calendly.com/talatrazeeqlead4s/new-meeting",
 };

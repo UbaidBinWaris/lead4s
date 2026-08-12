@@ -117,7 +117,7 @@ export const heroContent: HeroContent = {
     iconName: "handshake",
   },
   ctaSecondary: {
-    href: "https://calendly.com/safiabbasi-lead4s/30min",
+    href: "https://calendly.com/talatrazeeqlead4s/new-meeting",
     text: "Schedule Strategy Call",
     visible: true,
     iconName: "calendar",
