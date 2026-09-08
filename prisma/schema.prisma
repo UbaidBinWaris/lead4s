@@ -101,7 +101,6 @@ model TeamMember {
   bio       String
   initials  String
   gradient  String
-  linkedin  String?
   twitter   String?
   position  Int      @default(0)
   isActive  Boolean  @default(true) @map("is_active")

@@ -5,7 +5,6 @@ export interface TeamMember {
   readonly bio: string;
   readonly initials: string;
   readonly gradient: string;
-  readonly linkedin: string | null;
   readonly twitter: string | null;
   readonly position: number;
   readonly isActive: boolean;
@@ -19,7 +18,6 @@ export interface TeamMemberInput {
   readonly bio: string;
   readonly initials: string;
   readonly gradient: string;
-  readonly linkedin?: string | null;
   readonly twitter?: string | null;
   readonly position?: number;
   readonly isActive?: boolean;

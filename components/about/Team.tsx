@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  FaLinkedinIn,
   FaTwitter,
 } from "react-icons/fa";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
@@ -92,17 +91,8 @@ export function Team({ data }: TeamProps) {
               </p>
 
               {/* Social links */}
-              <div className="mt-4 flex items-center gap-2">
-                {member.linkedin && (
-                  <Link
-                    href={member.linkedin}
-                    aria-label={`${member.name} on LinkedIn`}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-900/40 text-slate-400 transition-colors duration-200 hover:bg-brand-600/30 hover:text-brand-400"
-                  >
-                    <FaLinkedinIn className="h-3.5 w-3.5" aria-hidden="true" />
-                  </Link>
-                )}
-                {member.twitter && (
+              {member.twitter && (
+                <div className="mt-4 flex items-center gap-2">
                   <Link
                     href={member.twitter}
                     aria-label={`${member.name} on Twitter`}
@@ -110,8 +100,8 @@ export function Team({ data }: TeamProps) {
                   >
                     <FaTwitter className="h-3.5 w-3.5" aria-hidden="true" />
                   </Link>
-                )}
-              </div>
+                </div>
+              )}
             </motion.article>
           ))}
         </motion.div>

@@ -162,7 +162,6 @@ export type TeamMember = {
   bio: string;
   initials: string;
   gradient: string;
-  linkedin: string | null;
   twitter: string | null;
 };
 
@@ -640,7 +639,6 @@ export const aboutData: AboutData = {
         bio: "15 years in performance marketing. Previously VP Growth at two Inc. 500 companies.",
         initials: "AR",
         gradient: "from-brand-600 to-brand-800",
-        linkedin: "#",
         twitter: "#",
       },
       {
@@ -649,7 +647,6 @@ export const aboutData: AboutData = {
         bio: "Built real-time data pipelines at scale. Former engineering lead at a Fortune 500 data company.",
         initials: "JK",
         gradient: "from-violet-600 to-violet-800",
-        linkedin: "#",
         twitter: "#",
       },
       {
@@ -658,7 +655,6 @@ export const aboutData: AboutData = {
         bio: "TCPA and consumer protection attorney. Ensures every campaign meets the highest legal standards.",
         initials: "TM",
         gradient: "from-emerald-600 to-emerald-800",
-        linkedin: "#",
         twitter: null,
       },
       {
@@ -667,7 +663,6 @@ export const aboutData: AboutData = {
         bio: "Manages relationships with 500+ active partners. Obsessed with reducing CPL for every account.",
         initials: "MC",
         gradient: "from-accent-500 to-accent-700",
-        linkedin: "#",
         twitter: "#",
       },
       {
@@ -676,7 +671,6 @@ export const aboutData: AboutData = {
         bio: "Runs all owned media funnels — paid search, social, and programmatic across 50 states.",
         initials: "SP",
         gradient: "from-sky-600 to-sky-800",
-        linkedin: "#",
         twitter: "#",
       },
       {
@@ -685,7 +679,6 @@ export const aboutData: AboutData = {
         bio: "Oversees live transfer and appointment setting operations. Former Convergys senior manager.",
         initials: "CW",
         gradient: "from-rose-600 to-rose-800",
-        linkedin: "#",
         twitter: null,
       },
     ],

@@ -45,7 +45,6 @@ function TeamMemberEditorModal({
   const [gradient, setGradient] = useState(
     initialMember?.gradient ?? "from-brand-600 to-brand-800"
   );
-  const [linkedin, setLinkedin] = useState(initialMember?.linkedin ?? "");
   const [twitter, setTwitter] = useState(initialMember?.twitter ?? "");
   const [position, setPosition] = useState(String(initialMember?.position ?? 0));
   const [isActive, setIsActive] = useState(initialMember?.isActive ?? true);
@@ -67,7 +66,6 @@ function TeamMemberEditorModal({
         bio: bio.trim(),
         initials: initials.trim().slice(0, 4).toUpperCase(),
         gradient,
-        linkedin: linkedin.trim() || null,
         twitter: twitter.trim() || null,
         position: Number.parseInt(position, 10) || 0,
         isActive,
@@ -172,16 +170,7 @@ function TeamMemberEditorModal({
               <span>Active (show on About page)</span>
             </label>
           </div>
-          <div>
-            <label htmlFor="team-member-linkedin" className="mb-1 block text-xs text-slate-400">LinkedIn URL</label>
-            <input
-              id="team-member-linkedin"
-              value={linkedin}
-              onChange={(e) => setLinkedin(e.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
-              placeholder="https://linkedin.com/in/..."
-            />
-          </div>
+
           <div>
             <label htmlFor="team-member-twitter" className="mb-1 block text-xs text-slate-400">Twitter URL</label>
             <input

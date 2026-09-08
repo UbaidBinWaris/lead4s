@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 const TEAM = [
@@ -11,7 +11,6 @@ const TEAM = [
     bio: "15 years in performance marketing. Previously VP Growth at two Inc. 500 companies.",
     initials: "AR",
     gradient: "from-brand-600 to-brand-800",
-    linkedin: "#",
     twitter: "#",
   },
   {
@@ -20,7 +19,6 @@ const TEAM = [
     bio: "Built real-time data pipelines at scale. Former engineering lead at a Fortune 500 data company.",
     initials: "JK",
     gradient: "from-violet-600 to-violet-800",
-    linkedin: "#",
     twitter: "#",
   },
   {
@@ -29,7 +27,6 @@ const TEAM = [
     bio: "TCPA and consumer protection attorney. Ensures every campaign meets the highest legal standards.",
     initials: "TM",
     gradient: "from-emerald-600 to-emerald-800",
-    linkedin: "#",
     twitter: null,
   },
   {
@@ -38,7 +35,6 @@ const TEAM = [
     bio: "Manages relationships with 500+ active partners. Obsessed with reducing CPL for every account.",
     initials: "MC",
     gradient: "from-accent-500 to-accent-700",
-    linkedin: "#",
     twitter: "#",
   },
   {
@@ -47,7 +43,6 @@ const TEAM = [
     bio: "Runs all owned media funnels — paid search, social, and programmatic across 50 states.",
     initials: "SP",
     gradient: "from-sky-600 to-sky-800",
-    linkedin: "#",
     twitter: "#",
   },
   {
@@ -56,7 +51,6 @@ const TEAM = [
     bio: "Oversees live transfer and appointment setting operations. Former Convergys senior manager.",
     initials: "CW",
     gradient: "from-rose-600 to-rose-800",
-    linkedin: "#",
     twitter: null,
   },
 ] as const;
@@ -137,15 +131,8 @@ export function Team() {
                 </div>
 
                 {/* Social links */}
-                <div className="flex shrink-0 items-center gap-2">
-                  <a
-                    href={member.linkedin}
-                    aria-label={`${member.name} on LinkedIn`}
-                    className="text-slate-600 transition-colors duration-200 hover:text-brand-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 rounded"
-                  >
-                    <FaLinkedin className="h-3.5 w-3.5" aria-hidden="true" />
-                  </a>
-                  {member.twitter && (
+                {member.twitter && (
+                  <div className="flex shrink-0 items-center gap-2">
                     <a
                       href={member.twitter}
                       aria-label={`${member.name} on X (Twitter)`}
@@ -153,8 +140,8 @@ export function Team() {
                     >
                       <FaTwitter className="h-3.5 w-3.5" aria-hidden="true" />
                     </a>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
 
               <p className="mt-4 text-xs leading-relaxed text-slate-400">{member.bio}</p>

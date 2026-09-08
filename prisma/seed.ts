@@ -961,7 +961,7 @@ const solutions = [
         type: "stats",
         items: [
           { value: "72hrs", label: "First Appointment", description: "From onboarding to first booked meeting" },
-          { value: "Multi", label: "Channel Outreach", description: "Phone, email, SMS, and LinkedIn" },
+          { value: "Multi", label: "Channel Outreach", description: "Phone, email, and SMS" },
           { value: "CRM", label: "Direct Integration", description: "Appointments sync to Salesforce, HubSpot & more" },
           { value: "0", label: "No-Show Charges", description: "We replace no-shows at no additional cost" },
         ],
@@ -970,7 +970,7 @@ const solutions = [
         type: "features",
         title: "What Our Appointment Setting Includes",
         items: [
-          { icon: "calendar", title: "Multi-Channel Outreach", description: "We reach prospects via phone, email, SMS, and LinkedIn — maximising connect rates across all touchpoints." },
+          { icon: "calendar", title: "Multi-Channel Outreach", description: "We reach prospects via phone, email, and SMS — maximising connect rates across all touchpoints." },
           { icon: "check", title: "Decision-Maker Targeting", description: "We verify we're booking with the actual buyer or influencer — never a gatekeeper who can't commit." },
           { icon: "star", title: "CRM Integration", description: "Appointments sync directly to Salesforce, HubSpot, or any CRM via webhook or native integration." },
           { icon: "shield", title: "Confirmation & Reminders", description: "We send automated reminders to reduce no-shows and confirm attendance before your rep dials." },

@@ -5,7 +5,6 @@ import {
   FaEnvelope,
   FaFacebookF,
   FaInstagram,
-  FaLinkedinIn,
   FaMapMarkerAlt,
   FaPhone,
 } from "react-icons/fa";
@@ -17,7 +16,6 @@ export function Footer() {
 
   const socialIconMap = {
     facebook: FaFacebookF,
-    linkedin: FaLinkedinIn,
     instagram: FaInstagram,
   } as const;
 

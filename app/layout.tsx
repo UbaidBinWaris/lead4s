@@ -86,7 +86,6 @@ const organizationJsonLd = toJsonLd({
   email: "info@lead4s.com",
   telephone: "+17027610192",
   sameAs: [
-    "https://www.linkedin.com/company/lead4s/",
     "https://www.facebook.com/lead.4s/",
     "https://www.instagram.com/lead4s.llc/",
   ],

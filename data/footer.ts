@@ -1,7 +1,7 @@
 export type FooterSocial = {
   label: string;
   href: string;
-  platform: "facebook" | "linkedin" | "instagram";
+  platform: "facebook" | "instagram";
 };
 
 export type FooterContactItem = {
@@ -46,12 +46,6 @@ export const footerContent: FooterContent = {
     //   href: "https://www.facebook.com/lead.4s/?paipv=0",
     //   platform: "facebook",
     // },
-    {
-      label: "LinkedIn",
-      href: "https://www.linkedin.com/company/lead4s/?originalSubdomain=pk",
-      platform: "linkedin",
-    }
-    // ,
     // {
     //   label: "Instagram",
     //   href: "https://www.instagram.com/lead4s.llc/?locale=en-GB",

@@ -77,7 +77,6 @@ async function getTeamData() {
         bio: member.bio,
         initials: member.initials,
         gradient: member.gradient,
-        linkedin: member.linkedin,
         twitter: member.twitter,
       })),
     };
