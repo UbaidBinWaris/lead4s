@@ -117,7 +117,123 @@ async function enforceAdminAuth(request: NextRequest): Promise<NextResponse | nu
   }
 }
 
+function getClientCountry(request: NextRequest): string {
+  const countryHeader =
+    request.headers.get("x-vercel-ip-country") ||
+    request.headers.get("cf-ipcountry") ||
+    request.headers.get("cloudfront-viewer-country") ||
+    request.headers.get("x-country-code");
+
+  if (countryHeader) {
+    return countryHeader.trim().toUpperCase();
+  }
+
+  // @ts-ignore - NextRequest on edge/Vercel includes request.geo
+  const geoCountry = request.geo?.country;
+  if (typeof geoCountry === "string" && geoCountry) {
+    return geoCountry.trim().toUpperCase();
+  }
+
+  return "";
+}
+
+function handleGeoMaintenance(request: NextRequest): NextResponse | null {
+  const enabled = (process.env.GEO_MAINTENANCE_ENABLED ?? "true") === "true";
+  if (!enabled) return null;
+
+  const blockedCountriesRaw = process.env.GEO_MAINTENANCE_COUNTRIES ?? "US,CA";
+  const blockedCountries = new Set(
+    blockedCountriesRaw.split(",").map((c) => c.trim().toUpperCase())
+  );
+
+  const clientCountry = getClientCountry(request);
+
+  if (clientCountry && blockedCountries.has(clientCountry)) {
+    const mode = process.env.GEO_MAINTENANCE_MODE ?? "503";
+
+    if (mode === "500") {
+      return new NextResponse(null, { status: 500, statusText: "Internal Server Error" });
+    }
+
+    if (mode === "raw") {
+      return new NextResponse(null, { status: 503, statusText: "Service Unavailable" });
+    }
+
+    return new NextResponse(
+      `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>503 Service Unavailable</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .error-card {
+      text-align: center;
+      padding: 2.5rem;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 0.75rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      max-width: 440px;
+      width: 90%;
+    }
+    .error-code {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #ef4444;
+      margin: 0 0 0.5rem 0;
+      line-height: 1;
+    }
+    .error-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0 0 1rem 0;
+      color: #f1f5f9;
+    }
+    .error-msg {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin: 0;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-card">
+    <div class="error-code">503</div>
+    <div class="error-title">Service Unavailable</div>
+    <div class="error-msg">This website is temporarily unavailable in your region for scheduled maintenance. Please check back later.</div>
+  </div>
+</body>
+</html>`,
+      {
+        status: 503,
+        headers: {
+          "Content-Type": "text/html; charset=utf-8",
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+          "Retry-After": "3600",
+        },
+      }
+    );
+  }
+
+  return null;
+}
+
 export async function proxy(request: NextRequest) {
+  const geoResponse = handleGeoMaintenance(request);
+  if (geoResponse) return geoResponse;
+
   const { pathname } = request.nextUrl;
 
   const authRedirect = await enforceAdminAuth(request);
