@@ -153,41 +153,90 @@ async function checkBlockUsCa(request: NextRequest): Promise<NextResponse | null
   }
 
   if (country && ["US", "CA"].includes(country.trim().toUpperCase())) {
+    const mode = process.env.BLOCK_US_CA_MODE ?? "browser_error";
+
+    // Mode 'raw': empty status 500 response so browser renders native "Unable to connect"
+    if (mode === "raw") {
+      return new NextResponse(null, { status: 500, statusText: "Internal Server Error" });
+    }
+
+    // Default 'browser_error': Realistic Chrome/Firefox "This site can't be reached" error screen
     return new NextResponse(
       `<!DOCTYPE html>
-<html>
-  <head>
-    <title>Website Unavailable</title>
-    <style>
-      body {
-        background: #080808;
-        color: white;
-        font-family: Arial, sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
-        text-align: center;
-      }
-      h1 {
-        font-size: 32px;
-        margin-bottom: 10px;
-      }
-      p {
-        color: #aaa;
-      }
-    </style>
-  </head>
-  <body>
-    <div>
-      <h1>Website Temporarily Unavailable</h1>
-      <p>This website is currently unavailable in your region.</p>
-    </div>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lead4s.com</title>
+  <style>
+    body {
+      background-color: #202124;
+      color: #e8eaed;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .main-frame {
+      max-width: 560px;
+      padding: 32px;
+      box-sizing: border-box;
+    }
+    .icon {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: 500;
+      margin: 0 0 16px 0;
+      color: #e8eaed;
+      line-height: 1.25;
+    }
+    p {
+      font-size: 15px;
+      color: #9aa0a6;
+      line-height: 1.6;
+      margin: 0 0 16px 0;
+    }
+    ul {
+      margin: 0 0 24px 0;
+      padding-left: 20px;
+      color: #9aa0a6;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .error-code {
+      font-size: 12px;
+      color: #9aa0a6;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      margin-top: 28px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-frame">
+    <svg class="icon" viewBox="0 0 24 24" fill="#9aa0a6">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+    </svg>
+    <h1>This site can’t be reached</h1>
+    <p><strong>lead4s.com</strong> refused to connect.</p>
+    <p>Try:</p>
+    <ul>
+      <li>Checking the connection</li>
+      <li>Checking the proxy and the firewall</li>
+    </ul>
+    <div class="error-code">ERR_CONNECTION_REFUSED</div>
+  </div>
+</body>
 </html>`,
       {
-        status: 403,
+        status: 500,
         headers: {
           "content-type": "text/html; charset=utf-8",
         },
