@@ -1,6 +1,7 @@
 import { jwtVerify } from "jose";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import geoip from "geoip-lite";
 
 const ADMIN_AUTH_COOKIE = process.env.ADMIN_AUTH_COOKIE_NAME ?? "admin_token";
 const ADMIN_LOGIN = "/admin/login";
@@ -132,6 +133,22 @@ function getClientCountry(request: NextRequest): string {
   const geoCountry = request.geo?.country;
   if (typeof geoCountry === "string" && geoCountry) {
     return geoCountry.trim().toUpperCase();
+  }
+
+  // Fallback: Perform offline IP Geo lookup on client IP address passed by Nginx/proxy
+  const xff = request.headers.get("x-forwarded-for");
+  const rawIp = xff ? xff.split(",")[0].trim() : request.headers.get("x-real-ip");
+  const ip = rawIp ? rawIp.replace(/^::ffff:/, "") : "";
+
+  if (ip && ip !== "127.0.0.1" && ip !== "::1") {
+    try {
+      const geo = geoip.lookup(ip);
+      if (geo && geo.country) {
+        return geo.country.trim().toUpperCase();
+      }
+    } catch {
+      // Ignore lookup errors
+    }
   }
 
   return "";
