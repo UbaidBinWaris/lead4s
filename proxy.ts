@@ -155,7 +155,7 @@ function getClientCountry(request: NextRequest): string {
 }
 
 function handleGeoMaintenance(request: NextRequest): NextResponse | null {
-  const enabled = (process.env.GEO_MAINTENANCE_ENABLED ?? "true") === "true";
+  const enabled = (process.env.GEO_MAINTENANCE_ENABLED ?? "false") === "true";
   if (!enabled) return null;
 
   const blockedCountriesRaw = process.env.GEO_MAINTENANCE_COUNTRIES ?? "US,CA";
